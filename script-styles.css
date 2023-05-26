@@ -36,3 +36,6 @@ tr:hover {
     max-height: 0;
     background-color: white;
 }
+.iframeView {
+    width: 100%;
+}
