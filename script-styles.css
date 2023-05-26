@@ -1,17 +1,17 @@
 tr:hover {
-    background-color:#FFFACD;
+    background-color: #FFFACD;
 }
 .tdMarked {
-    background-color:PaleGreen;
+    background-color: PaleGreen;
 }
 .tooltip {
-    background-color:#FFFACD;
+    background-color: #FFFACD;
 }
 .headerTakeALook {
-    background-color:Red;
+    background-color: Red;
 }
 .headerStandard {
-    background-color:PaleGreen;
+    background-color: PaleGreen;
 }
 .collapsible {
     background-color: #eee;
