@@ -1,5 +1,5 @@
 .timeMetricsTableView {
-    border: 1px;
+    border: 1;
 }
 tr:hover {
     background-color: #FFFACD;
