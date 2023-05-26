@@ -8,7 +8,7 @@ function loadPage() {
         coll[i].addEventListener('click', function() {
             this.classList.toggle('active');
             var content = this.nextElementSibling;
-            console.log("content: " + content + ", " + content.style);
+            console.log("content: " + content + ", ");
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
             } else {
