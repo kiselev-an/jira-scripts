@@ -3,7 +3,6 @@ function loadPage() {
         node.onmouseover = applyEffect;
         node.onmouseout = applyEffect;
     });
-
     var coll = document.getElementsByClassName('collapsible');
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener('click', function() {
