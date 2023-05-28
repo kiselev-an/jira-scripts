@@ -5,25 +5,25 @@
     border: 1px solid #EEE;
     margin: 5px 0 20px 0;
 }
-.timeMetricsTableView th {
-	font-weight: bold;
-	padding: 5px;
-	background: #EFEFEF;
-	border: 1px solid #DDDDDD;
-}
 .timeMetricsTableView tr:hover {
     background-color: #FFFACD;
 }
+.timeMetricsTableView th {
+	font-weight: bold;
+	padding: 5px;
+	background-color: #EFEFEF;
+	border: 1px solid #000000;
+}
 .timeMetricsTableView td {
 	padding: 5px 10px;
-	border: 1px solid #EEE;
+	border: 1px solid #000000;
 	text-align: left;
 }
 .timeMetricsTableView tbody tr:nth-child(odd) {
-	background: #FFF;
+	background-color: #FFF;
 }
 .timeMetricsTableView tbody tr:nth-child(even) {
-	background: #F7F7F7;
+	background-color: #F7F7F7;
 }
 .tdMarked {
     background-color: #B8860B;
