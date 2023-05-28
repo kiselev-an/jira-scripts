@@ -1,7 +1,7 @@
 .timeMetricsTableView {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #EEE;
+    border: 1px solid #000000;
     margin: 5px 0 20px 0;
 }
 .timeMetricsTableView thead th {
@@ -24,13 +24,13 @@
     border: 1px solid #000000;
     text-align: left;
 }
-.timeMetricsTableView tbody td .tdMarked {
+.tdMarked {
     background-color: #B8860B;
 }
-.timeMetricsTableView thead td .headerTakeALook {
+.headerTakeALook {
     background-color: Red;
 }
-.timeMetricsTableView thead td .headerStandard {
+.headerStandard {
     background-color: PaleGreen;
 }
 .collapsible {
