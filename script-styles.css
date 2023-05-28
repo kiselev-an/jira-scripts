@@ -1,23 +1,11 @@
 .timeMetricsTableView {
-    //table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #EEE;
     margin: 5px 0 20px 0;
 }
-.timeMetricsTableView tr:hover {
-    background-color: #FFFACD;
-}
-.timeMetricsTableView th {
-    font-weight: bold;
-    padding: 5px;
-    background-color: #EFEFEF;
-    border: 1px solid #000000;
-}
-.timeMetricsTableView td {
-    padding: 5px 10px;
-    border: 1px solid #000000;
-    text-align: left;
+.timeMetricsTableView tbody tr:hover {
+    background-color: #FFFACD !important;
 }
 .timeMetricsTableView tbody tr:nth-child(odd) {
     background-color: #FFF;
@@ -25,16 +13,24 @@
 .timeMetricsTableView tbody tr:nth-child(even) {
     background-color: #F7F7F7;
 }
-.tdMarked {
+.timeMetricsTableView thead th {
+    font-weight: bold;
+    padding: 5px;
+    background-color: #EFEFEF;
+    border: 1px solid #000000;
+}
+.timeMetricsTableView tbody td {
+    padding: 5px 10px;
+    border: 1px solid #000000;
+    text-align: left;
+}
+.timeMetricsTableView tbody td .tdMarked {
     background-color: #B8860B;
 }
-.tooltip {
-    background-color: #FFFACD;
-}
-.headerTakeALook {
+.timeMetricsTableView thead td .headerTakeALook {
     background-color: Red;
 }
-.headerStandard {
+.timeMetricsTableView thead td .headerStandard {
     background-color: PaleGreen;
 }
 .collapsible {
