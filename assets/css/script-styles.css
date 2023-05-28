@@ -1,0 +1,77 @@
+.timeMetricsTableView {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000000;
+    margin: 5px 0 20px 0;
+    font-size: 14px;
+}
+.timeMetricsTableView thead th {
+    font-weight: bold;
+    padding: 5px 3px;
+    background-color: #DCDCDC;
+    border: 1px solid #000000;
+}
+.timeMetricsTableView tbody tr:hover {
+    background-color: #FFFACD !important;
+}
+.timeMetricsTableView tbody tr:nth-child(odd) {
+    background-color: #FFF;
+}
+.timeMetricsTableView tbody tr:nth-child(even) {
+    background-color: #F7F7F7;
+}
+.timeMetricsTableView tbody td {
+    padding: 5px 3px;
+    border: 1px solid #000000;
+    text-align: left;
+}
+.tdMarked {
+    background-color: #B8860B;
+}
+.headerTakeALook {
+    background-color: Red;
+}
+.headerStandard {
+    background-color: PaleGreen;
+}
+.collapsible {
+    background-color: #EEE;
+    color: #444
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: white;
+    float: right;
+    margin-left: 5px;
+}
+.active, .collapsible:hover {
+    background-color: #CCC;
+}
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+.content {
+    padding: 0 18px;
+    transition: max-height 0.2s ease-out;
+    overflow: hidden;
+    max-height: 0;
+    background-color: white;
+}
+.iframeLegendView {
+    width: 100%;
+    height: 500px;
+}
+.iframeIndexView {
+    display: block;       /* iframes are inline by default */
+    border: none;         /* Reset default border */
+    height: 100vh;        /* Viewport-relative units */
+    width: 100vw;
+}

@@ -1,0 +1,94 @@
+body {
+    margin: 0px;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    background-color: rgb(237, 241, 245);
+}
+div {
+    display: block;
+}
+*, ::before, ::after {
+    box-sizing: inherit;
+}
+.css-1lqigwm {
+    width: 100%;
+    min-width: 946px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: clip;
+    padding-bottom: 32px;
+}
+.css-1yeiifd {
+    display: flex;
+    height: 100vh;
+}
+.css-usvplc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    flex-direction: column;
+}
+.css-1mnx8d5 {
+    background: linear-gradient(39.84deg, rgb(115, 230, 255) -2.42%, rgb(66, 101, 237) 90.63%);
+    width: 50%;
+}
+.css-18u4ih6 {
+    letter-spacing: 11px;
+    font-size: 36px;
+    line-height: 42px;
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 48px;
+}
+.container {
+    width: 50%;
+    height: 50vh;
+    position: relative;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.center {
+    width: 180px;
+    height: 60px;
+    margin: 0 0 0 20px;
+    position: relative;
+}
+.btn {
+    width: 180px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #91C9FF;
+    outline: none;
+    transition: 1s ease-in-out;
+}
+svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    fill: none;
+    stroke: #fff;
+    stroke-dasharray: 150 480;
+    stroke-dashoffset: 150;
+    transition: 1s ease-in-out;
+}
+.btn:hover {
+    transition: 1s ease-in-out;
+    background: #4F95DA;
+}
+.btn:hover svg {
+    stroke-dashoffset: -480;
+}
+.btn span {
+    color: white;
+    font-size: 18px;
+    font-weight: 100;
+}
