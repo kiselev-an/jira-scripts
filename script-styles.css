@@ -6,7 +6,7 @@
 }
 .timeMetricsTableView thead th {
     font-weight: bold;
-    padding: 5px;
+    padding: 5px 3px;
     background-color: #EFEFEF;
     border: 1px solid #000000;
 }
@@ -20,7 +20,7 @@
     background-color: #F7F7F7;
 }
 .timeMetricsTableView tbody td {
-    padding: 5px 10px;
+    padding: 5px 3px;
     border: 1px solid #000000;
     text-align: left;
 }
