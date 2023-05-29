@@ -16,22 +16,37 @@
             <div class="css-1mnx8d5">
                 <div class="container">
                     <div class="center">
-                        <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector_test?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;">
-                            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
-                                <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
-                                <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
-                            </svg>
-                            <span>Временные метрики эпиков</span>
-                        </button>
+                        <div class="btnContainer">
+                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector_test?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Cтатусы эпика</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="center">
-                        <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getSprintsInWorkCollector', '_blank'); return false;">
-                            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
-                                <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
-                                <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
-                            </svg>
-                            <span>Количество спринтов в работе для эпиков</span>
-                        </button>
+                        <div class="btnContainer">
+                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getSprintsInWorkCollector', '_blank'); return false;">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Количество спринтов в работе для эпиков</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done', '_blank'); return false;">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Статусы эпика (Предыдущая версия)</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
