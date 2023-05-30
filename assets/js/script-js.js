@@ -36,7 +36,7 @@ function applyEffect(event) {
     }
     console.log('Hello: ' + log);
 }
-function getCustomAttributeValue(var element, var attributeName) {
+function getCustomAttributeValue(element, attributeName) {
     if(element && element.hasAttribute(attributeName)) {
         return element.getAttribute(attributeName);
     } else {
