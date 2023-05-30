@@ -18,15 +18,15 @@ function loadPage() {
 }
 function applyEffect(event) {
     //"alert('Hello: ' + event.target.parentElement.children);
-    var agregatedId = event.target.id;
-    var subids = agregatedId.split('-');
+    var aggregatedId = event.target.id;
+    var subIds = aggregatedId.split('-');
     var log = '';
     for (var i = 0; i < event.target.parentElement.children.length; i++) {
         var child = event.target.parentElement.children[i];
-        for(var j = 0; j < subids.length; j++) {
-            var id = subids[j];
+        for(var j = 0; j < subIds.length; j++) {
+            var id = subIds[j];
             log += child.id + '  vs  ' + id + '|' + child.id.includes(id) + '<br/>';
-            if(event.type == 'mouseover' && id.length > 0 && child.id.includes(id)) {
+            if(event.type == 'mouseover' && id.length > 0 && getCustomAttributeValue(child, 'metric') != 'true' && child.id.includes(id)) {
                 child.className = 'tdMarked';
                 break;
             } else {
@@ -35,4 +35,11 @@ function applyEffect(event) {
         }
     }
     console.log('Hello: ' + log);
+}
+function getCustomAttributeValue(var element, var attributeName) {
+    if(element && element.hasAttribute(attributeName)) {
+        return element.getAttribute(attributeName);
+    } else {
+        return "";
+    }
 }
