@@ -17,16 +17,18 @@ function loadPage() {
     }
 }
 function applyEffect(event) {
-    //"alert('Hello: ' + event.target.parentElement.children);
     var aggregatedId = event.target.id;
     var subIds = aggregatedId.split('-');
+    event.className = 'tdMarked';
+    var isElementMetric = getCustomAttributeValue(event, 'metric') == 'true';
     var log = '';
     for (var i = 0; i < event.target.parentElement.children.length; i++) {
         var child = event.target.parentElement.children[i];
         for(var j = 0; j < subIds.length; j++) {
             var id = subIds[j];
             log += child.id + '  vs  ' + id + '|' + child.id.includes(id) + '<br/>';
-            if(event.type == 'mouseover' && id.length > 0 && getCustomAttributeValue(child, 'metric') != 'true' && child.id.includes(id)) {
+            var isChildElementMetric = getCustomAttributeValue(child, 'metric') == 'true';
+            if(event.type == 'mouseover' && (!isElementMetric || !isChildElementMetric) && id.length > 0 && child.id.includes(id)) {
                 child.className = 'tdMarked';
                 break;
             } else {
