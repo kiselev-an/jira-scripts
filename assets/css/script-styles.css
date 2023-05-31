@@ -69,6 +69,10 @@
     width: 100%;
     height: 500px;
 }
+.iframeLegendSIWView {
+    width: 100%;
+    height: 410px;
+}
 .iframeIndexView {
     display: block;       /* iframes are inline by default */
     border: none;         /* Reset default border */
