@@ -37,6 +37,22 @@
 }
 .sprintsInWorkTableView tbody tr:hover {
 }
+.sprintsInWorkTableViewRowMetricGoodAndStatusDone {
+    background-color: PaleGreen;
+}
+.sprintsInWorkTableViewRowMetricOverAndStatusUndone {
+    background-color: Red;
+}
+.sprintsInWorkTableViewRowMetricOverAndStatusDone {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+.sprintsInWorkTableViewRowMetricGoodAndStatusUndone {
+    background-color: yellow;
+}
+.sprintsInWorkTableViewRowMetricMinAndStatusUndone {
+    background-color: LightYellow;
+}
 .collapsible {
     background-color: #EEE;
     color: #444
