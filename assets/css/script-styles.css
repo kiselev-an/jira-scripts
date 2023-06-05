@@ -13,6 +13,7 @@
 }
 .timeMetricsTableView tbody tr:hover {
     background-color: #FFFACD !important;
+    color: #000000 !important;
 }
 .timeMetricsTableView tbody tr:nth-child(odd) {
     background-color: #FFF;
