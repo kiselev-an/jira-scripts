@@ -35,6 +35,8 @@
 .headerStandard {
     background-color: PaleGreen;
 }
+.sprintsInWorkTableView tbody tr:hover {
+}
 .collapsible {
     background-color: #EEE;
     color: #444
