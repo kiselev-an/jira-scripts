@@ -17,9 +17,11 @@
 }
 .timeMetricsTableView tbody tr:nth-child(odd) {
     background-color: #FFF;
+    color: #000000;
 }
 .timeMetricsTableView tbody tr:nth-child(even) {
     background-color: #F7F7F7;
+    color: #000000;
 }
 .timeMetricsTableView tbody td {
     padding: 5px 3px;
