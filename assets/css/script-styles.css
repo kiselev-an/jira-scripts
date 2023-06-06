@@ -37,7 +37,35 @@
 .headerStandard {
     background-color: PaleGreen;
 }
-.sprintsInWorkTableView tbody tr:hover {
+.sprintsInWorkTableView {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000000;
+    margin: 5px 0 20px 0;
+    font-size: 14px;
+}
+.sprintsInWorkTableView thead th {
+    font-weight: bold;
+    padding: 5px 3px;
+    background-color: #DCDCDC;
+    border: 1px solid #000000;
+}
+.sprintsInWorkTableView tbody tr:hover_ {
+    background-color: #FFFACD !important;
+    color: #000000 !important;
+}
+.sprintsInWorkTableView tbody tr:nth-child(odd) {
+    background-color: #FFF;
+    color: #000000;
+}
+.sprintsInWorkTableView tbody tr:nth-child(even) {
+    background-color: #F7F7F7;
+    color: #000000;
+}
+.sprintsInWorkTableView tbody td {
+    padding: 5px 3px;
+    border: 1px solid #000000;
+    text-align: left;
 }
 .sprintsInWorkTableViewRowMetricGoodAndStatusDone {
     background-color: PaleGreen !important;
@@ -47,7 +75,7 @@
 }
 .sprintsInWorkTableViewRowMetricOverAndStatusDone {
     background-color: #000000 !important;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
 }
 .sprintsInWorkTableViewRowMetricGoodAndStatusUndone {
     background-color: yellow !important;
