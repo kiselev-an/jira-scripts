@@ -12,3 +12,20 @@ body {
 .embedded-image {
     height: 250px;
 }
+.metricGoodAndStatusDone {
+    background-color: #BDECB6;
+}
+.metricGoodAndStatusUndone {
+    background-color: #FFDEAD;
+}
+.metricMinAndStatusUndone {
+}
+.metricOverAndStatusUndone {
+    background-color: #FF8C00;
+    font-weight: bold;
+}
+.metricOverAndStatusDone {
+    background-color: #8B4513;
+    color: #FFFFFF;
+    font-weight: bold;
+}
