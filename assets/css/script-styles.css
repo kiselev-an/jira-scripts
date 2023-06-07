@@ -33,9 +33,11 @@
 }
 .headerTakeALook {
     background-color: Red;
+    font-size: 16px;
 }
 .headerStandard {
     background-color: PaleGreen;
+    font-size: 16px;
 }
 .sprintsInWorkTableView {
     width: 100%;
