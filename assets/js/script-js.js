@@ -1,8 +1,10 @@
-function loadPage() {
+function loadPageAddOnMouseEvents() {
     document.querySelectorAll('.tdStandard').forEach((node) => {
         node.onmouseover = applyEffect;
         node.onmouseout = applyEffect;
     });
+}
+function loadPageAddCollapsibleEvents() {
     var coll = document.getElementsByClassName('collapsible');
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener('click', function() {
