@@ -50,38 +50,27 @@
     background-color: #DCDCDC;
     border: 1px solid #000000;
 }
-.sprintsInWorkTableView tbody tr:hover_ {
-    background-color: #FFFACD !important;
-    color: #000000 !important;
-}
-.sprintsInWorkTableView tbody tr:nth-child(odd) {
-    background-color: #FFF;
-    color: #000000;
-}
-.sprintsInWorkTableView tbody tr:nth-child(even) {
-    background-color: #F7F7F7;
-    color: #000000;
-}
 .sprintsInWorkTableView tbody td {
     padding: 5px 3px;
     border: 1px solid #000000;
     text-align: left;
 }
 .sprintsInWorkTableViewRowMetricGoodAndStatusDone {
-    background-color: PaleGreen !important;
-}
-.sprintsInWorkTableViewRowMetricOverAndStatusUndone {
-    background-color: Red !important;
-}
-.sprintsInWorkTableViewRowMetricOverAndStatusDone {
-    background-color: #000000 !important;
-    color: #FFFFFF !important;
+    background-color: #BDECB6 !important;
 }
 .sprintsInWorkTableViewRowMetricGoodAndStatusUndone {
-    background-color: yellow !important;
+    background-color: #FFDEAD !important;
 }
 .sprintsInWorkTableViewRowMetricMinAndStatusUndone {
-    background-color: LightYellow !important;
+}
+.sprintsInWorkTableViewRowMetricOverAndStatusUndone {
+    background-color: #FF8C00 !important;
+    font-weight: bold;
+}
+.sprintsInWorkTableViewRowMetricOverAndStatusDone {
+    background-color: #8B4513 !important;
+    color: #FFFFFF !important;
+    font-weight: bold;
 }
 .collapsible {
     background-color: #EEE;
