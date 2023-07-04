@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Метрики Коллешен</title>
     <link rel="stylesheet" href="./assets/css/index-styles.css">
+    <script type='text/javascript' src='./assets/js/index-js.js'></script>
 </head>
 <body>
 
@@ -17,7 +18,7 @@
                 <div class="container">
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionMetrics?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;">
+                            <button class="btn" onclick="gotoCollectionMetrics('epicsTimeMetrics');">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
@@ -28,7 +29,7 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionMetrics?report=sprintsInWork', '_blank'); return false;">
+                            <button class="btn" onclick="gotoCollectionMetrics('sprintsInWork');">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
@@ -39,7 +40,7 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done', '_blank'); return false;">
+                            <button class="btn" onclick="gotoEpicsTimeMetricsCollector_old();">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
@@ -50,7 +51,7 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getSprintsInWorkCollector', '_blank'); return false;">
+                            <button class="btn" onclick="gotoSprintsInWorkCollector_old()">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
@@ -61,7 +62,7 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionUpStream', '_blank'); return false;">
+                            <button class="btn" onclick="gotoCollectionUpStream();">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
@@ -72,7 +73,7 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getOKRReport2', '_blank'); return false;">
+                            <button class="btn" onclick="gotoOKRReport2();">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
