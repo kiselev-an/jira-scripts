@@ -1,5 +1,6 @@
 var JIRA_URL = "https://jira.ftc.ru";
 var SCRIPT_RUNNER_PATH = "rest/scriptrunner/latest/custom";
+var DATE_FROM = "2023-04-01";
 
 function gotoCollectionMetrics(reportType) {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionMetrics?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;
@@ -7,7 +8,7 @@ function gotoCollectionMetrics(reportType) {
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?";
     switch(reportType){
         case "epicsTimeMetrics":
-            url += "dateFrom=" + "2023-01-01" + "&";
+            url += "dateFrom=" + DATE_FROM + "&";
             url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
             url += "size=" + "small" + "&";
             url += "done" + "&";
@@ -21,7 +22,7 @@ function gotoCollectionMetrics(reportType) {
 function gotoEpicsTimeMetricsCollector_old() {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector?dateFrom=2023-01-01&dateTo=2023-07-07&size=small&done', '_blank'); return false;
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getEpicsTimeMetricsCollector?";
-    url += "dateFrom=" + "2023-01-01" + "&";
+    url += "dateFrom=" + DATE_FROM + "&";
     url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
     url += "size=" + "small" + "&";
     url += "done";
@@ -50,7 +51,7 @@ function gotoOKRReport2() {
 function gotoEpicsTimeMetrics2Collector_Mirutov() {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetrics2?dateFrom=2023-04-01&dateTo=2023-06-30&ra=cl&size=small&done', '_blank'); return false;
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getEpicsTimeMetrics2?";
-    url += "dateFrom=" + "2023-04-01" + "&";
+    url += "dateFrom=" + DATE_FROM + "&";
     url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
     url += "ra=" + "cl" + "&";
     url += "size=" + "small" + "&";
