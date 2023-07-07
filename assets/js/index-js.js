@@ -19,6 +19,7 @@ function gotoCollectionMetrics(reportType) {
 }
 
 function gotoEpicsTimeMetricsCollector_old() {
+// window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector?dateFrom=2023-01-01&dateTo=2023-07-07&size=small&done', '_blank'); return false;
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getEpicsTimeMetricsCollector?";
     url += "dateFrom=" + "2023-01-01" + "&";
     url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
@@ -43,6 +44,18 @@ function gotoCollectionUpStream() {
 function gotoOKRReport2() {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getOKRReport2', '_blank'); return false;
     window.open(JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getOKRReport3", "_blank");
+    return false;
+}
+
+function gotoEpicsTimeMetrics2Collector_Mirutov() {
+// window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetrics2?dateFrom=2023-04-01&dateTo=2023-06-30&ra=cl&size=small&done', '_blank'); return false;
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getEpicsTimeMetrics2?";
+    url += "dateFrom=" + "2023-04-01" + "&";
+    url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
+    url += "ra=" + "cl" + "&";
+    url += "size=" + "small" + "&";
+    url += "done";
+    window.open(url, "_blank");
     return false;
 }
 
