@@ -42,7 +42,7 @@ function gotoCollectionUpStream() {
     return false;
 }
 
-function gotoOKRReport2() {
+function gotoOKRReport3() {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getOKRReport2', '_blank'); return false;
     window.open(JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getOKRReport3", "_blank");
     return false;
@@ -56,6 +56,14 @@ function gotoEpicsTimeMetrics2Collector_Mirutov() {
     url += "ra=" + "cl" + "&";
     url += "size=" + "small" + "&";
     url += "done";
+    window.open(url, "_blank");
+    return false;
+}
+
+function gotoStoryPointsBoard(subdivision) {
+// window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getStoryPointsBoard?subdivision=%D0%9A%D0%BE%D0%BB%D0%BB%D0%B5%D0%BA%D1%82%D0%BE%D1%80', '_blank'); return false;
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getStoryPointsBoard?";
+    url += "subdivision=" + subdivision;
     window.open(url, "_blank");
     return false;
 }
