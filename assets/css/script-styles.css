@@ -3,7 +3,7 @@
     border-collapse: collapse;
     border: 1px solid #000000;
     margin: 5px 0 20px 0;
-    font-size: 14px;
+    font-size: 12px;
 }
 .timeMetricsTableView thead th {
     font-weight: bold;
@@ -44,7 +44,7 @@
     border-collapse: collapse;
     border: 1px solid #000000;
     margin: 5px 0 20px 0;
-    font-size: 14px;
+    font-size: 12px;
 }
 .sprintsInWorkTableView thead th {
     font-weight: bold;
