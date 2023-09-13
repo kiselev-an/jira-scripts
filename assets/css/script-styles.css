@@ -31,6 +31,9 @@
 .tdMarked {
     background-color: #B8860B;
 }
+.tdLeftStyle {
+    text-align: left;
+}
 .headerTakeALook {
     background-color: Red;
     font-size: 16px;
