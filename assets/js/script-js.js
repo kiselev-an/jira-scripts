@@ -23,12 +23,12 @@ function applyEffect(event) {
     var aggregatedId = element.id;
     var subIds = aggregatedId.split('-');
     var isElementMetric = getCustomAttributeValue(element, 'metric') == 'true';
-    var log = '';
+    //var log = '';
     for (var i = 0; i < element.parentElement.children.length; i++) {
         var child = element.parentElement.children[i];
         for(var j = 0; j < subIds.length; j++) {
             var id = subIds[j];
-            log += child.id + '  vs  ' + id + '|' + child.id.includes(id) + '<br/>';
+            //log += child.id + '  vs  ' + id + '|' + child.id.includes(id) + '<br/>';
             var isChildElementMetric = getCustomAttributeValue(child, 'metric') == 'true';
             if(event.type == 'mouseover' && (element == child || !isElementMetric || !isChildElementMetric) && id.length > 0 && child.id.includes(id)) {
                 child.className = 'tdMarked';
@@ -43,7 +43,7 @@ function applyEffect(event) {
             }
         }
     }
-    console.log('Hello: ' + log);
+    //console.log('Hello: ' + log);
 }
 function getCustomAttributeValue(element, attributeName) {
     if(element && element.hasAttribute(attributeName)) {
