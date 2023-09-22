@@ -31,6 +31,9 @@
 .tdMarked {
     background-color: #B8860B;
 }
+.tdLimitWarning {
+    background-color: #B80000;
+}
 .tdLeftStyle {
     text-align: left;
 }

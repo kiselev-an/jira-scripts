@@ -34,7 +34,12 @@ function applyEffect(event) {
                 child.className = 'tdMarked';
                 break;
             } else {
-                child.className = 'tdStandard';
+                var isChildElementUpOfLimit = getCustomAttributeValue(child, 'upOfColumnLimit') == 'true';
+                if(isChildElementUpOfLimit) {
+                    child.className = 'tdLimitWarning';
+                } else {
+                    child.className = 'tdStandard';
+                }
             }
         }
     }
