@@ -1,6 +1,6 @@
 var JIRA_URL = "https://jira.ftc.ru";
 var SCRIPT_RUNNER_PATH = "rest/scriptrunner/latest/custom";
-var DATE_FROM = "2023-04-01";
+var DATE_FROM = "2023-07-01";
 
 function gotoCollectionMetrics(reportType) {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionMetrics?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;
