@@ -51,7 +51,7 @@ div {
     justify-content_: center;
     align-items: center;
     display: grid;
-    grid-template-rows: repreat(4, 1fr);
+    grid-template-rows: repreat(3, 1fr);
     grid-template-columns: repeat(2, 50%);
     grid-gap: 10px;
 }

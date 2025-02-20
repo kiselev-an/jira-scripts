@@ -1,6 +1,7 @@
 var JIRA_URL = "https://jira.ftc.ru";
 var SCRIPT_RUNNER_PATH = "rest/scriptrunner/latest/custom";
 var DATE_FROM = "2023-07-01";
+var FOR_LAST_MONTHS = 3;
 
 function gotoCollectionMetrics(reportType) {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionMetrics?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;
@@ -8,13 +9,15 @@ function gotoCollectionMetrics(reportType) {
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?";
     switch(reportType){
         case "epicsTimeMetrics":
-            url += "dateFrom=" + DATE_FROM + "&";
+            url += "dateFrom=" + dateToYYYYMMDD(prepareFromDate(new Date())) + "&";
             url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
             url += "size=" + "small" + "&";
             url += "done" + "&";
             break;
+        case "tasksTimeMetrics":
+            url += "user=" + "???" + "&";
     }
-    url += "report=" + reportType
+    url += "report=" + reportType;
     window.open(url, "_blank");
     return false;
 }
@@ -22,7 +25,7 @@ function gotoCollectionMetrics(reportType) {
 function gotoEpicsTimeMetricsCollector_old() {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetricsCollector?dateFrom=2023-01-01&dateTo=2023-07-07&size=small&done', '_blank'); return false;
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getEpicsTimeMetricsCollector?";
-    url += "dateFrom=" + DATE_FROM + "&";
+    url += "dateFrom=" + dateToYYYYMMDD(prepareFromDate(new Date())) + "&";
     url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
     url += "size=" + "small" + "&";
     url += "done";
@@ -48,14 +51,25 @@ function gotoOKRReport3() {
     return false;
 }
 
+function gotoDeptSLA2Collector_Mirutov() {
+// window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetrics2?dateFrom=2023-04-01&dateTo=2023-06-30&ra=cl&size=small&done', '_blank'); return false;
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptSLAReport?";
+
+    url += "dateFrom=" + dateToYYYYMMDD(prepareFromDate(new Date())) + "&";
+    url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
+    url += "dept=" + "Коллектор" + "&";
+    url += "showEpicName" + "&";
+    url += "printJQL";
+    window.open(url, "_blank");
+    return false;
+}
+
 function gotoEpicsTimeMetrics2Collector_Mirutov() {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetrics2?dateFrom=2023-04-01&dateTo=2023-06-30&ra=cl&size=small&done', '_blank'); return false;
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getEpicsTimeMetrics2?";
-    url += "dateFrom=" + DATE_FROM + "&";
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getFlowTimeMetrics?";
+    url += "dateFrom=" + dateToYYYYMMDD(prepareFromDate(new Date())) + "&";
     url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
-    url += "ra=" + "cl" + "&";
-    url += "size=" + "small" + "&";
-    url += "done";
+    url += "depts=" + "Коллектор";
     window.open(url, "_blank");
     return false;
 }
@@ -66,6 +80,14 @@ function gotoStoryPointsBoard(subdivision) {
     url += "subdivision=" + subdivision;
     window.open(url, "_blank");
     return false;
+}
+
+function prepareFromDate(date) {
+    return new Date(
+        date.getFullYear(),
+        date.getMonth() - FOR_LAST_MONTHS,
+        date.getDate()
+    );
 }
 
 function dateToYYYYMMDD(date) {

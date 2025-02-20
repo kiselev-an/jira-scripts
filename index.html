@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Метрики Коллешен</title>
@@ -16,6 +16,29 @@
             </div>
             <div class="css-1mnx8d5">
                 <div class="container">
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="gotoCollectionMetrics('tasksTimeMetrics');">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Отчет по Задачам</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="gotoDeptSLA2Collector_Mirutov();">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>SLA (Лёша Мирютов)</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="center">
                         <div class="btnContainer">
                             <button class="btn" onclick="gotoCollectionMetrics('epicsTimeMetrics');">
@@ -38,7 +61,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="center">
+ <!--                   <div class="center">
                         <div class="btnContainer">
                             <button class="btn" onclick="gotoEpicsTimeMetricsCollector_old();">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
@@ -82,6 +105,7 @@
                             </button>
                         </div>
                     </div>
+-->
                     <div class="center">
                         <div class="btnContainer">
                             <button class="btn" onclick="gotoEpicsTimeMetrics2Collector_Mirutov();">
@@ -89,7 +113,7 @@
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
                                 </svg>
-                                <span>Метрики эпиков (Лёша Мирютов)</span>
+                                <span>Метрики потока (Лёша Мирютов)</span>
                             </button>
                         </div>
                     </div>
