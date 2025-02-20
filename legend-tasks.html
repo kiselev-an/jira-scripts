@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Про метрики</title>
+    <link rel="stylesheet" href="./assets/css/legend-styles.css">
+</head>
+<body>
+ <p><span><a class="embedded-link" href="https://virgo.ftc.ru/pages/viewpage.action?pageId=1235288075" target="_blank">Детально про метрики можно почитать тут</a></span></p>
+ <p><span>Краткая выдержка ниже...</span></p>
+ <p><strong>Объектом наблюдения и оптимизации являются</strong></p>
+ <ol>
+     <li><span><strong>CT'</strong></span></li>
+     <li><span><strong>CT</strong></span>
+     </li>
+ </ol>
+ <!--p><br/></p-->
+ <p><span class="title-marker">CT' - Cycle Time' (Время цикла "штрих")</span></p>
+ <p>Время, прошедшее с момента, как задачу запланировали в работу (перешел в состояние In Analysis или правее) и до момента, когда задача перешла в состояние готовности к выпуску (перешел в состояние Ready To Deploy/Test Completed) без учета времени, проведенного в состояниях ToDo.</p>
+ <p>Считается как сумма времени проведенных эпиком в следующих статусах:</p>
+ <p><span style="color: rgb(242,71,38);"><span>In Analysis, Ready To Dev</span></span><span> + </span><span style="color: rgb(250,199,16);"><span>In Dev, Code Review, Ready To Test</span></span><span> + </span><span style="color: rgb(65,75,178);"><span>In Test</span></span></p>
+ <!--p><br/></p-->
+ <p><span class="title-marker">CT - Cycle Time (Время цикла)</span></p>
+ <p>Время, прошедшее с момента, как задачу запланировали в работу (перешел в состояние In Analysis или правее) и до момента, когда задача перешла в состояние готовности к выпуску (перешел в состояние Released) без учета времени, проведенного в состояниях ToDo.</p>
+ <p>Считается как сумма времени проведенных эпиком в следующих статусах:</p>
+ <p><span style="color: rgb(242,71,38);"><span>In Analysis, Ready To Dev</span></span><span> + </span><span style="color: rgb(250,199,16);"><span>In Dev, Code Review, Ready To Test</span></span><span> + </span><span style="color: rgb(65,75,178);"><span>In Test</span></span><span> + </span><span style="color: rgb(149,16,172);"><span>Test Completed, Ready To Deploy</span></span></p>
+ <!--p><br/></p-->
+ <p><span><img class="embedded-image" src="./assets/img/tasks-workflow.png" alt="Tasks workflow"/></span></p>
+</body>
+</html>
