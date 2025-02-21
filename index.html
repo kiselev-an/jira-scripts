@@ -18,6 +18,61 @@
                 <div class="container">
                     <div class="center">
                         <div class="btnContainer">
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="gotoDeptSLABoard_Mirutov('Коллектор');">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>SLA (Лёша Мирютов)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="center">
+                        <div class="btnContainer">
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="gotoFlowTimeMetricsBoard_Mirutov('Коллектор');">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Метрики потока (Лёша Мирютов)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="gotoCollectionMetricsBoard('checkFinishDate');">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Просрочка по дате завершения</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="btnContainer">
+                            <button class="btn" onclick="gotoReopenedBoard_Mirutov('Коллектор');">
+                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
+                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
+                                </svg>
+                                <span>Переоткрытые эпики из-за багов (Лёша Мирютов)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="center">
+                        <div class="btnContainer">
                             <button class="btn" onclick="gotoCollectionMetricsBoard('tasksTimeMetrics');">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
@@ -29,12 +84,12 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="gotoDeptSLABoard_Mirutov('Коллектор');">
+                            <button class="btn" onclick="gotoQualityBoard_Mirutov('Коллектор');">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
                                 </svg>
-                                <span>SLA (Лёша Мирютов)</span>
+                                <span>Количество ошибок (Лёша Мирютов)</span>
                             </button>
                         </div>
                     </div>
@@ -52,12 +107,12 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                            <button class="btn" onclick="gotoFlowTimeMetricsBoard_Mirutov('Коллектор');">
+                            <button class="btn" onclick="gotoStoryPointsBoard_Mirutov('Коллектор');">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
                                 </svg>
-                                <span>Метрики потока (Лёша Мирютов)</span>
+                                <span>Оценка "Сложность" эпиков (Лёша Мирютов)</span>
                             </button>
                         </div>
                     </div>
@@ -75,52 +130,12 @@
                     </div>
                     <div class="center">
                         <div class="btnContainer">
-                        </div>
-                    </div>
-
-
-                    <div class="center">
-                        <div class="btnContainer">
-                            <button class="btn" onclick="gotoReopenedBoard_Mirutov('Коллектор');">
-                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
-                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
-                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
-                                </svg>
-                                <span>Переоткрытые эпики из-за багов</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="center">
-                        <div class="btnContainer">
-                            <button class="btn" onclick="gotoQualityBoard_Mirutov('Коллектор');">
-                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
-                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
-                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
-                                </svg>
-                                <span>Количество ошибок</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="center">
-                        <div class="btnContainer">
-                            <button class="btn" onclick="gotoStoryPointsBoard_Mirutov('Коллектор');">
-                                <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
-                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
-                                    <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
-                                </svg>
-                                <span>Оценка "Сложность" эпиков</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="center">
-                        <div class="btnContainer">
                             <button class="btn" onclick="gotoChangingDifficultyScoreBoard_Mirutov('Коллектор');">
                                 <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line"/>
                                     <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line"/>
                                 </svg>
-                                <span>Изменения оценок сложности</span>
+                                <span>Изменения оценок сложности (Лёша Мирютов)</span>
                             </button>
                         </div>
                     </div>

@@ -16,6 +16,10 @@ function gotoCollectionMetricsBoard(reportType) {
             break;
         case "tasksTimeMetrics":
             url += "user=" + "???" + "&";
+            break;
+        case "checkFinishDate":
+            url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
+            break;
     }
     url += "report=" + reportType;
     window.open(url, "_blank");
