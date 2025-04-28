@@ -26,6 +26,19 @@ function gotoCollectionMetricsBoard(reportType) {
     return false;
 }
 
+function gotoDeptReport_Mirutov(subdivision) {
+// window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getDeptReport?dept=Коллектор&dateFrom=2025-04-01&dateTo=2025-04-30&type=B&level=O', '_blank'); return false;
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
+
+    url += "dateFrom=" + dateToYYYYMMDD(prepareFromDate(new Date())) + "&";
+    url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
+    url += "dept=" + subdivision + "&";
+    url += "type=B" + "&";
+    url += "level=O";
+    window.open(url, "_blank");
+    return false;
+}
+
 function gotoDeptSLABoard_Mirutov(subdivision) {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getEpicsTimeMetrics2?dateFrom=2023-04-01&dateTo=2023-06-30&ra=cl&size=small&done', '_blank'); return false;
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptSLAReport?";
