@@ -112,7 +112,7 @@ function responseHandlerDeptReportPeriod(responseData, range) {
     var responseHtml = $.parseHTML(responseData, null);
     var periodStr = range.from.format(DATE_FORMAT_PERIOD) + ' - ' + range.to.format(DATE_FORMAT_PERIOD);
 
-    var depTotalPeriodMetricsTableHTML = getMetricsTableHTML(1, $(responseHtml));
+    var depTotalPeriodMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
     $("#depTotalPeriodMetricsDiv").css('width', '50%').css('text-align','center');
     $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr + "</b>" + depTotalPeriodMetricsTableHTML);
 }
