@@ -4,10 +4,10 @@ var DATE_FROM = "2023-07-01";
 var FOR_LAST_MONTHS = 3;
 var TEAMS = [
     { teamId: "QPAYTEAMS-576", teamName: "CheersForКейптаун" },
-    { teamId: "QPAYTEAMS-577", teamName: "Где деньги, Лебовски?" },
-    { teamId: "QPAYTEAMS-578", teamName: "Азгард" },
-    { teamId: "QPAYTEAMS-579", teamName: "Фримэны" },
-    { teamId: "QPAYTEAMS-580", teamName: "Хьюстон" },
+    { teamId: "QPAYTEAMS-577", teamName: "Азгард" },
+    { teamId: "QPAYTEAMS-578", teamName: "Хьюстон" },
+    { teamId: "QPAYTEAMS-579", teamName: "Где деньги, Лебовски?" },
+    { teamId: "QPAYTEAMS-580", teamName: "Фримэны" },
     { teamId: "QPAYTEAMS-1158", teamName: "CollValley" }
 ];
 
