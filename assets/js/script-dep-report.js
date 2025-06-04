@@ -123,7 +123,7 @@ function responseHandlerTeamReportMonth(responseData, team, range) {
 
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
     if(teamMetricsDiv && teamMetricsDiv != null && teamMetricsDiv != 'undefined' && teamMetricsDiv.length > 0) {
-        teamMetricsDiv.html("<b>" + team.teamName + "</b>" + depTotalPeriodMetricsTableHTML);
+        teamMetricsDiv.html("<b>" + team.teamName + "</b>" + teamMetricsTableHTML);
     } else {
         var htmlString = $("#depTeamsMetricsDiv").html();
         htmlString += "<div id=\"teamMetricsDiv_" + team.teamId + "\" ";
