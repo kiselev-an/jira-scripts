@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = true;
+var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -14,7 +14,7 @@ function prepareGetDeptReportURL(range) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
     if(DEBUG_MODE) {
-        url = "testDepReport.html?";
+        url = "./assets/data/test-dep-report.html?";
     }
     url += "dept=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
@@ -29,7 +29,7 @@ function prepareGetQualityReportURL(range) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getQualityReport?dateFrom=2025-05-01&dateTo=2025-06-04&ra=Коллектор
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getQualityReport?";
     if(DEBUG_MODE) {
-        url = "testDepReport.html?";
+        url = "./assets/data/test-quality-report.html?";
     }
     url += "ra=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
@@ -102,7 +102,7 @@ function responseHandlerQualityReportMonth(responseData, range) {
     var responseHtml = $.parseHTML(responseData, null);
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
-    var depTotalQualityMetricsTableHTML = getMetricsTableHTML(1, $(responseHtml));
+    var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
     $("#depTotalQualityMetricsDiv").css('width', '50%').css('text-align','center');
     $("#depTotalQualityMetricsDiv").html(depTotalQualityMetricsTableHTML);
     $("#subHeaderQuality").html(monthStr);
