@@ -11,8 +11,8 @@ function onLoadDepReportPage() {
 
 function prepareGetDeptReportURL(range) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
-    //var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
-    var url = "testDepReport.html?";
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
+    //var url = "testDepReport.html?";
 
     url += "dept=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
