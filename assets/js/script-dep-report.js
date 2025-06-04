@@ -49,20 +49,20 @@ function loadDepReportsContent() {
     var getDeptReportPeriodURL = prepareGetDeptReportURL(rangePeriodData);
     var getQualityReportMonthURL = prepareGetQualityReportURL(rangeMonthData);
 
-    var teams = "&teams=";
-    TEAMS.forEach((item) => {
-        teams += item.teamId + ",";
+    var teams = "";
+    TEAMS.forEach((item, index, arr) => {
+        teams += item.teamId + (index === arr.length - 1 ? "" : ",");
     });
 
     jQuery.get({
-        url: getDeptReportMonthURL + teams,
+        url: getDeptReportMonthURL + "&teams=" + teams,
         success: function(data) {
             responseHandlerDeptReportMonth(data, rangeMonthData);
         }
     });
 
     jQuery.get({
-        url: getDeptReportPeriodURL + teams,
+        url: getDeptReportPeriodURL + + "&teams=" + teams,
         success: function(data) {
             responseHandlerDeptReportPeriod(data, rangePeriodData);
         }
