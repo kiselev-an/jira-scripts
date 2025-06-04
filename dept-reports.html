@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчет по итогам месяца (метрики)</title>
+    <link rel="stylesheet" href="./assets/css/script-styles.css">
+    <script type="text/javascript" src="./assets/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="./assets/js/index-js.js"></script>
+    <script type="text/javascript" src="./assets/js/dictionary-dep-report.js"></script>
+    <script type="text/javascript" src="assets/js/script-dep-report.js"></script>
+
+    <script type="text/javascript" src="./assets/js/moment-with-locales.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+
+<body onload="onLoadDepReportPage();">
+    <div class="controlPanel">
+        <input type="button" onclick="initTextareaEditorsByExamples();" disabled="disabled" value="Отправить отчет"/>
+        <input type="button" onclick="initTextareaEditorsByExamples();" value="Показать пример анализа"/>
+        <input type="button" onclick="initTextareaEditorsByDefaults();" value="Сбросить текст анализа"/>
+        <p></p>
+        <label>Отчетный месяц:&nbsp;&nbsp;
+            <div id="rangeMonthPicker" class="rangePicker">
+                <i class="fa fa-calendar"><img src="./assets/img/calendar.png" alt="Нажми, не бойся" width="15"/> </i>&nbsp;<span></span><i class="fa fa-caret-down"></i>
+            </div>
+        </label>
+        <p></p>
+        <label>Отчетный период:</label>
+            <div id="rangePeriodPicker" class="rangePicker">
+                <i class="fa fa-calendar"><img src="./assets/img/calendar.png" alt="Нажми, не бойся" width="15"/> </i>&nbsp;<span></span><i class="fa fa-caret-down"></i>
+            </div>
+        </label>
+    </div>
+
+    <div id="welcome_div" style="width: 50%;" class="textarea-view"></div>
+    <label><textarea id="welcome" cols="60" rows="1" style="max-width: 50%;"
+                     class="textarea-editor"></textarea></label>
+    <p></p>
+    <div id="overview_div" style="width: 50%;" class="textarea-view"></div>
+    <label><textarea id="overview" cols="60" rows="2" style="max-width: 50%;"
+                     class="textarea-editor"></textarea></label>
+
+    <div class="sub-header">Общие метрики по департаменту</div>
+
+    <div id="depTotalCurrentMonthMetricsDiv"></div>
+    <div id="analyseDepTotalCurrentMonthMetrics_div" class="textarea-view"></div>
+    <label><textarea id="analyseDepTotalCurrentMonthMetrics"
+                     cols="60" rows="3" class="textarea-editor"></textarea></label>
+    <p></p><p></p>
+
+    <div id="depTotalPeriodMetricsDiv"></div>
+    <div id="analyseDepTotalPeriodMetrics_div" class="textarea-view"></div>
+    <label><textarea id="analyseDepTotalPeriodMetrics"
+                     cols="60" rows="3" class="textarea-editor"></textarea></label>
+
+    <div class="sub-header">Выбросы (за <span id="subHeaderInjection">&nbsp;</span>)</div>
+    <div id="depTotalInjectionMetricsDiv"></div>
+    <div id="analyseDepTotalInjectionMetrics_div" class="textarea-view"></div>
+    <label><textarea id="analyseDepTotalInjectionMetrics"
+                     cols="60" rows="3" class="textarea-editor"></textarea></label>
+
+    <div class="sub-header">Статистика в разрезе команд (за <span id="subHeaderTeams">&nbsp;</span>)</div>
+    <div id="depTeamsMetricsDiv"></div>
+
+    <div class="sub-header">Эпики с типом «Ошибка» (за <span id="subHeaderQuality">&nbsp;</span>)</div>
+    <div id="depTotalQualityMetricsDiv"></div>
+    <div id="analyseDepTotalQualityMetrics_div" class="textarea-view"></div>
+    <label><textarea id="analyseDepTotalQualityMetrics"
+                     cols="60" rows="3" class="textarea-editor"></textarea></label>
+    <p></p><p></p>
+
+
+    <div class="sub-header">Завершение:</div>
+    <div id="summary_div" class="textarea-view"></div>
+    <label><textarea id="summary" cols="60" rows="8"
+                     class="textarea-editor"></textarea></label>
+</body>
+</html>
