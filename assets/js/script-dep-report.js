@@ -1,5 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
+var DEBUG_MODE = true;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -12,7 +13,9 @@ function onLoadDepReportPage() {
 function prepareGetDeptReportURL(range) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
-    //var url = "testDepReport.html?";
+    if(DEBUG_MODE) {
+        url = "testDepReport.html?";
+    }
     url += "dept=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(range.to.toDate()) + "&";
@@ -25,7 +28,9 @@ function prepareGetDeptReportURL(range) {
 function prepareGetQualityReportURL(range) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getQualityReport?dateFrom=2025-05-01&dateTo=2025-06-04&ra=Коллектор
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getQualityReport?";
-    //var url = "testDepReport.html?";
+    if(DEBUG_MODE) {
+        url = "testDepReport.html?";
+    }
     url += "ra=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(range.to.toDate());
