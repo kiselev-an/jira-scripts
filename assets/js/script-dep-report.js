@@ -49,15 +49,20 @@ function loadDepReportsContent() {
     var getDeptReportPeriodURL = prepareGetDeptReportURL(rangePeriodData);
     var getQualityReportMonthURL = prepareGetQualityReportURL(rangeMonthData);
 
+    var teams = "&teams=";
+    TEAMS.forEach((item) => {
+        teams += item.teamId + ",";
+    });
+
     jQuery.get({
-        url: getDeptReportMonthURL,
+        url: getDeptReportMonthURL + teams,
         success: function(data) {
             responseHandlerDeptReportMonth(data, rangeMonthData);
         }
     });
 
     jQuery.get({
-        url: getDeptReportPeriodURL,
+        url: getDeptReportPeriodURL + teams,
         success: function(data) {
             responseHandlerDeptReportPeriod(data, rangePeriodData);
         }
