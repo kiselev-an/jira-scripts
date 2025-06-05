@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = false;
+var DEBUG_MODE = true;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -301,7 +301,7 @@ function updateRangePikerView(id, start, end) {
 
 function sendEmail() {
     var emailAddresses = prompt("Укажите на какие email адреса требуется отправить сообщение?", 'a.kiseljov@korona.net'); // <-- для IE
-    alert(emailAddresses  + "\n" +  $("#container").html());
+    //alert(emailAddresses  + "\n" +  $("#container").html());
 
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
     if(DEBUG_MODE) {
@@ -310,7 +310,7 @@ function sendEmail() {
 
     jQuery.post({
         url: url,
-        data: { "emailBody": $("#container").html(), "emailAddresses": emailAddresses},
+        data: JSON.stringify({ "emailBody": $("#container").html(), "emailAddresses": emailAddresses}),
         success: function(data) {
             alert(data + " |||| ");
         },
