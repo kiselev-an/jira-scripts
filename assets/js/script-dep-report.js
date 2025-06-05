@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = false;
+var DEBUG_MODE = true;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -85,6 +85,25 @@ function loadDepReportsContent() {
         success: function(data) {
             responseHandlerQualityReportMonth(data, rangeMonthData);
         }
+    });
+}
+
+function sendEmail() {
+    var emailAddresses = prompt("Укажите на какие email адреса требуется отправить сообщение?", 'a.kiseljov@korona.net'); // <-- для IE
+    //alert(emailAddresses  + "\n" +  $("#container").html());
+
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
+    if(DEBUG_MODE) {
+        url = "./assets/data/test-dep-report.html?action=sendEmail";
+    }
+
+    jQuery.post({
+        url: url,
+        data: JSON.stringify({ "emailBody": $("#container").html(), "emailAddresses": emailAddresses}),
+        success: function(data) {
+            alert(data + " |||| ");
+        },
+        contentType: "application/json"
     });
 }
 
@@ -297,23 +316,4 @@ function initRangePickers() {
 
 function updateRangePikerView(id, start, end) {
     $('#' + id + ' span').html(start.format(DATE_FORMAT_PERIOD) + ' - ' + end.format(DATE_FORMAT_PERIOD));
-}
-
-function sendEmail() {
-    var emailAddresses = prompt("Укажите на какие email адреса требуется отправить сообщение?", 'a.kiseljov@korona.net'); // <-- для IE
-    //alert(emailAddresses  + "\n" +  $("#container").html());
-
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
-    if(DEBUG_MODE) {
-        url = "http://localhost:63342?report=sendEmail";
-    }
-
-    jQuery.post({
-        url: url,
-        data: JSON.stringify({ "emailBody": $("#container").html(), "emailAddresses": emailAddresses}),
-        success: function(data) {
-            alert(data + " |||| ");
-        },
-        dataType: "json"
-    });
 }
