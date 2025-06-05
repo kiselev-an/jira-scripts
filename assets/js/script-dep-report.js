@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = false;
+var DEBUG_MODE = true;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -90,18 +90,26 @@ function loadDepReportsContent() {
 
 function sendEmail() {
     var emailAddresses = prompt("Укажите на какие email адреса требуется отправить сообщение?", 'a.kiseljov@korona.net'); // <-- для IE
-    //alert(emailAddresses  + "\n" +  $("#container").html());
 
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?action=sendEmail";
     }
 
+    var pageDataHTML = $("html")[0].outerHTML;
+    var pageData = $.parseHTML(pageDataHTML, null);
+    $(pageData).remove(".controlPanel");
+    var bodyDataHTML = $(pageData).prop('outerHTML');
+    //alert("  --- " + bodyDataHTML);
+
     jQuery.post({
         url: url,
-        data: JSON.stringify({ "emailBody": $("#container").html(), "emailAddresses": emailAddresses}),
+        data: JSON.stringify({ "emailBody": bodyDataHTML, "emailAddresses": emailAddresses}),
         success: function(data) {
-            alert(data + " |||| ");
+            alert("Отчет успешно отправлен! ;)");
+        },
+        error: function(data) {
+            alert("Что-то пошло не так. Произошла ошибка :(");
         },
         contentType: "application/json"
     });
