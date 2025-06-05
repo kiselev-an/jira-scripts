@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = false;
+var DEBUG_MODE = true;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -96,10 +96,9 @@ function sendEmail() {
         url = "./assets/data/test-dep-report.html?action=sendEmail";
     }
 
-    var pageDataHTML = $("html")[0].outerHTML;
-    var pageData = $.parseHTML(pageDataHTML, null);
-    $(pageData).remove(".controlPanel");
-    var bodyDataHTML = $(pageData).prop('outerHTML');
+    var pageDataClone = $("html").clone();
+    pageDataClone.find('.controlPanel').remove();
+    var bodyDataHTML = pageDataClone.html();
     //alert("  --- " + bodyDataHTML);
 
     jQuery.post({
