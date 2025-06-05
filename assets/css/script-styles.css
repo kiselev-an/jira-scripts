@@ -141,11 +141,11 @@ textarea.textarea-editor {
 }
 textarea.textarea-editor:focus {
     width: 100%;
-    height: 100%;
+    height_: 100%;
 }
 textarea.textarea-editor:not(:focus) {
     width: 100%;
-    height: 100%;
+    height_: 100%;
     border: 0;
 }
 div.textarea-view {
