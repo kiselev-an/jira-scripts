@@ -1,8 +1,10 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = true;
+var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
+    DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
+    alert(DEBUG_MODE + " " + window.location.href);
     initRangePickers();
     loadDepReportsContent();
     initTextareaEditorsByDefaults()
