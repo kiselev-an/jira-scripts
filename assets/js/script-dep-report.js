@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = true;
+var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
     initRangePickers();
