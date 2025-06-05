@@ -21,9 +21,9 @@
 -->
 <body onload='onLoadDepReportPage();'>
     <div class='controlPanel'>
-        <input type='button' onclick='initTextareaEditorsByExamples();' disabled='disabled' value='Отправить отчет'/>
-        <input type='button' onclick='initTextareaEditorsByExamples();' value='Показать пример анализа'/>
-        <input type='button' onclick='initTextareaEditorsByDefaults();' value='Сбросить текст анализа'/>
+        <input type='button' onclick='sendEmail();' value='Отправить отчет'/>
+        <input type='button' onclick='confirmInitTextareaEditorsByExamples();' value='Показать пример анализа'/>
+        <input type='button' onclick='confirmInitTextareaEditorsByDefaults();' value='Сбросить текст анализа'/>
         <p></p>
         <label>Отчетный месяц:&nbsp;&nbsp;
             <div id='rangeMonthPicker' class='rangePicker'>
@@ -38,6 +38,7 @@
         </label>
     </div>
 
+    <div id="container">
     <div id='welcome_div' style='width: 50%;' class='textarea-view'></div>
     <label><textarea id='welcome' cols='60' rows='1' style='max-width: 50%;'
                      class='textarea-editor'></textarea></label>
@@ -80,5 +81,6 @@
     <div id='summary_div' class='textarea-view'></div>
     <label><textarea id='summary' cols='60' rows='8'
                      class='textarea-editor'></textarea></label>
+    </div>
 </body>
 </html>

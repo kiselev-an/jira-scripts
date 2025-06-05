@@ -1,6 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
-var DEBUG_MODE = false;
+var DEBUG_MODE = true;
 
 function onLoadDepReportPage() {
     initRangePickers();
@@ -170,6 +170,12 @@ function initTextareaEditorsByDefaults() {
     reinitTextareaViews();
 }
 
+function confirmInitTextareaEditorsByDefaults() {
+    if(confirm("Если продолжить, то все твои \"записульки\" потеряются. Уверен?")) {
+        initTextareaEditorsByDefaults();
+    }
+}
+
 function initTextareaEditorsByExamples() {
     $("#welcome").val(EXAMPLE_WELCOME_TEXT)
         .prop("placeholder", EXAMPLE_DEFAULT_USERNAME + "! " + WELCOME_PLACEHOLDER);
@@ -192,6 +198,12 @@ function initTextareaEditorsByExamples() {
     $("#summary").val(EXAMPLE_SUMMARY_TEXT)
         .prop("placeholder", EXAMPLE_DEFAULT_USERNAME + "! " + SUMMARY_PLACEHOLDER);
     reinitTextareaViews();
+}
+
+function confirmInitTextareaEditorsByExamples() {
+    if(confirm("Если продолжить, то все твои \"записульки\" потеряются. Уверен?")) {
+        initTextareaEditorsByExamples();
+    }
 }
 
 function initEventsTextareaEditors() {
@@ -285,4 +297,23 @@ function initRangePickers() {
 
 function updateRangePikerView(id, start, end) {
     $('#' + id + ' span').html(start.format(DATE_FORMAT_PERIOD) + ' - ' + end.format(DATE_FORMAT_PERIOD));
+}
+
+function sendEmail() {
+    var emailAddresses = prompt("Укажите на какие email адреса требуется отправить сообщение?", 'a.kiseljov@korona.net'); // <-- для IE
+    alert(emailAddresses  + "\n" +  $("#container").html());
+
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
+    if(DEBUG_MODE) {
+        url = "http://localhost:63342?report=sendEmail";
+    }
+
+    jQuery.post({
+        url: url,
+        data: { "emailBody": $("#container").html(), "emailAddresses": emailAddresses},
+        success: function(data) {
+            alert(data + " |||| ");
+        },
+        dataType: "json"
+    });
 }
