@@ -4,7 +4,6 @@ var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
     DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
-    alert(DEBUG_MODE + " " + window.location.href);
     initRangePickers();
     loadDepReportsContent();
     initTextareaEditorsByDefaults()
