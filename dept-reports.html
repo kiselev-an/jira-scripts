@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <title>Отчет по итогам месяца (метрики)</title>
-    <link rel='stylesheet' href='./assets/css/script-styles.css'>
+    <link rel='stylesheet' href='./assets/css/script-styles.css'/>
     <script type='text/javascript' src='./assets/js/jquery-3.7.1.min.js'></script>
     <script type='text/javascript' src='./assets/js/index-js.js'></script>
     <script type='text/javascript' src='./assets/js/dictionary-dep-report.js'></script>
@@ -12,11 +12,13 @@
     <script type='text/javascript' src='./assets/js/moment-with-locales.js'></script>
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'></script>
     <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' />
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'></script>
 </head>
 
 <body onload='onLoadDepReportPage();'>
     <div class='controlPanel'>
         <input type='button' onclick='sendEmail();' value='Отправить отчет'/>
+        <input type='button' onclick='generatePDF();' value='PDF'/>
         <input type='button' onclick='confirmInitTextareaEditorsByExamples();' value='Показать пример анализа'/>
         <input type='button' onclick='confirmInitTextareaEditorsByDefaults();' value='Сбросить текст анализа'/>
         <p></p>

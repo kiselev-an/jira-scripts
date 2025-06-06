@@ -89,22 +89,46 @@ function loadDepReportsContent() {
     });
 }
 
+function prepareCleanPageHTML(callBackOnPageLoad) {
+    var pageDataClone = $("html").clone();
+    pageDataClone.find('.controlPanel').remove();
+    pageDataClone.find('textarea').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('.daterangepicker').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('style').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('script').each(function(index, element) {
+        $(element).remove();
+    });
+
+    var headDataHTML = pageDataClone.find('head').html();
+    var bodyDataHTML = pageDataClone.find('body').html();
+    var result = '<html><head>' + headDataHTML + '</head>';
+    result += '<body' + (callBackOnPageLoad && callBackOnPageLoad.length > 0 ? ' onload="' + callBackOnPageLoad + '"': '') +  '>' + bodyDataHTML + '</body></html>';
+    return result;
+}
+
 function sendEmail() {
     var emailAddresses = prompt("Укажите на какие email адреса требуется отправить сообщение?", 'a.kiseljov@korona.net'); // <-- для IE
+    if (!emailAddresses || null == emailAddresses) {
+        return;
+    }
 
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?action=sendEmail";
     }
 
-    var pageDataClone = $("html").clone();
-    pageDataClone.find('.controlPanel').remove();
-    var bodyDataHTML = pageDataClone.html();
-    //alert("  --- " + bodyDataHTML);
+    var emailDataHTML = prepareCleanPageHTML(null);
+    //alert("  --- " + emailDataHTML);
 
     jQuery.post({
         url: url,
-        data: JSON.stringify({ "emailBody": bodyDataHTML, "emailAddresses": emailAddresses}),
+        data: JSON.stringify({ "emailBody": emailDataHTML, "emailAddresses": emailAddresses}),
         success: function(data) {
             alert("Отчет успешно отправлен! ;)");
         },
@@ -114,6 +138,13 @@ function sendEmail() {
         contentType: "application/json"
     });
 }
+
+function generatePDF() {
+    var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=100,left=150');
+    printWindow.document.write(prepareCleanPageHTML("window.print();window.close();"));
+    printWindow.document.close(); // necessary for IE >= 10
+    printWindow.focus(); // necessary for IE >= 10*/
+ }
 
 function responseHandlerDeptReportMonth(responseData, range) {
     //alert("Data: " + responseData);
