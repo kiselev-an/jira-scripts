@@ -131,7 +131,7 @@ function sendEmail() {
 
     jQuery.post({
         url: url,
-        data: JSON.stringify({ "emailBody": emailDataHTML, "emailAddresses": emailAddresses}),
+        data: JSON.stringify({ "emailSubject": $(document).attr("title"), "emailAddresses": emailAddresses, "emailBody": emailDataHTML}),
         success: function(data) {
             alert("Отчет успешно отправлен! ;)");
         },
