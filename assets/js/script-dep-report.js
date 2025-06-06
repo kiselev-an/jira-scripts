@@ -71,6 +71,7 @@ function loadDepReportsContent() {
     });
 
     var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
+    $(document).attr("title", $(document).attr("title").split("_")[0] + "_" + monthStr);
     $("#subHeaderTeams").html(monthStr);
     TEAMS.forEach((item) => {
         jQuery.get({
@@ -320,10 +321,10 @@ function prepareDateRangePicker(id, start, end, ranges, locale, showCustomRangeL
         locale: locale,
         showCustomRangeLabel: showCustomRangeLabel
     }, function (start, end) {
-        updateRangePikerView(id, start, end);
+        updateRangePickerView(id, start, end);
         loadDepReportsContent();
     });
-    updateRangePikerView(id, start, end);
+    updateRangePickerView(id, start, end);
 }
 
 function initRangePickers() {
@@ -359,7 +360,7 @@ function initRangePickers() {
     prepareDateRangePicker("rangePeriodPicker", moment().startOf('quarter'), moment(), rangesPeriods, localeRU, true);
 }
 
-function updateRangePikerView(id, start, end) {
+function updateRangePickerView(id, start, end) {
     $('#' + id + ' span').html(start.format(DATE_FORMAT_PERIOD) + ' - ' + end.format(DATE_FORMAT_PERIOD));
 }
 
