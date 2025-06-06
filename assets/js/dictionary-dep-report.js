@@ -49,6 +49,8 @@ var analyseDepTotalPeriodMetrics_PLACEHOLDER =
     "Напиши тут 'все как есть' - без эмоций.";
 var analyseDepTotalInjectionMetrics_PLACEHOLDER =
     "Пощади - не виноваты мы, выбросы сами по себе получаются.";
+var analyseTeamMetrics_QPAYTEAM_PLACEHOLDER =
+    "Напиши тут 'пасхалку' команде";
 var analyseDepTotalQualityMetrics_PLACEHOLDER =
     "Тут что-то про ошибки надо написать, я хз откуда они взялись.";
 var SUMMARY_PLACEHOLDER =

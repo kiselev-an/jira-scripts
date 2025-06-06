@@ -11,30 +11,30 @@ function onLoadDepReportPage() {
     initEventsTextareaViews();
 }
 
-function prepareGetDeptReportURL(range) {
+function prepareGetDeptReportURL(options) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?";
     }
     url += "dept=" + "Коллектор" + "&";
-    url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
-    url += "dateTo=" + dateToYYYYMMDD(range.to.toDate()) + "&";
-    url += "level=" + "O" + "&";
-    url += "type=" + "A";
+    url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
+    url += "dateTo=" + dateToYYYYMMDD(options.to.toDate()) + "&";
+    url += "level=" + options.reportLevel + "&";
+    url += "type=" + options.epicType;
 
     return url;
 }
 
-function prepareGetQualityReportURL(range) {
+function prepareGetQualityReportURL(options) {
 //https://jira.ftc.ru/rest/scriptrunner/latest/custom/getQualityReport?dateFrom=2025-05-01&dateTo=2025-06-04&ra=Коллектор
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getQualityReport?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-quality-report.html?";
     }
     url += "ra=" + "Коллектор" + "&";
-    url += "dateFrom=" + dateToYYYYMMDD(range.from.toDate()) + "&";
-    url += "dateTo=" + dateToYYYYMMDD(range.to.toDate());
+    url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
+    url += "dateTo=" + dateToYYYYMMDD(options.to.toDate());
 
     return url;
 }
@@ -43,8 +43,8 @@ function loadDepReportsContent() {
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
     var rangePeriodPickerData = $('#rangePeriodPicker').data('daterangepicker');
 
-    var rangeMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate};
-    var rangePeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate};
+    var rangeMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicType": $("#epicType").val()};
+    var rangePeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicType": $("#epicType").val()};
 
     var getDeptReportMonthURL = prepareGetDeptReportURL(rangeMonthData);
     var getDeptReportPeriodURL = prepareGetDeptReportURL(rangePeriodData);
@@ -200,7 +200,7 @@ function responseHandlerTeamReportMonth(responseData, team, range) {
         htmlString += teamMetricsTableHTML;
         htmlString += "</div>";
         htmlString += "<div id=\"analyseTeamMetrics-" + team.teamId + "_div\" class=\"textarea-view\"></div>";
-        htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"Напиши тут 'пасхалку' команде '" + team.teamName + "'\" " +
+        htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"" + analyseTeamMetrics_QPAYTEAM_PLACEHOLDER +" '" + team.teamName + "'\" " +
             "cols=\"60\" rows=\"3\" class=\"textarea-editor\">" + (team.comment && team.comment.trim().length > 0 ? team.comment : "") +
             "</textarea></label>" +
             "<p></p><p></p>";
