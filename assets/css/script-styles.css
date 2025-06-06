@@ -155,16 +155,6 @@ div.textarea-view {
     white-space:pre-wrap; // to correctly show \n from textarea
 }
 
-select {
-    width: 350px;
-    height: 25px;
-}
-
-label {
-    font-size: 14px;
-    font-weight: bold;
-}
-
 div#welcome_div, div#overview_div {
     width: 50%;
 }
@@ -186,12 +176,28 @@ div.controlPanel {
     padding: 5px 10px;
 }
 
+div.controlPanel label {
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+    width: 25%;
+    text-align: right;
+    margin-right: 5px;
+    padding-top: 5px;
+}
+
+select {
+    width: 200px;
+    height: 25px;
+}
+
 div.rangePicker {
     background: #fff;
     cursor: pointer;
     padding: 2px 10px;
     border: 1px solid #000;
     display: table-cell;
+    width: 300px;
 }
 
 div.slaContent {

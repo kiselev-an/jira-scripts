@@ -5,6 +5,7 @@ var DEBUG_MODE = false;
 function onLoadDepReportPage() {
     DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
     initRangePickers();
+    initSelectInputs();
     loadDepReportsContent();
     initTextareaEditorsByDefaults()
     initEventsTextareaEditors();
@@ -21,7 +22,7 @@ function prepareGetDeptReportURL(options) {
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(options.to.toDate()) + "&";
     url += "level=" + options.reportLevel + "&";
-    url += "type=" + options.epicType;
+    url += "type=" + options.epicTypes;
 
     return url;
 }
@@ -43,12 +44,12 @@ function loadDepReportsContent() {
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
     var rangePeriodPickerData = $('#rangePeriodPicker').data('daterangepicker');
 
-    var rangeMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicType": $("#epicType").val()};
-    var rangePeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicType": $("#epicType").val()};
+    var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val()};
+    var optionsPeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val()};
 
-    var getDeptReportMonthURL = prepareGetDeptReportURL(rangeMonthData);
-    var getDeptReportPeriodURL = prepareGetDeptReportURL(rangePeriodData);
-    var getQualityReportMonthURL = prepareGetQualityReportURL(rangeMonthData);
+    var getDeptReportMonthURL = prepareGetDeptReportURL(optionsMonthData);
+    var getDeptReportPeriodURL = prepareGetDeptReportURL(optionsPeriodData);
+    var getQualityReportMonthURL = prepareGetQualityReportURL(optionsMonthData);
 
     var teams = "";
     TEAMS.forEach((item, index, arr) => {
@@ -58,25 +59,25 @@ function loadDepReportsContent() {
     jQuery.get({
         url: getDeptReportMonthURL + "&teams=" + teams,
         success: function(data) {
-            responseHandlerDeptReportMonth(data, rangeMonthData);
+            responseHandlerDeptReportMonth(data, optionsMonthData);
         }
     });
 
     jQuery.get({
-        url: getDeptReportPeriodURL + + "&teams=" + teams,
+        url: getDeptReportPeriodURL + "&teams=" + teams,
         success: function(data) {
-            responseHandlerDeptReportPeriod(data, rangePeriodData);
+            responseHandlerDeptReportPeriod(data, optionsPeriodData);
         }
     });
 
-    var monthStr = rangeMonthData.to.format(DATE_FORMAT_MONTH);
+    var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
     $("#subHeaderTeams").html(monthStr);
     TEAMS.forEach((item) => {
         jQuery.get({
             url: getDeptReportMonthURL + "&teams=" + item.teamId,
             async: false,
             success: function(data) {
-                responseHandlerTeamReportMonth(data, item, rangeMonthData);
+                responseHandlerTeamReportMonth(data, item, optionsMonthData);
             }
         });
     });
@@ -84,7 +85,7 @@ function loadDepReportsContent() {
     jQuery.get({
         url: getQualityReportMonthURL,
         success: function(data) {
-            responseHandlerQualityReportMonth(data, rangeMonthData);
+            responseHandlerQualityReportMonth(data, optionsMonthData);
         }
     });
 }
@@ -360,4 +361,30 @@ function initRangePickers() {
 
 function updateRangePikerView(id, start, end) {
     $('#' + id + ' span').html(start.format(DATE_FORMAT_PERIOD) + ' - ' + end.format(DATE_FORMAT_PERIOD));
+}
+
+function initSelectInputs() {
+    REPORT_LEVEL_OPTIONS.forEach((item, index, arr) => {
+        var option = new Option(item.levelTitle, item.level);
+        $(option).attr("alt", item.description);
+        if(item.selected) {
+            $(option).prop("selected", "selected");
+        }
+        $("#reportLevel").append(option);
+    });
+    $("#reportLevel").on("change", function() {
+        loadDepReportsContent();
+    });
+
+    EPIC_TYPES_OPTIONS.forEach((item, index, arr) => {
+        var option = new Option(item.typeTitle, item.type);
+        $(option).attr("alt", item.description);
+        if(item.selected) {
+            $(option).prop("selected", "selected");
+        }
+        $("#epicTypes").append(option);
+    });
+    $("#epicTypes").on("change", function() {
+        loadDepReportsContent();
+    });
 }

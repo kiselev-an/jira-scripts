@@ -22,32 +22,21 @@
         <input type='button' onclick='confirmInitTextareaEditorsByExamples();' value='Показать пример анализа'/>
         <input type='button' onclick='confirmInitTextareaEditorsByDefaults();' value='Сбросить текст анализа'/>
         <p></p>
-        <label>Уровень потока:
-            <select id="reportLevel" name="reportLevel" onchange="loadDepReportsContent();">
-                <option value="S">S - cтратегический (руты)</option>
-                <option value="О" selected="selected">О - операционный (руты без декомпозитов и декомпозиты первого уровня)</option>
-            </select>
-        </label>
+        <label for="reportLevel">Уровень потока:</label>
+        <select id="reportLevel" name="reportLevel"></select>
         <p></p>
-        <label>Типы эпиков:
-            <select id="epicType" name="epicType" onchange="loadDepReportsContent();">
-                <option value="A">A или ALL - по всем эпикам заданного уровня</option>
-                <option value="B" selected="selected">B - по бизнес-эпикам</option>
-                <option value="T">T - по техническим эпикам</option>
-            </select>
-        </label>
+        <label for="epicTypes">Типы эпиков:</label>
+        <select id="epicTypes" name="epicTypes"></select>
         <p></p>
-        <span>Отчетный месяц:&nbsp;&nbsp;
-            <div id='rangeMonthPicker' class='rangePicker'>
-                <i class='fa fa-calendar'><img src='./assets/img/calendar.png' alt='Нажми, не бойся' width='15'/> </i>&nbsp;<span></span><i class='fa fa-caret-down'></i>
-            </div>
-        </span>
+        <label>Отчетный месяц:</label>
+        <div id='rangeMonthPicker' class='rangePicker'>
+            <i class='fa fa-calendar'><img src='./assets/img/calendar.png' alt='Нажми, не бойся' width='15'/> </i>&nbsp;<span></span><i class='fa fa-caret-down'></i>
+        </div>
         <p></p>
-        <span class="asLabel">Отчетный период:
-            <div id='rangePeriodPicker' class='rangePicker'>
-                <i class='fa fa-calendar'><img src='./assets/img/calendar.png' alt='Нажми, не бойся' width='15'/> </i>&nbsp;<span></span><i class='fa fa-caret-down'></i>
-            </div>
-        </span>
+        <label>Отчетный период:</label>
+        <div id='rangePeriodPicker' class='rangePicker'>
+            <i class='fa fa-calendar'><img src='./assets/img/calendar.png' alt='Нажми, не бойся' width='15'/> </i>&nbsp;<span></span><i class='fa fa-caret-down'></i>
+        </div>
     </div>
 
     <div id='welcome_div' class='textarea-view'></div>

@@ -55,3 +55,14 @@ var analyseDepTotalQualityMetrics_PLACEHOLDER =
     "Тут что-то про ошибки надо написать, я хз откуда они взялись.";
 var SUMMARY_PLACEHOLDER =
     "Место для напутствия и мотивирующих слов.";
+
+var REPORT_LEVEL_OPTIONS = [
+    { level: "S", levelTitle: "S - cтратегический", description: "руты" },
+    { level: "О", levelTitle: "О - операционный", selected: true, description: "руты без декомпозитов и декомпозиты первого уровня" }
+];
+
+var EPIC_TYPES_OPTIONS = [
+    { type: "A", typeTitle: "A - по всем эпикам" },
+    { type: "B", typeTitle: "B - по бизнес-эпикам", selected: true },
+    { type: "T", typeTitle: "T - по техническим эпикам" }
+];
