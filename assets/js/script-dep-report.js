@@ -91,11 +91,7 @@ function loadDepReportsContent() {
 
 function prepareCleanPageHTML(callBackOnPageLoad) {
     var pageDataClone = $("html").clone();
-    pageDataClone.find('.controlPanel').remove();
-    pageDataClone.find('textarea').each(function(index, element) {
-        $(element).remove();
-    });
-    pageDataClone.find('.daterangepicker').each(function(index, element) {
+    pageDataClone.find('label').each(function(index, element) {
         $(element).remove();
     });
     pageDataClone.find('style').each(function(index, element) {
@@ -103,6 +99,13 @@ function prepareCleanPageHTML(callBackOnPageLoad) {
     });
     pageDataClone.find('script').each(function(index, element) {
         $(element).remove();
+    });
+    pageDataClone.find('textarea').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('.controlPanel').remove();
+    pageDataClone.find('.daterangepicker').each(function(index, element) {
+         $(element).remove();
     });
 
     var headDataHTML = pageDataClone.find('head').html();
@@ -152,7 +155,8 @@ function responseHandlerDeptReportMonth(responseData, range) {
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
     var depTotalCurrentMonthMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
-    $("#depTotalCurrentMonthMetricsDiv").css('width', '50%').css('text-align','center');
+    $("#depTotalCurrentMonthMetricsDiv").addClass("slaContent");
+    //css('width', '30%').css('text-align','center');
     $("#depTotalCurrentMonthMetricsDiv").html("<b>" + monthStr + "</b>" + depTotalCurrentMonthMetricsTableHTML);
 
     var depTotalInjectionMetricsTableHTML = getMetricsTableHTML(2, $(responseHtml));
@@ -176,7 +180,8 @@ function responseHandlerDeptReportPeriod(responseData, range) {
     var periodStr = range.from.format(DATE_FORMAT_PERIOD) + ' - ' + range.to.format(DATE_FORMAT_PERIOD);
 
     var depTotalPeriodMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
-    $("#depTotalPeriodMetricsDiv").css('width', '50%').css('text-align','center');
+    $("#depTotalPeriodMetricsDiv").addClass("slaContent");
+    //.css('width', '30%').css('text-align','center');
     $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr + "</b>" + depTotalPeriodMetricsTableHTML);
 }
 
@@ -190,7 +195,7 @@ function responseHandlerTeamReportMonth(responseData, team, range) {
     } else {
         var htmlString = $("#depTeamsMetricsDiv").html();
         htmlString += "<div id=\"teamMetricsDiv_" + team.teamId + "\" ";
-        htmlString += "style=\"width: 50%; text-align: center\">";
+        htmlString += "class=\"slaContent\">";
         htmlString += "<b>" + team.teamName + "</b>";
         htmlString += teamMetricsTableHTML;
         htmlString += "</div>";
