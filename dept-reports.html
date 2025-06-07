@@ -23,19 +23,19 @@
         <input type='button' onclick='confirmInitTextareaEditorsByDefaults();' value='Сбросить текст анализа'/>
         <p></p>
         <label for="reportLevel">Уровень потока:</label>
-        <select id="reportLevel" name="reportLevel"></select>
+        <select id="reportLevel" name="reportLevel" class="reportLevel"></select>
         <p></p>
         <label for="epicTypes">Типы эпиков:</label>
-        <select id="epicTypes" name="epicTypes"></select>
+        <select id="epicTypes" name="epicTypes" class="epicTypes"></select>
         <p></p>
         <label>Отчетный месяц:</label>
         <div id='rangeMonthPicker' class='rangePicker'>
-            <i class='fa fa-calendar'><img src='./assets/img/calendar.png' alt='Нажми, не бойся' width='15'/> </i>&nbsp;<span></span><i class='fa fa-caret-down'></i>
+            <div class="iconCalendar"><em id="iconCalendarMonthPicker"></em></div>&nbsp;<span></span>
         </div>
         <p></p>
         <label>Отчетный период:</label>
         <div id='rangePeriodPicker' class='rangePicker'>
-            <i class='fa fa-calendar'><img src='./assets/img/calendar.png' alt='Нажми, не бойся' width='15'/> </i>&nbsp;<span></span><i class='fa fa-caret-down'></i>
+            <div class="iconCalendar"><em id="iconCalendarPeriodPicker"></em></div>&nbsp;<span></span>
         </div>
     </div>
 

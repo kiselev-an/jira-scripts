@@ -1,5 +1,6 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
+var DATE_FORMAT_MONTH_MIN = "MMMM";
 var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
@@ -362,6 +363,7 @@ function initRangePickers() {
 
 function updateRangePickerView(id, start, end) {
     $('#' + id + ' span').html(start.format(DATE_FORMAT_PERIOD) + ' - ' + end.format(DATE_FORMAT_PERIOD));
+    $('#' + id + ' em').html(end.format(DATE_FORMAT_MONTH_MIN));
 }
 
 function initSelectInputs() {

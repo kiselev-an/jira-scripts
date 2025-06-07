@@ -18,6 +18,7 @@ function responseHandlerExternalPage(responseData, externalPageURL, onPreparedCa
             $(element).remove();
         }
     });
+    /*
     $(document).find("img").each(function(index, element) { // replace 'src' attribute for images
         var externalHost = getHost(externalPageURL);
         if(null != externalHost) {
@@ -26,6 +27,7 @@ function responseHandlerExternalPage(responseData, externalPageURL, onPreparedCa
             $(element).prop("src", newUrl);
         }
     });
+    */
     onPreparedCallBack();
 }
 

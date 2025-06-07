@@ -186,7 +186,7 @@ div.controlPanel label {
     padding-top: 5px;
 }
 
-select {
+select.reportLevel, select.epicTypes {
     width: 200px;
     height: 25px;
 }
@@ -210,6 +210,64 @@ div.slaContent table td:first-child {
     font-weight: bold;
     text-align: left;
 }
+
+.iconCalendar {
+    margin: 2px 5px 0px 0px;
+    padding: 2px 0px 0px 0px;
+    float: left;
+    width: 15px;
+    background: #ededef;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ededef), to(#ccc));
+    background: -moz-linear-gradient(top,  #ededef,  #ccc);
+    font: bold 3px/12px Arial Black, Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: #000;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    position: relative;
+    border-collapse: collapse;
+    border: 1px solid #000000;
+}
+
+.iconCalendar:before, .iconCalendar:after {
+    content: '';
+    float: left;
+    position: absolute;
+    top: 3px;
+    width: 3px;
+    height: 3px;
+    background: #111;
+    z-index: 1;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 1px 1px #fff;
+    -webkit-box-shadow: 0 1px 1px #fff;
+    box-shadow: 0 1px 1px #fff;
+}
+.iconCalendar:before {left: 10.5px;}
+.iconCalendar:after {right: 10.5px;}
+
+.iconCalendar em:before, .iconCalendar em:after {
+    content: '';
+    float: left;
+    position: absolute;
+    top: -2px;
+    width: 1px;
+    height: 6px;
+    background: #dadada;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#aaa));
+    background: -moz-linear-gradient(top,  #f1f1f1,  #aaa);
+    z-index: 2;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+    border-collapse: collapse;
+    border: .5px solid #000000;
+}
+.iconCalendar em:before {left: 11px;}
+.iconCalendar em:after {right: 11px;}
 
 @media print  {
     div#welcome_div, div#overview_div {
