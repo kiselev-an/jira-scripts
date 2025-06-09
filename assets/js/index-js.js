@@ -1,4 +1,4 @@
-var JIRA_URL = "https://jira.ftc.ru";
+var JIRA_URL = "https://jira.redelephant.ru";
 var SCRIPT_RUNNER_PATH = "rest/scriptrunner/latest/custom";
 var DATE_FROM = "2023-07-01";
 var FOR_LAST_MONTHS = 3;
