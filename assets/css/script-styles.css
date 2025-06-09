@@ -151,8 +151,12 @@ textarea.textarea-editor:not(:focus) {
 div.textarea-view {
     display: block;
     padding: 2px 2px 2px 2px;
+    color: black;
     font-size: 14px;
     white-space:pre-wrap; // to correctly show \n from textarea
+}
+div.textarea-view-notincluded {
+    color: grey;
 }
 
 div#welcome_div, div#overview_div {

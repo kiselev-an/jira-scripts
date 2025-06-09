@@ -25,6 +25,11 @@ function prepareGetDeptReportURL(options) {
     url += "level=" + options.reportLevel + "&";
     url += "type=" + options.epicTypes;
 
+    url += options.teams && options.teams.length > 0 ? "&teams=" : "";
+    options.teams.forEach((item, index, arr) => {
+        url += item.teamId + (index === arr.length - 1 ? "" : ",");
+    });
+
     return url;
 }
 
@@ -43,51 +48,41 @@ function prepareGetQualityReportURL(options) {
 
 function loadDepReportsContent() {
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
-    var rangePeriodPickerData = $('#rangePeriodPicker').data('daterangepicker');
-
-    var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val()};
-    var optionsPeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val()};
-
-    var getDeptReportMonthURL = prepareGetDeptReportURL(optionsMonthData);
-    var getDeptReportPeriodURL = prepareGetDeptReportURL(optionsPeriodData);
-    var getQualityReportMonthURL = prepareGetQualityReportURL(optionsMonthData);
-
-    var teams = "";
-    TEAMS.forEach((item, index, arr) => {
-        teams += item.teamId + (index === arr.length - 1 ? "" : ",");
-    });
-
-    jQuery.get({
-        url: getDeptReportMonthURL + "&teams=" + teams,
-        success: function(data) {
-            responseHandlerDeptReportMonth(data, optionsMonthData);
-        }
-    });
-
-    jQuery.get({
-        url: getDeptReportPeriodURL + "&teams=" + teams,
-        success: function(data) {
-            responseHandlerDeptReportPeriod(data, optionsPeriodData);
-        }
-    });
-
+    var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
     var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
     $(document).attr("title", $(document).attr("title").split("_")[0] + "_" + monthStr);
+    jQuery.get({
+        url: prepareGetDeptReportURL(optionsMonthData),
+        success: function(data) {
+            responseHandlerDeptReportMonth(data, optionsMonthData, this.url);
+        }
+    });
+
+    var rangePeriodPickerData = $('#rangePeriodPicker').data('daterangepicker');
+    var optionsPeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
+    jQuery.get({
+        url: prepareGetDeptReportURL(optionsPeriodData),
+        success: function(data) {
+            responseHandlerDeptReportPeriod(data, optionsPeriodData, this.url);
+        }
+    });
+
     $("#subHeaderTeams").html(monthStr);
     TEAMS.forEach((item) => {
+        var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
         jQuery.get({
-            url: getDeptReportMonthURL + "&teams=" + item.teamId,
+            url: prepareGetDeptReportURL(optionsTeamMonthData),
             async: false,
             success: function(data) {
-                responseHandlerTeamReportMonth(data, item, optionsMonthData);
+                responseHandlerTeamReportMonth(data, item, optionsTeamMonthData, this.url);
             }
         });
     });
 
     jQuery.get({
-        url: getQualityReportMonthURL,
+        url: prepareGetQualityReportURL(optionsMonthData),
         success: function(data) {
-            responseHandlerQualityReportMonth(data, optionsMonthData);
+            responseHandlerQualityReportMonth(data, optionsMonthData, this.url);
         }
     });
 }
@@ -109,6 +104,9 @@ function prepareCleanPageHTML(callBackOnPageLoad) {
     pageDataClone.find('.controlPanel').remove();
     pageDataClone.find('.daterangepicker').each(function(index, element) {
          $(element).remove();
+    });
+    pageDataClone.find('.textarea-view-notincluded').each(function(index, element) {
+        $(element).remove();
     });
 
     var headDataHTML = pageDataClone.find('head').html();
@@ -152,7 +150,7 @@ function generatePDF() {
     printWindow.focus(); // necessary for IE >= 10*/
  }
 
-function responseHandlerDeptReportMonth(responseData, range) {
+function responseHandlerDeptReportMonth(responseData, range, url) {
     //alert("Data: " + responseData);
     var responseHtml = $.parseHTML(responseData, null);
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
@@ -168,7 +166,7 @@ function responseHandlerDeptReportMonth(responseData, range) {
     $("#subHeaderInjection").html(monthStr);
 }
 
-function responseHandlerQualityReportMonth(responseData, range) {
+function responseHandlerQualityReportMonth(responseData, range, url) {
     var responseHtml = $.parseHTML(responseData, null);
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
@@ -178,17 +176,17 @@ function responseHandlerQualityReportMonth(responseData, range) {
     $("#subHeaderQuality").html(monthStr);
 }
 
-function responseHandlerDeptReportPeriod(responseData, range) {
+function responseHandlerDeptReportPeriod(responseData, range, url) {
     var responseHtml = $.parseHTML(responseData, null);
     var periodStr = range.from.format(DATE_FORMAT_PERIOD) + ' - ' + range.to.format(DATE_FORMAT_PERIOD);
 
     var depTotalPeriodMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
     $("#depTotalPeriodMetricsDiv").addClass("slaContent");
     //.css('width', '30%').css('text-align','center');
-    $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr + "</b>" + depTotalPeriodMetricsTableHTML);
+    $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr +"</b>" + depTotalPeriodMetricsTableHTML);
 }
 
-function responseHandlerTeamReportMonth(responseData, team, range) {
+function responseHandlerTeamReportMonth(responseData, team, range, url) {
     var responseHtml = $.parseHTML(responseData, null);
     var teamMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
 
@@ -197,16 +195,15 @@ function responseHandlerTeamReportMonth(responseData, team, range) {
         teamMetricsDiv.html("<b>" + team.teamName + "</b>" + teamMetricsTableHTML);
     } else {
         var htmlString = $("#depTeamsMetricsDiv").html();
+        htmlString += "<p></p>";
         htmlString += "<div id=\"teamMetricsDiv_" + team.teamId + "\" ";
         htmlString += "class=\"slaContent\">";
         htmlString += "<b>" + team.teamName + "</b>";
         htmlString += teamMetricsTableHTML;
         htmlString += "</div>";
         htmlString += "<div id=\"analyseTeamMetrics-" + team.teamId + "_div\" class=\"textarea-view\"></div>";
-        htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"" + analyseTeamMetrics_QPAYTEAM_PLACEHOLDER +" '" + team.teamName + "'\" " +
-            "cols=\"60\" rows=\"3\" class=\"textarea-editor\">" + (team.comment && team.comment.trim().length > 0 ? team.comment : "") +
-            "</textarea></label>" +
-            "<p></p><p></p>";
+        htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"" + analyseTeamMetrics_QPAYTEAM_PLACEHOLDER + " '" + team.teamName + "'\" " +
+            "cols=\"60\" rows=\"3\" class=\"textarea-editor\"></textarea></label>";
         $("#depTeamsMetricsDiv").html(htmlString);
     }
 }
@@ -289,11 +286,10 @@ function initEventsTextareaEditors() {
 function reinitTextareaViews() {
     $(".textarea-editor").each(function() {
         if($(this).val() && $(this).val().trim().length > 0) {
-            $("#" + $(this).prop("id") + "_div").css('color', 'black');
+            $("#" + $(this).prop("id") + "_div").removeClass('textarea-view-notincluded');
             $("#" + $(this).prop("id") + "_div").text($(this).val());
         } else {
-            //alert($(this).prop("id"));
-            $("#" + $(this).prop("id") + "_div").css('color', 'grey');
+            $("#" + $(this).prop("id") + "_div").addClass('textarea-view-notincluded');
             $("#" + $(this).prop("id") + "_div").text($(this).prop("placeholder"));
         }
     });
