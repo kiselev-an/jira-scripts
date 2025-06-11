@@ -148,7 +148,44 @@ function generatePDF() {
     printWindow.document.write(prepareCleanPageHTML("window.print();window.close();"));
     printWindow.document.close(); // necessary for IE >= 10
     printWindow.focus(); // necessary for IE >= 10*/
- }
+}
+
+function publicToConfluence() {
+    var CONFLUENCE_URL = "https://virgo.redelephant.ru";
+    var REST_API_PATH = "rest/api";
+    var url = CONFLUENCE_URL + "/" + REST_API_PATH + "/content";
+    if(DEBUG_MODE) {
+        //url = "./assets/data/test-dep-report.html?action=sendEmail";
+    }
+    var parentId = "1893335708";
+    var title = "Kiselev Test Page";
+    var space = "Киселёв Алексей Николаевич";
+    var pageBodyHTML = prepareCleanPageHTML(null);
+    var data = JSON.stringify({
+        type: "page",
+        title: title,
+        space: { key: space },
+        body: {
+            storage: {
+                value: pageBodyHTML,
+                representation: "storage"
+            }
+        },
+        ancestors: [{ id: parentId }]
+    });
+
+    jQuery.post({
+        url: url,
+        data: data,
+        success: function(data) {
+            alert("Страница успешно создана! ;)");
+        },
+        error: function(data) {
+            alert("Что-то пошло не так. Произошла ошибка :(");
+        },
+        contentType: "application/json"
+    });
+}
 
 function responseHandlerDeptReportMonth(responseData, range, url) {
     //alert("Data: " + responseData);
