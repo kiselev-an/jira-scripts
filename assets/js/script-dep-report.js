@@ -95,6 +95,12 @@ function prepareCleanPageHTML(callBackOnPageLoad) {
     pageDataClone.find('style').each(function(index, element) {
         $(element).remove();
     });
+    pageDataClone.find('meta').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('link').each(function(index, element) {
+        $(element).remove();
+    });
     pageDataClone.find('script').each(function(index, element) {
         $(element).remove();
     });
@@ -106,6 +112,9 @@ function prepareCleanPageHTML(callBackOnPageLoad) {
          $(element).remove();
     });
     pageDataClone.find('.textarea-view-notincluded').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('img').each(function(index, element) {
         $(element).remove();
     });
 
