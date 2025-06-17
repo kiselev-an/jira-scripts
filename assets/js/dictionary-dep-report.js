@@ -58,7 +58,7 @@ var SUMMARY_PLACEHOLDER =
 
 var REPORT_LEVEL_OPTIONS = [
     { level: "S", levelTitle: "S - cтратегический", description: "руты" },
-    { level: "О", levelTitle: "О - операционный", selected: true, description: "руты без декомпозитов и декомпозиты первого уровня" }
+    { level: "O", levelTitle: "O - операционный", selected: true, description: "руты без декомпозитов и декомпозиты первого уровня" }
 ];
 
 var EPIC_TYPES_OPTIONS = [
