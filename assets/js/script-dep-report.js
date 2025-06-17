@@ -150,35 +150,24 @@ function generatePDF() {
     printWindow.focus(); // necessary for IE >= 10*/
 }
 
-function publicToConfluence() {
-    var CONFLUENCE_URL = "https://virgo.redelephant.ru";
-    var REST_API_PATH = "rest/api";
-    var url = CONFLUENCE_URL + "/" + REST_API_PATH + "/content";
-    if(DEBUG_MODE) {
-        //url = "./assets/data/test-dep-report.html?action=sendEmail";
+function publishingToConfluence() {
+    var pass = prompt("Введите секретное слово ;)", 'u5YkU'); // <-- для IE
+    if (!pass || null == pass) {
+        return;
     }
-    var parentId = "1893335708";
-    var title = "Kiselev Test Page";
-    var space = "Киселёв Алексей Николаевич";
-    var pageBodyHTML = prepareCleanPageHTML(null);
-    var data = JSON.stringify({
-        type: "page",
-        title: title,
-        space: { key: space },
-        body: {
-            storage: {
-                value: pageBodyHTML,
-                representation: "storage"
-            }
-        },
-        ancestors: [{ id: parentId }]
-    });
+
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
+    if(DEBUG_MODE) {
+        url = "./assets/data/test-dep-report.html?action=publishingPage";
+    }
+
+    var pageDataHTML = prepareCleanPageHTML(null);
 
     jQuery.post({
         url: url,
-        data: data,
+        data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title"), "pageBody": pageDataHTML}),
         success: function(data) {
-            alert("Страница успешно создана! ;)");
+            alert("Отчет успешно опубликован! ;)");
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка :(");
