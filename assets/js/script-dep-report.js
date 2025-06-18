@@ -87,18 +87,12 @@ function loadDepReportsContent() {
     });
 }
 
-function prepareCleanPageHTML(callBackOnPageLoad) {
+function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
     var pageDataClone = $("html").clone();
     pageDataClone.find('label').each(function(index, element) {
         $(element).remove();
     });
     pageDataClone.find('style').each(function(index, element) {
-        $(element).remove();
-    });
-    pageDataClone.find('meta').each(function(index, element) {
-        $(element).remove();
-    });
-    pageDataClone.find('link').each(function(index, element) {
         $(element).remove();
     });
     pageDataClone.find('script').each(function(index, element) {
@@ -114,9 +108,18 @@ function prepareCleanPageHTML(callBackOnPageLoad) {
     pageDataClone.find('.textarea-view-notincluded').each(function(index, element) {
         $(element).remove();
     });
-    pageDataClone.find('img').each(function(index, element) {
-        $(element).remove();
-    });
+
+    if(expandableClean) {
+        pageDataClone.find('meta').each(function(index, element) {
+            $(element).remove();
+        });
+        pageDataClone.find('link').each(function(index, element) {
+            $(element).remove();
+        });
+        pageDataClone.find('img').each(function(index, element) {
+            $(element).remove();
+        });
+    }
 
     var headDataHTML = pageDataClone.find('head').html();
     var bodyDataHTML = pageDataClone.find('body').html();
@@ -136,7 +139,7 @@ function sendEmail() {
         url = "./assets/data/test-dep-report.html?action=sendEmail";
     }
 
-    var emailDataHTML = prepareCleanPageHTML(null);
+    var emailDataHTML = prepareCleanPageHTML(true, null);
     //alert("  --- " + emailDataHTML);
 
     jQuery.post({
@@ -154,7 +157,7 @@ function sendEmail() {
 
 function generatePDF() {
     var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=0,left=0');
-    printWindow.document.write(prepareCleanPageHTML("window.print();window.close();"));
+    printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
     printWindow.document.close(); // necessary for IE >= 10
     printWindow.focus(); // necessary for IE >= 10*/
 }
@@ -170,14 +173,14 @@ function publishingToConfluence() {
         url = "./assets/data/test-dep-report.html?action=publishingPage";
     }
 
-    var pageDataHTML = prepareCleanPageHTML(null);
+    var pageDataHTML = prepareCleanPageHTML(true, null);
 
     jQuery.post({
         url: url,
         data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title"), "pageBody": pageDataHTML}),
         success: function(data) {
             alert("Отчет успешно опубликован! ;)");
-            $("#uploadedReportUrlDiv").html("<a href='" + data + "' target='_blank' rel='noopener noreferrer'>" + Ссылка на опубликованный отчет + "</a>");
+            $("#uploadedReportUrlDiv").html("<a href='" + data + "' target='_blank' rel='noopener noreferrer'>Ссылка на опубликованный отчет</a>");
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка :(");
