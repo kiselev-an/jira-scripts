@@ -173,11 +173,10 @@ div.sub-header {
 div.controlPanel {
     border: 1px solid #000;
     width: 520px;
-    height: 200px;
     right: 0;
     top: 0;
     position: absolute;
-    padding: 5px 10px;
+    padding: 20px 10px;
 }
 
 div.controlPanel label {
@@ -188,6 +187,11 @@ div.controlPanel label {
     text-align: right;
     margin-right: 5px;
     padding-top: 5px;
+}
+
+div.uploadedReportUrl {
+    padding: 15px 0px 0px 10px;
+    width: 300px;
 }
 
 select.reportLevel, select.epicTypes {

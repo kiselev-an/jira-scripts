@@ -176,8 +176,8 @@ function publishingToConfluence() {
         url: url,
         data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title"), "pageBody": pageDataHTML}),
         success: function(data) {
-            alert(data);
-            alert("Отчет успешно опубликован! ;) \n\n\n" + data);
+            alert("Отчет успешно опубликован! ;)");
+            $("#uploadedReportUrlDiv").html("<a href='" + data + "'>" + data + "</a>");
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка :(");
@@ -266,6 +266,7 @@ function initTextareaEditorsByDefaults() {
     $("#analyseTeamMetrics-QPAYTEAMS-580").val("");
     $("#analyseTeamMetrics-QPAYTEAMS-1158").val("");
     $("#summary").val("").prop("placeholder", SUMMARY_PLACEHOLDER);
+    $("#uploadedReportUrlDiv").html("");
     reinitTextareaViews();
 }
 
