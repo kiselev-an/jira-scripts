@@ -87,6 +87,11 @@ function loadDepReportsContent() {
     });
 }
 
+function replaceContentByH1(element) {
+    var elContent = $(element).html(); // Get the content of the element
+    $(element).replaceWith('<h1>' + elContent + '</h1>'); // Replace the element with an h1
+}
+
 function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
     var pageDataClone = $("html").clone();
     pageDataClone.find('label').each(function(index, element) {
@@ -118,6 +123,10 @@ function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
         });
         pageDataClone.find('img').each(function(index, element) {
             $(element).remove();
+        });
+
+        pageDataClone.find('.sub-header').each(function(index, element) {
+            replaceContentByH1(element);
         });
     }
 
@@ -210,7 +219,7 @@ function responseHandlerQualityReportMonth(responseData, range, url) {
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
     var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
-    $("#depTotalQualityMetricsDiv").css('width', '50%').css('text-align','center');
+    $("#depTotalQualityMetricsDiv").css('width', '60%').css('text-align','center');
     $("#depTotalQualityMetricsDiv").html(depTotalQualityMetricsTableHTML);
     $("#subHeaderQuality").html(monthStr);
 }
