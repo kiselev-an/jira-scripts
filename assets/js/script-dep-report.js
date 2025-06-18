@@ -177,7 +177,7 @@ function publishingToConfluence() {
         data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title"), "pageBody": pageDataHTML}),
         success: function(data) {
             alert("Отчет успешно опубликован! ;)");
-            $("#uploadedReportUrlDiv").html("<a href='" + data + "'>" + data + "</a>");
+            $("#uploadedReportUrlDiv").html("<a href='" + data + "' target='_blank' rel='noopener noreferrer'>" + Ссылка на опубликованный отчет + "</a>");
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка :(");
