@@ -10,6 +10,7 @@ var TEAMS = [
     { teamId: "QPAYTEAMS-580", teamName: "Фримэны" },
     { teamId: "QPAYTEAMS-1158", teamName: "CollValley" }
 ];
+var WORKLOAD_JQL_FILTER_NAME = "Коллекшн - фильтр трудозатрат";
 
 function gotoCollectionMetricsBoard(reportType) {
 // window.open('https://jira.ftc.ru/rest/scriptrunner/latest/custom/getCollectionMetrics?dateFrom=2023-01-01&dateTo=2023-06-01&size=small&done&report=epicsTimeMetrics', '_blank'); return false;
@@ -27,6 +28,11 @@ function gotoCollectionMetricsBoard(reportType) {
             break;
         case "checkFinishDate":
             url += "dateTo=" + dateToYYYYMMDD(new Date()) + "&";
+            break;
+        case "workloadMetrics":
+            url += "jqlFilterName=" + WORKLOAD_JQL_FILTER_NAME + "&";
+            break;
+        case "deptMetrics":
             break;
     }
     url += "report=" + reportType;
