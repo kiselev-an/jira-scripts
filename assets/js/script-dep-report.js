@@ -176,6 +176,7 @@ function publishingToConfluence() {
         url: url,
         data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title"), "pageBody": pageDataHTML}),
         success: function(data) {
+            alert(data);
             alert("Отчет успешно опубликован! ;) \n\n\n" + data);
         },
         error: function(data) {
