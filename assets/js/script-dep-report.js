@@ -106,11 +106,21 @@ function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
     pageDataClone.find('textarea').each(function(index, element) {
         $(element).remove();
     });
+    pageDataClone.find('button').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('input[type="checkbox"]').each(function(index, element) {
+        $(element).remove();
+    });
+
     pageDataClone.find('.controlPanel').remove();
     pageDataClone.find('.daterangepicker').each(function(index, element) {
          $(element).remove();
     });
     pageDataClone.find('.textarea-view-notincluded').each(function(index, element) {
+        $(element).remove();
+    });
+    pageDataClone.find('.notincluded').each(function(index, element) {
         $(element).remove();
     });
 
@@ -434,5 +444,14 @@ function initSelectInputs() {
     });
     $("#epicTypes").on("change", function() {
         loadDepReportsContent();
+    });
+}
+
+function toggleContents(elementsId, clickedElement) {
+    if(clickedElement) {
+        $(clickedElement).html($(clickedElement).html() === 'Исключить из отчета'? 'Включить' :'Исключить из отчета');
+    }
+    elementsId.forEach((item, index, arr) => {
+        $("#" + item).toggleClass("notincluded");
     });
 }

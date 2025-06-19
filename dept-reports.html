@@ -65,25 +65,52 @@
                      cols='60' rows='3' class='textarea-editor'></textarea></label>
 
     <p></p>
-    <div class='sub-header'>Выбросы (за <span id='subHeaderInjection'>&nbsp;</span>)</div>
+    <div id='depTotalInjectionMetricsTitleDiv' class='sub-header'>Выбросы (за <span id='subHeaderInjection'>&nbsp;</span>)
+        <label>
+            <input type="checkbox" checked='checked'
+                   onclick="toggleContents(['depTotalInjectionMetricsTitleDiv', 'depTotalInjectionMetricsDiv', 'analyseDepTotalInjectionMetrics_div']);"
+                   title="Исключить/Включить секцию в отчете"
+            />
+        </label>
+    </div>
     <div id='depTotalInjectionMetricsDiv'></div>
     <div id='analyseDepTotalInjectionMetrics_div' class='textarea-view'></div>
     <label><textarea id='analyseDepTotalInjectionMetrics'
                      cols='60' rows='3' class='textarea-editor'></textarea></label>
 
     <p></p>
-    <div class='sub-header'>Статистика в разрезе команд (за <span id='subHeaderTeams'>&nbsp;</span>)</div>
+    <div id='depTeamsMetricsTitleDiv' class='sub-header'>Статистика в разрезе команд (за <span id='subHeaderTeams'>&nbsp;</span>)
+        <label>
+            <input type="checkbox" checked='checked'
+                   onclick="toggleContents(['depTeamsMetricsTitleDiv', 'depTeamsMetricsDiv']);"
+                   title="Исключить/Включить секцию в отчете"
+            />
+        </label>
+    </div>
     <div id='depTeamsMetricsDiv'></div>
 
     <p></p>
-    <div class='sub-header'>Эпики с типом «Ошибка» (за <span id='subHeaderQuality'>&nbsp;</span>)</div>
+    <div id='depTotalQualityMetricsTitleDiv' class='sub-header'>Эпики с типом «Ошибка» (за <span id='subHeaderQuality'>&nbsp;</span>)
+        <label>
+            <input type="checkbox" checked='checked'
+                   onclick="toggleContents(['depTotalQualityMetricsTitleDiv', 'depTotalQualityMetricsDiv', 'analyseDepTotalQualityMetrics_div']);"
+                   title="Исключить/Включить секцию в отчете"
+            />
+        </label>
+    </div>
     <div id='depTotalQualityMetricsDiv'></div>
     <div id='analyseDepTotalQualityMetrics_div' class='textarea-view'></div>
     <label><textarea id='analyseDepTotalQualityMetrics'
                      cols='60' rows='3' class='textarea-editor'></textarea></label>
 
     <p></p>
-    <div class='sub-header'>Завершение:</div>
+    <div id='summaryTitleDiv' class='sub-header'>Завершение:
+        <label>
+            <input type="checkbox" checked='checked'
+                   onclick="toggleContents(['summaryTitleDiv', 'summary_div']);"
+                   title="Исключить/Включить секцию в отчете"/>
+        </label>
+    </div>
     <div id='summary_div' class='textarea-view'></div>
     <label><textarea id='summary' cols='60' rows='8'
                      class='textarea-editor'></textarea></label>

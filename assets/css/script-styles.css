@@ -156,7 +156,11 @@ div.textarea-view {
     white-space:pre-wrap; // to correctly show \n from textarea
 }
 div.textarea-view-notincluded {
-    color: grey;
+    opacity: 0.5;;
+}
+
+div.notincluded {
+    opacity: 0.5;
 }
 
 div#welcome_div, div#overview_div {
@@ -277,6 +281,10 @@ div.slaContent table td:first-child {
 .iconCalendar em:before {left: 11px;}
 .iconCalendar em:after {right: 11px;}
 
+input[type="checkbox"] {
+    accent-color: grey;
+}
+
 @media print  {
     div#welcome_div, div#overview_div {
         width: 100%;
@@ -287,3 +295,4 @@ div.slaContent table td:first-child {
         text-align: center;
     }
 }
+
