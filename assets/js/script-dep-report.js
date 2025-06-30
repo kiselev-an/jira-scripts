@@ -46,6 +46,21 @@ function prepareGetQualityReportURL(options) {
     return url;
 }
 
+function prepareGetDeptSLAReportURL(options) {
+//https://jira.redelephant.ru/rest/scriptrunner/latest/custom/getDeptSLAReport?level=O&type=B&dateFrom=2025-04-01&dateTo=2025-06-29&dept=Коллектор
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptSLAReport?";
+    if(DEBUG_MODE) {
+        url = "./assets/data/test-dep-report.html?";
+    }
+    url += "dept=" + "Коллектор" + "&";
+    url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
+    url += "dateTo=" + dateToYYYYMMDD(options.to.toDate()) + "&";
+    url += "level=" + options.reportLevel + "&";
+    url += "type=" + options.epicTypes;
+
+    return url;
+}
+
 function loadDepReportsContent() {
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
     var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
@@ -68,15 +83,20 @@ function loadDepReportsContent() {
     });
 
     $("#subHeaderTeams").html(monthStr);
-    TEAMS.forEach((item) => {
-        var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
-        jQuery.get({
-            url: prepareGetDeptReportURL(optionsTeamMonthData),
-            async: false,
-            success: function(data) {
-                responseHandlerTeamReportMonth(data, item, optionsTeamMonthData, this.url);
-            }
-        });
+    jQuery.get({
+        url: prepareGetDeptSLAReportURL(optionsMonthData),
+        success: function(dataSLA) {
+            TEAMS.forEach((item) => {
+                var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
+                jQuery.get({
+                    url: prepareGetDeptReportURL(optionsTeamMonthData),
+                    async: false,
+                    success: function(data) {
+                        responseHandlerTeamReportMonth(data, item, optionsTeamMonthData, this.url);
+                    }
+                });
+            });
+        }
     });
 
     jQuery.get({
@@ -229,8 +249,11 @@ function responseHandlerQualityReportMonth(responseData, range, url) {
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
     var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
+    var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", function() {
+        return $(this).text().includes("cancelled");
+    });
     $("#depTotalQualityMetricsDiv").css('width', '60%').css('text-align','center');
-    $("#depTotalQualityMetricsDiv").html(depTotalQualityMetricsTableHTML);
+    $("#depTotalQualityMetricsDiv").html(depTotalQualityMetricsTableHTML + wasCancelledHTML);
     $("#subHeaderQuality").html(monthStr);
 }
 
@@ -248,16 +271,27 @@ function responseHandlerTeamReportMonth(responseData, team, range, url) {
     var responseHtml = $.parseHTML(responseData, null);
     var teamMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
 
+    var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";
+    htmlTeamMetricsString += "<label><input type=\"checkbox\" checked=\"checked\" ";
+    htmlTeamMetricsString += "onclick=\"toggleContents(['teamMetricsDiv_" + team.teamId + "', 'analyseTeamMetrics-" + team.teamId + "_div']);\" ";
+    htmlTeamMetricsString += "title=\"Исключить/Включить секцию в отчете\"/></label>";
+
+    htmlTeamMetricsString += "<table class=\"teamMetricsTableViewWrap\"><tr>";
+    htmlTeamMetricsString += "<td class=\"emptyCell\"></td>";
+    htmlTeamMetricsString += "<td>" + teamMetricsTableHTML + "</td>";
+    htmlTeamMetricsString += "<td class=\"emptyCell\"></td>";
+    htmlTeamMetricsString += "<td>" + teamMetricsTableHTML + "</td>";
+    htmlTeamMetricsString += "</tr></table>";
+
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
     if(teamMetricsDiv && teamMetricsDiv != null && teamMetricsDiv != 'undefined' && teamMetricsDiv.length > 0) {
-        teamMetricsDiv.html("<b>" + team.teamName + "</b>" + teamMetricsTableHTML);
+        teamMetricsDiv.html(htmlTeamMetricsString);
     } else {
         var htmlString = $("#depTeamsMetricsDiv").html();
         htmlString += "<p></p>";
         htmlString += "<div id=\"teamMetricsDiv_" + team.teamId + "\" ";
-        htmlString += "class=\"slaContent\">";
-        htmlString += "<b>" + team.teamName + "</b>";
-        htmlString += teamMetricsTableHTML;
+        htmlString += "class=\"slaContent slaTeamContent\">";
+        htmlString += htmlTeamMetricsString;
         htmlString += "</div>";
         htmlString += "<div id=\"analyseTeamMetrics-" + team.teamId + "_div\" class=\"textarea-view\"></div>";
         htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"" + analyseTeamMetrics_QPAYTEAM_PLACEHOLDER + " '" + team.teamName + "'\" " +
@@ -272,6 +306,14 @@ function getMetricsTableHTML(index, dataDOM) {
     $(table1).addClass('timeMetricsTableView');
     var tableHTML = $(table1).prop('outerHTML');
     return tableHTML;
+}
+
+function getContentHTML(index, dataDOM, elementTag, checkConditionFunction) {
+    // Filter all <elementTag> elements that satisfies the condition "checkConditionFunction"
+    var resElements = $(dataDOM).filter(elementTag).filter(checkConditionFunction);
+    var element1 = $(resElements[index]);
+    var elementHTML = $(element1).prop('outerHTML');
+    return elementHTML;
 }
 
 function initTextareaEditorsByDefaults() {

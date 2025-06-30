@@ -217,10 +217,22 @@ div.slaContent {
     text-align: center;
 }
 
+div.slaTeamContent {
+    width: 50%;
+}
+
 div.slaContent table td:first-child {
     font-size: 10px;
     font-weight: bold;
     text-align: left;
+}
+
+table.teamMetricsTableViewWrap {
+    width: 100%;
+}
+
+table.teamMetricsTableViewWrap tbody td.emptyCell {
+    width: 5%;
 }
 
 .iconCalendar {
