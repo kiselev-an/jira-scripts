@@ -56,7 +56,8 @@ function prepareGetDeptSLAReportURL(options) {
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(options.to.toDate()) + "&";
     url += "level=" + options.reportLevel + "&";
-    url += "type=" + options.epicTypes;
+    url += "type=" + options.epicTypes + "&";
+    url += "showEpicName";
 
     return url;
 }
