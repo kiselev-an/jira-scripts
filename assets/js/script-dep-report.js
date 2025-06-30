@@ -85,6 +85,7 @@ function loadDepReportsContent() {
     $("#subHeaderTeams").html(monthStr);
     jQuery.get({
         url: prepareGetDeptSLAReportURL(optionsMonthData),
+        async: false,
         success: function(dataSLA) {
             TEAMS.forEach((item) => {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
@@ -108,8 +109,14 @@ function loadDepReportsContent() {
 }
 
 function replaceContentByH1(element) {
+    //var elContent = $(element).html(); // Get the content of the element
+    //$(element).replaceWith('<h1>' + elContent + '</h1>'); // Replace the element with an h1
+    replaceContentByTag(element, "h1");// Replace the element with an h1
+}
+
+function replaceContentByTag(element, replacedTag) {
     var elContent = $(element).html(); // Get the content of the element
-    $(element).replaceWith('<h1>' + elContent + '</h1>'); // Replace the element with an h1
+    $(element).replaceWith('<'+ replacedTag +'>' + elContent + '</' + replacedTag + '>'); // Replace the element with a 'newtag'
 }
 
 function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
@@ -157,6 +164,10 @@ function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
 
         pageDataClone.find('.sub-header').each(function(index, element) {
             replaceContentByH1(element);
+        });
+
+        pageDataClone.find('font').each(function(index, element) {
+             replaceContentByTag(element, "span");
         });
     }
 

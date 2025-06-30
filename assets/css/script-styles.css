@@ -227,6 +227,18 @@ div.slaContent table td:first-child {
     text-align: left;
 }
 
+table.teamMetricsTableViewWrap {
+    width: 100%;
+}
+
+table.teamMetricsTableViewWrap tbody td.emptyCell {
+    width: 5%;
+}
+
+table.teamMetricsTableViewWrap tbody td.contentCell {
+    vertical-align: top;
+}
+
 div.teamMetricsDivWrap {
     width: 100%;
     display: flex;
@@ -234,6 +246,7 @@ div.teamMetricsDivWrap {
 }
 
 div.teamMetricsDivWrap table {
+    height: fit-content;
     margin-left: 20px;
 }
 
