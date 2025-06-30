@@ -282,12 +282,17 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, team,
     htmlTeamMetricsString += "onclick=\"toggleContents(['teamMetricsDiv_" + team.teamId + "', 'analyseTeamMetrics-" + team.teamId + "_div']);\" ";
     htmlTeamMetricsString += "title=\"Исключить/Включить секцию в отчете\"/></label>";
 
-    htmlTeamMetricsString += "<table class=\"teamMetricsTableViewWrap\"><tr>";
+    /*htmlTeamMetricsString += "<table class=\"teamMetricsTableViewWrap\"><tr>";
     htmlTeamMetricsString += "<td class=\"emptyCell\"></td>";
     htmlTeamMetricsString += "<td class=\"contentCell\">" + teamMetricsTableHTML + "</td>";
     htmlTeamMetricsString += "<td class=\"emptyCell\"></td>";
     htmlTeamMetricsString += "<td class=\"contentCell\">" + teamMetricsSLATableHTML + "</td>";
-    htmlTeamMetricsString += "</tr></table>";
+    htmlTeamMetricsString += "</tr></table>";*/
+
+    htmlTeamMetricsString += "<div class=\"teamMetricsDivWrap\"><tr>";
+    htmlTeamMetricsString += teamMetricsTableHTML;
+    htmlTeamMetricsString += teamMetricsSLATableHTML;
+    htmlTeamMetricsString += "</div>";
 
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
     if(teamMetricsDiv && teamMetricsDiv != null && teamMetricsDiv != 'undefined' && teamMetricsDiv.length > 0) {
@@ -316,14 +321,10 @@ function getMetricsTableHTML(index, dataDOM) {
 
 function getContentHTML(index, dataDOM, elementTag, applyClass, checkConditionFunction) {
     // Filter all <elementTag> elements that satisfies the condition "checkConditionFunction"
-    //var resElements = $(dataDOM).filter(elementTag).filter(checkConditionFunction);
-    //var element1 = $(resElements[index]);
-    //var elementHTML = $(element1).prop('outerHTML');
-    //return elementHTML;
     var element = findContentElement(index, dataDOM, elementTag, checkConditionFunction);
     if(element && null != element) {
         if(applyClass && applyClass.length > 0) {
-            $(element).addClass('timeMetricsTableView');
+            $(element).addClass(applyClass);
         }
         var elementHTML = $(element).prop('outerHTML');
         return elementHTML;

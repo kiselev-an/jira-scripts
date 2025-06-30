@@ -227,16 +227,14 @@ div.slaContent table td:first-child {
     text-align: left;
 }
 
-table.teamMetricsTableViewWrap {
+div.teamMetricsDivWrap {
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
-table.teamMetricsTableViewWrap tbody td.emptyCell {
-    width: 5%;
-}
-
-table.teamMetricsTableViewWrap tbody td.contentCell {
-    vertical-align: top;
+div.teamMetricsDivWrap table {
+    margin-left: 20px;
 }
 
 .iconCalendar {
