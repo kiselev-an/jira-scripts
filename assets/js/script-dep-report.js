@@ -163,12 +163,11 @@ function prepareCleanPageHTML(expandableClean, callBackOnPageLoad) {
             $(element).remove();
         });
 
+        pageDataClone.find('font').each(function(index, element) {
+            replaceContentByTag(element, "span");
+        });
         pageDataClone.find('.sub-header').each(function(index, element) {
             replaceContentByH1(element);
-        });
-
-        pageDataClone.find('font').each(function(index, element) {
-             replaceContentByTag(element, "span");
         });
     }
 
@@ -228,7 +227,7 @@ function publishingToConfluence() {
 
     jQuery.post({
         url: url,
-        data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title"), "pageBody": pageDataHTML}),
+        data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title") + "_DRAFT", "pageBody": pageDataHTML}),
         success: function(data) {
             alert("Отчет успешно опубликован! ;)");
             $("#uploadedReportUrlDiv").html("<a href='" + data + "' target='_blank' rel='noopener noreferrer'>Ссылка на опубликованный отчет</a>");
@@ -261,11 +260,12 @@ function responseHandlerQualityReportMonth(responseData, range, url) {
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
     var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
-    var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", "", function() {
+    var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", "", false, function() {
         return $(this).text().includes("cancelled");
     });
-    $("#depTotalQualityMetricsDiv").css('width', '60%').css('text-align','center');
-    $("#depTotalQualityMetricsDiv").html(depTotalQualityMetricsTableHTML + wasCancelledHTML);
+    $("#depTotalQualityMetricsDiv").css('width', '100%').css('text-align','center');
+    $("#depTotalQualityMetricsDiv").html(depTotalQualityMetricsTableHTML);
+    $("#depTotalQualityMetricsDiv").find("table").append("<tr><td colspan='9'>" + wasCancelledHTML + "</td></tr>");
     $("#subHeaderQuality").html(monthStr);
 }
 
@@ -285,7 +285,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, team,
 
     var responseSLAHtml = $.parseHTML(responseDataSLA, null);
     //var teamMetricsSLATableHTML = getMetricsTableHTML(findTeamSLATableIndex(team, $(responseSLAHtml)), $(responseSLAHtml));
-    var teamMetricsSLATableHTML = getContentHTML(0, $(responseSLAHtml), "table", "timeMetricsTableView", function() {
+    var teamMetricsSLATableHTML = getContentHTML(0, $(responseSLAHtml), "table", "timeMetricsTableView", true, function() {
         return $(this).prev("p").prev("p").text().includes(team.teamName);
     });
 
@@ -331,14 +331,14 @@ function getMetricsTableHTML(index, dataDOM) {
     return tableHTML;
 }
 
-function getContentHTML(index, dataDOM, elementTag, applyClass, checkConditionFunction) {
+function getContentHTML(index, dataDOM, elementTag, applyClass, asOuterHTML, checkConditionFunction) {
     // Filter all <elementTag> elements that satisfies the condition "checkConditionFunction"
     var element = findContentElement(index, dataDOM, elementTag, checkConditionFunction);
     if(element && null != element) {
         if(applyClass && applyClass.length > 0) {
             $(element).addClass(applyClass);
         }
-        var elementHTML = $(element).prop('outerHTML');
+        var elementHTML = asOuterHTML ? $(element).prop('outerHTML') : $(element).text();
         return elementHTML;
     } else {
         return "";
