@@ -50,7 +50,7 @@ function prepareGetDeptSLAReportURL(options) {
 //https://jira.redelephant.ru/rest/scriptrunner/latest/custom/getDeptSLAReport?level=O&type=B&dateFrom=2025-04-01&dateTo=2025-06-29&dept=Коллектор
     var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptSLAReport?";
     if(DEBUG_MODE) {
-        url = "./assets/data/test-dep-report.html?";
+        url = "./assets/data/test-dep-sla-report.html?";
     }
     url += "dept=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
@@ -91,8 +91,8 @@ function loadDepReportsContent() {
                 jQuery.get({
                     url: prepareGetDeptReportURL(optionsTeamMonthData),
                     async: false,
-                    success: function(data) {
-                        responseHandlerTeamReportMonth(data, item, optionsTeamMonthData, this.url);
+                    success: function(dataDept) {
+                        responseHandlerTeamReportMonth(dataDept, dataSLA, item, optionsTeamMonthData, this.url);
                     }
                 });
             });
@@ -249,7 +249,7 @@ function responseHandlerQualityReportMonth(responseData, range, url) {
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
     var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
-    var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", function() {
+    var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", "", function() {
         return $(this).text().includes("cancelled");
     });
     $("#depTotalQualityMetricsDiv").css('width', '60%').css('text-align','center');
@@ -267,9 +267,15 @@ function responseHandlerDeptReportPeriod(responseData, range, url) {
     $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr +"</b>" + depTotalPeriodMetricsTableHTML);
 }
 
-function responseHandlerTeamReportMonth(responseData, team, range, url) {
-    var responseHtml = $.parseHTML(responseData, null);
+function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, team, range, url) {
+    var responseHtml = $.parseHTML(responseDataDept, null);
     var teamMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
+
+    var responseSLAHtml = $.parseHTML(responseDataSLA, null);
+    //var teamMetricsSLATableHTML = getMetricsTableHTML(findTeamSLATableIndex(team, $(responseSLAHtml)), $(responseSLAHtml));
+    var teamMetricsSLATableHTML = getContentHTML(0, $(responseSLAHtml), "table", "timeMetricsTableView", function() {
+        return $(this).prev("p").prev("p").text().includes(team.teamName);
+    });
 
     var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";
     htmlTeamMetricsString += "<label><input type=\"checkbox\" checked=\"checked\" ";
@@ -278,9 +284,9 @@ function responseHandlerTeamReportMonth(responseData, team, range, url) {
 
     htmlTeamMetricsString += "<table class=\"teamMetricsTableViewWrap\"><tr>";
     htmlTeamMetricsString += "<td class=\"emptyCell\"></td>";
-    htmlTeamMetricsString += "<td>" + teamMetricsTableHTML + "</td>";
+    htmlTeamMetricsString += "<td class=\"contentCell\">" + teamMetricsTableHTML + "</td>";
     htmlTeamMetricsString += "<td class=\"emptyCell\"></td>";
-    htmlTeamMetricsString += "<td>" + teamMetricsTableHTML + "</td>";
+    htmlTeamMetricsString += "<td class=\"contentCell\">" + teamMetricsSLATableHTML + "</td>";
     htmlTeamMetricsString += "</tr></table>";
 
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
@@ -308,12 +314,46 @@ function getMetricsTableHTML(index, dataDOM) {
     return tableHTML;
 }
 
-function getContentHTML(index, dataDOM, elementTag, checkConditionFunction) {
+function getContentHTML(index, dataDOM, elementTag, applyClass, checkConditionFunction) {
+    // Filter all <elementTag> elements that satisfies the condition "checkConditionFunction"
+    //var resElements = $(dataDOM).filter(elementTag).filter(checkConditionFunction);
+    //var element1 = $(resElements[index]);
+    //var elementHTML = $(element1).prop('outerHTML');
+    //return elementHTML;
+    var element = findContentElement(index, dataDOM, elementTag, checkConditionFunction);
+    if(element && null != element) {
+        if(applyClass && applyClass.length > 0) {
+            $(element).addClass('timeMetricsTableView');
+        }
+        var elementHTML = $(element).prop('outerHTML');
+        return elementHTML;
+    } else {
+        return "";
+    }
+}
+
+function findContentElement(index, dataDOM, elementTag, checkConditionFunction) {
     // Filter all <elementTag> elements that satisfies the condition "checkConditionFunction"
     var resElements = $(dataDOM).filter(elementTag).filter(checkConditionFunction);
-    var element1 = $(resElements[index]);
-    var elementHTML = $(element1).prop('outerHTML');
-    return elementHTML;
+    if(resElements.length > index) {
+        var element = $(resElements[index]);
+        return element;
+    } else {
+        return null;
+    }
+}
+
+function getMetricsSLATableHTML(index, team, dataDOM) {
+    var resElements = $(dataDOM).filter("table").filter(function() {
+        return $(this).prev("p").prev("p").text().includes(team.teamName);
+    });
+    if(resElements.length > index) {
+        var element1 = $(resElements[index]);
+        var elementHTML = $(element1).prop('outerHTML');
+        return elementHTML;
+    } else {
+        return "&nbsp;";
+    }
 }
 
 function initTextareaEditorsByDefaults() {

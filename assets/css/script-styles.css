@@ -235,6 +235,10 @@ table.teamMetricsTableViewWrap tbody td.emptyCell {
     width: 5%;
 }
 
+table.teamMetricsTableViewWrap tbody td.contentCell {
+    vertical-align: top;
+}
+
 .iconCalendar {
     margin: 2px 5px 0px 0px;
     padding: 2px 0px 0px 0px;
