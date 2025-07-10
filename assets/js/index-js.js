@@ -9,6 +9,7 @@ var TEAMS = [
     { teamId: "QPAYTEAMS-579", teamName: "Где деньги, Лебовски?" },
     { teamId: "QPAYTEAMS-580", teamName: "Фримэны" },
     { teamId: "QPAYTEAMS-1158", teamName: "CollValley" },
+    //{ teamId: "QPAYTEAMS-1383", teamName: "7up"},
     { teamId: "QPAYTEAMS-1120", teamName: "Ковальски, Анализ" }
 ];
 var WORKLOAD_JQL_FILTER_NAME = "Коллекшн - фильтр трудозатрат";

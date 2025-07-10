@@ -1,6 +1,7 @@
 var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
 var DATE_FORMAT_MONTH_MIN = "MMMM";
+var CURRENT_VERSION_OF_HISTORY_KEY = "currentHistoryVersion";
 var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
@@ -376,15 +377,15 @@ function initTextareaEditorsByDefaults() {
     $("#analyseDepTotalPeriodMetrics").val("").prop("placeholder", analyseDepTotalPeriodMetrics_PLACEHOLDER);
     $("#analyseDepTotalInjectionMetrics").val("").prop("placeholder", analyseDepTotalInjectionMetrics_PLACEHOLDER);
     $("#analyseDepTotalQualityMetrics").val("").prop("placeholder", analyseDepTotalQualityMetrics_PLACEHOLDER);
-    $("#analyseTeamMetrics-QPAYTEAMS-576").val("");
-    $("#analyseTeamMetrics-QPAYTEAMS-577").val("");
-    $("#analyseTeamMetrics-QPAYTEAMS-578").val("");
-    $("#analyseTeamMetrics-QPAYTEAMS-579").val("");
-    $("#analyseTeamMetrics-QPAYTEAMS-580").val("");
-    $("#analyseTeamMetrics-QPAYTEAMS-1158").val("");
+
+    TEAMS.forEach((item) => {
+        $("#analyseTeamMetrics-" + item.teamId).val("");
+    });
+
     $("#summary").val("").prop("placeholder", SUMMARY_PLACEHOLDER);
     $("#uploadedReportUrlDiv").html("");
     reinitTextareaViews();
+    initNewVersionOfHistory();
 }
 
 function confirmInitTextareaEditorsByDefaults() {
@@ -412,9 +413,12 @@ function initTextareaEditorsByExamples() {
     $("#analyseTeamMetrics-QPAYTEAMS-579").val(EXAMPLE_analyseTeamMetrics_QPAYTEAMS_579_TEXT);
     $("#analyseTeamMetrics-QPAYTEAMS-580").val(EXAMPLE_analyseTeamMetrics_QPAYTEAMS_580_TEXT);
     $("#analyseTeamMetrics-QPAYTEAMS-1158").val(EXAMPLE_analyseTeamMetrics_QPAYTEAMS_1158_TEXT);
+    //$("#analyseTeamMetrics-QPAYTEAMS-1383").val("");
+    $("#analyseTeamMetrics-QPAYTEAMS-1120").val("");
     $("#summary").val(EXAMPLE_SUMMARY_TEXT)
         .prop("placeholder", EXAMPLE_DEFAULT_USERNAME + "! " + SUMMARY_PLACEHOLDER);
     reinitTextareaViews();
+    initNewVersionOfHistory();
 }
 
 function confirmInitTextareaEditorsByExamples() {
@@ -433,6 +437,10 @@ function initEventsTextareaEditors() {
             $(".textarea-view").each(function() {
                 $(this).css('display', 'block');    //.textarea-view -> visible
             });
+        });
+
+        $(this).on('change', function() {
+            updatePageContentInCurrentVersionOfHistory($(this).prop("id"), $(this).val());
         });
     });
 }
@@ -495,7 +503,7 @@ function initRangePickers() {
        'Предыдущий месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
        'Текущий месяц': [moment().startOf('month'), moment()]
     };
-    prepareDateRangePicker("rangeMonthPicker", moment().startOf('month'), moment(), rangesMonths, localeRU, false);
+    prepareDateRangePicker("rangeMonthPicker", moment().startOf('month'), moment(), rangesMonths, localeRU, true);
 
     var rangesPeriods = {
        //'Today': [moment(), moment()],
@@ -549,4 +557,57 @@ function toggleContents(elementsId, clickedElement) {
     elementsId.forEach((item, index, arr) => {
         $("#" + item).toggleClass("notincluded");
     });
+}
+
+function reinitCurrentVersionOfHistory() {
+    saveHistoryInLocalStorage(getCurrentVersionOfHistory());
+}
+
+function initNewVersionOfHistory() {
+    var cVersion = getCurrentVersionOfHistory();
+    cVersion++;
+    saveHistoryInLocalStorage(cVersion);
+}
+
+function getCurrentVersionOfHistory() {
+    var cVersion = localStorage.getItem(CURRENT_VERSION_OF_HISTORY_KEY);
+    if(!cVersion || null == cVersion) {
+        cVersion = 0;
+    }
+    return cVersion;
+}
+
+function saveHistoryInLocalStorage(version) {
+    var history = [];
+    $(".textarea-editor").each(function() {
+        history.push({ id: $(this).prop("id"), text: $(this).val(), date: new Date() });
+    });
+    var wrapObject = [];
+    wrapObject.push({ version: "v" + version, date: new Date(), history: history });
+    localStorage.setItem("v" + version, JSON.stringify(wrapObject));
+    localStorage.setItem(CURRENT_VERSION_OF_HISTORY_KEY, version);
+}
+
+function updatePageContentInCurrentVersionOfHistory(key, text) {
+    var cVersion = getCurrentVersionOfHistory();
+    var wrapObjectStr = localStorage.getItem("v" + cVersion);
+    var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
+    if(!wrapObject || null == wrapObject) {
+        reinitCurrentVersionOfHistory();
+        return;
+    }
+
+    var history = wrapObject[0].history;
+    if(!history || null == history) {
+        history = [];
+    }
+    var historyItem = history.find(item => item.id === key);
+    if(!historyItem || null == historyItem) {
+        history.push({ id: key, text: text, date: new Date() });
+    } else {
+        historyItem.text = text;
+        historyItem.date = new Date();
+    }
+    wrapObject[0].history = history;
+    localStorage.setItem("v" + cVersion, JSON.stringify(wrapObject));
 }
