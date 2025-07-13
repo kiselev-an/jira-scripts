@@ -418,20 +418,24 @@ function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
         return false;
     }).closest('tr');
 
-    // Convert Map entries to an array, sort by key, and convert back to a new Map
-    var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
-    var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
-    tableStr += "<tbody>";
-    tableStr += "<tr><td>ОС</td><td>Кол-во эпиков</td></tr>";
-    sortedStatisticByKey.forEach((value, key, map) => {
-        tableStr += "<tr>";
-        tableStr += "<td>" + key + "</td>";
-        tableStr += "<td>" + value + "</td>";
-        tableStr += "</tr>";
-    });
-    tableStr += "</tbody>";
-    tableStr += "</table>"
-    return tableStr;
+    if(statistic.size > 0) {
+        // Convert Map entries to an array, sort by key, and convert back to a new Map
+        var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
+        var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
+        tableStr += "<tbody>";
+        tableStr += "<tr><td>ОС</td><td>Кол-во эпиков</td></tr>";
+        sortedStatisticByKey.forEach((value, key, map) => {
+            tableStr += "<tr>";
+            tableStr += "<td>" + key + "</td>";
+            tableStr += "<td>" + value + "</td>";
+            tableStr += "</tr>";
+        });
+        tableStr += "</tbody>";
+        tableStr += "</table>"
+        return tableStr;
+    } else {
+        return "&nbsp;";
+    }
 }
 
 function initTextareaEditorsByDefaults() {
