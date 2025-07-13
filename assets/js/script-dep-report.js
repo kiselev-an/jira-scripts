@@ -63,6 +63,24 @@ function prepareGetDeptSLAReportURL(options) {
     return url;
 }
 
+function prepareGetFlowTimeMetricsReportURL(options) {
+//https://jira.redelephant.ru/rest/scriptrunner/latest/custom/getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&ra=cl&teams=QPAYTEAMS-577
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getFlowTimeMetrics?";
+    if(DEBUG_MODE) {
+        url = "./assets/data/test-dep-flowtime-report.html?";
+    }
+    url += "ra=" + "cl" + "&";
+    url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
+    url += "dateTo=" + dateToYYYYMMDD(options.to.toDate());
+
+    url += options.teams && options.teams.length > 0 ? "&teams=" : "";
+    options.teams.forEach((item, index, arr) => {
+        url += item.teamId + (index === arr.length - 1 ? "" : ",");
+    });
+
+    return url;
+}
+
 function loadDepReportsContent() {
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
     var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
@@ -92,10 +110,16 @@ function loadDepReportsContent() {
             TEAMS.forEach((item) => {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
                 jQuery.get({
-                    url: prepareGetDeptReportURL(optionsTeamMonthData),
+                    url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
                     async: false,
-                    success: function(dataDept) {
-                        responseHandlerTeamReportMonth(dataDept, dataSLA, item, optionsTeamMonthData, this.url);
+                    success: function(dataFlowtime) {
+                        jQuery.get({
+                            url: prepareGetDeptReportURL(optionsTeamMonthData),
+                            async: false,
+                            success: function(dataDept) {
+                                responseHandlerTeamReportMonth(dataDept, dataSLA, dataFlowtime, item, optionsTeamMonthData, this.url);
+                            }
+                        });
                     }
                 });
             });
@@ -198,6 +222,7 @@ function sendEmail() {
         data: JSON.stringify({ "emailSubject": $(document).attr("title"), "emailAddresses": emailAddresses, "emailBody": emailDataHTML}),
         success: function(data) {
             alert("Отчет успешно отправлен! ;)");
+            updateHistoryModeInCurrentVersionOfHistory("sendEmail");
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка :(");
@@ -211,6 +236,7 @@ function generatePDF() {
     printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
     printWindow.document.close(); // necessary for IE >= 10
     printWindow.focus(); // necessary for IE >= 10*/
+    updateHistoryModeInCurrentVersionOfHistory("generatePDF");
 }
 
 function publishingToConfluence() {
@@ -232,6 +258,7 @@ function publishingToConfluence() {
         success: function(data) {
             alert("Отчет успешно опубликован! ;)");
             $("#uploadedReportUrlDiv").html("<a href='" + data + "' target='_blank' rel='noopener noreferrer'>Ссылка на опубликованный отчет</a>");
+            updateHistoryModeInCurrentVersionOfHistory("publishingToConfluence");
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка :(");
@@ -280,7 +307,7 @@ function responseHandlerDeptReportPeriod(responseData, range, url) {
     $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr +"</b>" + depTotalPeriodMetricsTableHTML);
 }
 
-function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, team, range, url) {
+function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, responseDataFlowtime, team, range, url) {
     var responseHtml = $.parseHTML(responseDataDept, null);
     var teamMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
 
@@ -288,6 +315,11 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, team,
     //var teamMetricsSLATableHTML = getMetricsTableHTML(findTeamSLATableIndex(team, $(responseSLAHtml)), $(responseSLAHtml));
     var teamMetricsSLATableHTML = getContentHTML(0, $(responseSLAHtml), "table", "timeMetricsTableView", true, function() {
         return $(this).prev("p").prev("p").text().includes(team.teamName);
+    });
+
+    var responseFlowtimeHtml = $.parseHTML(responseDataFlowtime, null);
+    var teamFlowtimeMetricsTableHTML = getContentHTML(0, $(responseFlowtimeHtml), "table", "timeMetricsTableView", true, function() {
+        return $(this).prev("p").prev("p").prev("h1").text().includes("All");
     });
 
     var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";
@@ -302,9 +334,10 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, team,
     htmlTeamMetricsString += "<td class=\"contentCell\">" + teamMetricsSLATableHTML + "</td>";
     htmlTeamMetricsString += "</tr></table>";*/
 
-    htmlTeamMetricsString += "<div class=\"teamMetricsDivWrap\"><tr>";
+    htmlTeamMetricsString += "<div class=\"teamMetricsDivWrap\">";
     htmlTeamMetricsString += teamMetricsTableHTML;
     htmlTeamMetricsString += teamMetricsSLATableHTML;
+    htmlTeamMetricsString += getCountStatisticOfEpicsGroupingBySizes(teamFlowtimeMetricsTableHTML, "timeMetricsTableView");
     htmlTeamMetricsString += "</div>";
 
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
@@ -368,6 +401,37 @@ function getMetricsSLATableHTML(index, team, dataDOM) {
     } else {
         return "&nbsp;";
     }
+}
+
+function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass) {
+    var flowtimeMetricsTableDOM = $.parseHTML(flowtimeMetricsTableHTML, null);
+    var statistic = new Map();
+    var matchingRows = $(flowtimeMetricsTableDOM).find("td").filter(function() {
+        if($(this).index() === 5 && $(this).text() != "Size") { // кривой способ группировки ;)
+            var value = statistic.get($(this).text());
+            if(!value || null == value) {
+                statistic.set($(this).text(), 1);
+            } else {
+                statistic.set($(this).text(), ++value);
+            }
+        }
+        return false;
+    }).closest('tr');
+
+    // Convert Map entries to an array, sort by key, and convert back to a new Map
+    var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
+    var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
+    tableStr += "<tbody>";
+    tableStr += "<tr><td>ОС</td><td>Кол-во эпиков</td></tr>";
+    sortedStatisticByKey.forEach((value, key, map) => {
+        tableStr += "<tr>";
+        tableStr += "<td>" + key + "</td>";
+        tableStr += "<td>" + value + "</td>";
+        tableStr += "</tr>";
+    });
+    tableStr += "</tbody>";
+    tableStr += "</table>"
+    return tableStr;
 }
 
 function initTextareaEditorsByDefaults() {
@@ -548,6 +612,21 @@ function initSelectInputs() {
     $("#epicTypes").on("change", function() {
         loadDepReportsContent();
     });
+
+    var option = new Option("По умолчанию", -1);
+    $("#versionOfHistory").append(option);
+    var cVersion = getCurrentVersionOfHistory();
+    for(var i = 1; i <= cVersion; i++) {
+        var wrapObjectStr = localStorage.getItem("v" + i);
+        var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
+        if(wrapObject && null != wrapObject) {
+            var option = new Option(prepareOptionTextForVersionOfHistory(i, wrapObject[0].date, wrapObject[0].historyMode), i);
+            $("#versionOfHistory").append(option);
+        }
+    }
+    $("#versionOfHistory").on("change", function() {
+        confirmInitTextareaEditorsByVersionOfHistory($(this).val());
+    });
 }
 
 function toggleContents(elementsId, clickedElement) {
@@ -583,9 +662,13 @@ function saveHistoryInLocalStorage(version) {
         history.push({ id: $(this).prop("id"), text: $(this).val(), date: new Date() });
     });
     var wrapObject = [];
-    wrapObject.push({ version: "v" + version, date: new Date(), history: history });
+    var currentDate = new Date();
+    wrapObject.push({ version: "v" + version, historyMode: "intermediate", date: currentDate, history: history });
     localStorage.setItem("v" + version, JSON.stringify(wrapObject));
     localStorage.setItem(CURRENT_VERSION_OF_HISTORY_KEY, version);
+
+    var option = new Option(prepareOptionTextForVersionOfHistory(version, wrapObject[0].date, wrapObject[0].historyMode), version);
+    $("#versionOfHistory").append(option);
 }
 
 function updatePageContentInCurrentVersionOfHistory(key, text) {
@@ -610,4 +693,67 @@ function updatePageContentInCurrentVersionOfHistory(key, text) {
     }
     wrapObject[0].history = history;
     localStorage.setItem("v" + cVersion, JSON.stringify(wrapObject));
+}
+
+function updateHistoryModeInCurrentVersionOfHistory(historyMode) {
+    var cVersion = getCurrentVersionOfHistory();
+    var wrapObjectStr = localStorage.getItem("v" + cVersion);
+    var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
+    if(wrapObject && null != wrapObject) {
+        wrapObject[0].historyMode = historyMode;
+        localStorage.setItem("v" + cVersion, JSON.stringify(wrapObject));
+
+        var optionByValue = $("#versionOfHistory option[value='" + cVersion + "']");
+        $(optionByValue).text(prepareOptionTextForVersionOfHistory(cVersion, wrapObject[0].date, wrapObject[0].historyMode));
+    }
+    initNewVersionOfHistory();
+}
+
+function initTextareaEditorsByVersionOfHistory(version) {
+    if(version == -1) { // пользователь выбрал История отчета "По умолчанию"
+        initTextareaEditorsByDefaults();
+        return;
+    }
+    var wrapObjectStr = localStorage.getItem("v" + version);
+    var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
+    if(wrapObject && null != wrapObject) {
+        var history = wrapObject[0].history;
+        if(!history || null == history) {
+            return;
+        }
+        history.forEach((item) => {
+            $("#" + item.id).val(item.text);
+        });
+        $("#uploadedReportUrlDiv").html("");
+        reinitTextareaViews();
+        initNewVersionOfHistory();
+    }
+}
+
+function confirmInitTextareaEditorsByVersionOfHistory(version) {
+    if(confirm("Если продолжить, то все твои \"записульки\" потеряются. Уверен?")) {
+        initTextareaEditorsByVersionOfHistory(version);
+    }
+}
+
+function confirmClearVersionOfHistory() {
+    if(confirm("Очистить историю отчетов?")) {
+        var clearAll = confirm("Очистить всю историю или только промежуточную?\n\nНажмите 'Ок' - если хотите удалить всю историю.\n'Отмена' - если только промежуточную.");
+        var cVersion = getCurrentVersionOfHistory();
+        for(var i = 1; i <= cVersion; i++) {
+            var wrapObjectStr = localStorage.getItem("v" + i);
+            var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
+            if(wrapObject && null != wrapObject && (clearAll || (!clearAll && wrapObject[0].historyMode == "intermediate"))) {
+                localStorage.removeItem("v" + i);
+                $("#versionOfHistory option[value='" + i + "']").remove();
+            }
+        }
+    }
+}
+
+function prepareOptionTextForVersionOfHistory(version, date, historyMode) {
+    var strResult = "Версия: v" + version + ", ";
+    strResult += "Дата: " + moment.utc(date).local().format("YYYY-MM-DD HH:mm:ss");
+    strResult += " (" + (historyMode == "intermediate" ? "не исп." : historyMode) + ")";
+    return strResult;
 }

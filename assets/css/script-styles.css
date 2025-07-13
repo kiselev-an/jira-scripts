@@ -198,6 +198,11 @@ div.uploadedReportUrl {
     width: 300px;
 }
 
+select.versionsOfHistory {
+    width: 270px;
+    height: 25px;
+}
+
 select.reportLevel, select.epicTypes {
     width: 200px;
     height: 25px;
