@@ -319,7 +319,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
 
     var responseFlowtimeHtml = $.parseHTML(responseDataFlowtime, null);
     var teamFlowtimeMetricsTableHTML = getContentHTML(0, $(responseFlowtimeHtml), "table", "timeMetricsTableView", true, function() {
-        return $(this).prev("p").prev("p").prev("h1").text().includes("All");
+        return $(this).prev("p").prev("p").prev("h1").text().includes("Downstream");
     });
 
     var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";
