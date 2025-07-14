@@ -10,12 +10,16 @@
     <script type='text/javascript' src='./assets/js/load-external-page-js.js'></script>
     <script type='text/javascript' src='./assets/js/index-js.js'></script>
     <script type='text/javascript' src='./assets/js/dictionary-dep-report.js'></script>
+    <script type='text/javascript' src='./assets/js/request-wrapper.js'></script>
     <script type='text/javascript' src='./assets/js/script-dep-report.js'></script>
+    <script type='text/javascript' src='./assets/js/loader-processor.js'></script>
 
     <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css'/>
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'></script>
 </head>
 
-<body onload='loadExternalPage("http://localhost:63342/Jira-scripts/dept-reports.html", onLoadDepReportPage);'></body>
+<body onload='loadExternalPage("http://localhost:63342/Jira-scripts/dept-reports.html", onLoadDepReportPage);'>
+    <div id="loader_div" class="loader"><div class="loader-content"><img src="./assets/img/skateboarding-loader.gif" alt="Загрузка..."/></div></div>
+</body>
 
 </html>

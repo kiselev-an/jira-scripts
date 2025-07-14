@@ -197,7 +197,6 @@ div.controlPanel label {
 https://www.codexworld.com/overlay-preloader-image-over-div-css/
 */
 div.loader {
-    display: none;
     position: absolute;
     left: 0;
     top: 0;
