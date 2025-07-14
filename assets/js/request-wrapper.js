@@ -1,4 +1,14 @@
 function executeGetRequest(params) {
+    if(!params.async) {
+        setTimeout(function() {
+            executeGetRequestInMain(params)
+        }, 10);
+    } else {
+        executeGetRequestInMain(params);
+    }
+}
+
+function executeGetRequestInMain(params) {
     jQuery.get({
         url: params.url,
         async: params.async,

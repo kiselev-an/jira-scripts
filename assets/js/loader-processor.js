@@ -17,8 +17,6 @@ function hideLoader(loaderId) {
 
 function processWithLoaderAnimation(process) {
     showLoader("loader_div");
-    setTimeout(function() {
-        process();
-    }, 10);
+    process();
     hideLoader("loader_div");
 }
