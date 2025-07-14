@@ -425,7 +425,7 @@ function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
     if(statistic.size > 0) {
         // Convert Map entries to an array, sort by key, and convert back to a new Map
         var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
-        var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
+        var tableStr = "<table border='1'" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
         tableStr += "<tbody>";
         tableStr += "<tr><td>ОС</td><td>Кол-во эпиков</td></tr>";
         var totalCount = 0;
