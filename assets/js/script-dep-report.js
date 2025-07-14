@@ -114,7 +114,6 @@ function loadDepReportsContent() {
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
                     async: false,
                     success: function(dataFlowtime) {
-                        alert(this.url);
                         var flowTimeMetricsReportURL = this.url;
                         jQuery.get({
                             url: prepareGetDeptReportURL(optionsTeamMonthData),
