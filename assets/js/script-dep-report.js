@@ -5,16 +5,16 @@ var CURRENT_VERSION_OF_HISTORY_KEY = "currentHistoryVersion";
 var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
-    showLoader("loader_div");
-    DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
-    initRangePickers();
-    initSelectInputs();
-    loadDepReportsContent();
-    //initTextareaEditorsByDefaults()
-    initTextareaEditorsByCurrentVersionOfHistory();
-    initEventsTextareaEditors();
-    initEventsTextareaViews();
-    hideLoader("loader_div");
+    processWithLoaderAnimation(function() {
+        DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
+        initRangePickers();
+        initSelectInputs();
+        loadDepReportsContent();
+        //initTextareaEditorsByDefaults()
+        initTextareaEditorsByCurrentVersionOfHistory();
+        initEventsTextareaEditors();
+        initEventsTextareaViews();
+    });
 }
 
 function prepareGetDeptReportURL(options) {
@@ -85,7 +85,6 @@ function prepareGetFlowTimeMetricsReportURL(options) {
 }
 
 function loadDepReportsContent() {
-    showLoader("loader_div");
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
     var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
     var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
@@ -146,7 +145,6 @@ function loadDepReportsContent() {
             responseHandlerQualityReportMonth(data, options, url);
         }
     });
-    hideLoader("loader_div");
 }
 
 function replaceContentByH1(element) {
@@ -241,13 +239,13 @@ function sendEmail() {
 }
 
 function generatePDF() {
-    showLoader("loader_div");
-    var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=0,left=0');
-    printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
-    printWindow.document.close(); // necessary for IE >= 10
-    printWindow.focus(); // necessary for IE >= 10*/
-    updateHistoryModeInCurrentVersionOfHistory("generatePDF");
-    hideLoader("loader_div");
+    processWithLoaderAnimation(function() {
+        var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=0,left=0');
+        printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
+        printWindow.document.close(); // necessary for IE >= 10
+        printWindow.focus(); // necessary for IE >= 10*/
+        updateHistoryModeInCurrentVersionOfHistory("generatePDF");
+    });
 }
 
 function publishingToConfluence() {
@@ -572,8 +570,10 @@ function prepareDateRangePicker(id, start, end, ranges, locale, showCustomRangeL
         locale: locale,
         showCustomRangeLabel: showCustomRangeLabel
     }, function (start, end) {
-        updateRangePickerView(id, start, end);
-        loadDepReportsContent();
+        processWithLoaderAnimation(function() {
+            updateRangePickerView(id, start, end);
+            loadDepReportsContent();
+        });
     });
     updateRangePickerView(id, start, end);
 }
@@ -626,7 +626,9 @@ function initSelectInputs() {
         $("#reportLevel").append(option);
     });
     $("#reportLevel").on("change", function() {
-        loadDepReportsContent();
+        processWithLoaderAnimation(function() {
+            loadDepReportsContent();
+        });
     });
 
     EPIC_TYPES_OPTIONS.forEach((item, index, arr) => {
@@ -638,7 +640,9 @@ function initSelectInputs() {
         $("#epicTypes").append(option);
     });
     $("#epicTypes").on("change", function() {
-        loadDepReportsContent();
+        processWithLoaderAnimation(function() {
+            loadDepReportsContent();
+        });
     });
 
     var option = new Option("Новая версия (пустой)", -1);

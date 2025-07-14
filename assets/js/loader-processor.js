@@ -12,3 +12,9 @@ function hideLoader(loaderId) {
         activeAjaxRequests = 0; // Reset for future use
     }
 }
+
+function processWithLoaderAnimation(process) {
+    showLoader("loader_div");
+    process();
+    hideLoader("loader_div");
+}
