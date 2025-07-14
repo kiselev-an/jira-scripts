@@ -789,14 +789,22 @@ function confirmClearVersionOfHistory() {
     if(confirm("Очистить историю отчетов?")) {
         var clearAll = confirm("Очистить всю историю или только промежуточную?\n\nНажмите 'Ок' - если хотите удалить всю историю.\n'Отмена' - если только промежуточную.");
         var cVersion = getCurrentVersionOfHistory();
+        var lastNotRemovedVersion = 0;
         for(var i = 1; i <= cVersion; i++) {
             var wrapObjectStr = localStorage.getItem("v" + i);
             var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
-            if(wrapObject && null != wrapObject && (clearAll || (!clearAll && wrapObject[0].historyMode == "intermediate"))) {
-                localStorage.removeItem("v" + i);
-                $("#versionOfHistory option[value='" + i + "']").remove();
+            if(wrapObject && null != wrapObject) {
+                if(clearAll || (!clearAll && wrapObject[0].historyMode == "intermediate")) {
+                    localStorage.removeItem("v" + i);
+                    $("#versionOfHistory option[value='" + i + "']").remove();
+                } else {
+                    lastNotRemovedVersion = i;
+                }
             }
         }
+        lastNotRemovedVersion++;
+        localStorage.setItem(CURRENT_VERSION_OF_HISTORY_KEY, lastNotRemovedVersion);
+        reinitCurrentVersionOfHistory()
     }
 }
 
