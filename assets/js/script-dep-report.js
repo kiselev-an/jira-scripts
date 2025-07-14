@@ -113,7 +113,7 @@ function loadDepReportsContent() {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
                 jQuery.get({
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
-                    async: false,
+                    async: true,
                     success: function(dataFlowtime) {
                         var flowTimeMetricsReportURL = this.url;
                         jQuery.get({
