@@ -638,7 +638,8 @@ function initSelectInputs() {
         loadDepReportsContent();
     });
 
-    var option = new Option("По умолчанию", -1);
+    var option = new Option("Новая версия (пустой)", -1);
+    $(option).prop("selected", "selected");
     $("#versionOfHistory").append(option);
     var cVersion = getCurrentVersionOfHistory();
     for(var i = 1; i <= cVersion; i++) {
@@ -693,6 +694,7 @@ function saveHistoryInLocalStorage(version) {
     localStorage.setItem(CURRENT_VERSION_OF_HISTORY_KEY, version);
 
     var option = new Option(prepareOptionTextForVersionOfHistory(version, wrapObject[0].date, wrapObject[0].historyMode), version);
+    $(option).prop("selected", "selected");
     $("#versionOfHistory").append(option);
 }
 
@@ -740,7 +742,7 @@ function initTextareaEditorsByCurrentVersionOfHistory() {
 
 function initTextareaEditorsByVersionOfHistory(version) {
     var wrapObjectStr = localStorage.getItem("v" + version);
-    while( (!wrapObjectStr || null == wrapObjectStr) && version >= 0) {
+    while( (!wrapObjectStr || null == wrapObjectStr) && version >= 0) { // находим наиболее свежую версию, если текущей версии нет в хранилище
         version--;
         wrapObjectStr = localStorage.getItem("v" + version);
     }
@@ -765,7 +767,7 @@ function initTextareaEditorsByVersionOfHistory(version) {
 
         reinitTextareaViews();
         initNewVersionOfHistory();
-    } else { // пользователь выбрал История отчета "По умолчанию" или не существующая версия
+    } else { // пользователь выбрал История отчета "Новая версия/По умолчанию" или в хранилище нет подходящей версии
         initTextareaEditorsByDefaults();
     }
 }
