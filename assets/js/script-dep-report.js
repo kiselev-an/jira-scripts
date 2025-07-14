@@ -107,17 +107,20 @@ function loadDepReportsContent() {
         url: prepareGetDeptSLAReportURL(optionsMonthData),
         async: false,
         success: function(dataSLA) {
+            var deptSLAReportURL = this.url;
             TEAMS.forEach((item) => {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
                 jQuery.get({
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
                     async: false,
                     success: function(dataFlowtime) {
+                        alert(this.url);
+                        var flowTimeMetricsReportURL = this.url;
                         jQuery.get({
                             url: prepareGetDeptReportURL(optionsTeamMonthData),
                             async: false,
                             success: function(dataDept) {
-                                responseHandlerTeamReportMonth(dataDept, dataSLA, dataFlowtime, item, optionsTeamMonthData, this.url);
+                                responseHandlerTeamReportMonth(dataDept, dataSLA, dataFlowtime, item, optionsTeamMonthData, this.url, deptSLAReportURL, flowTimeMetricsReportURL);
                             }
                         });
                     }
@@ -307,7 +310,7 @@ function responseHandlerDeptReportPeriod(responseData, range, url) {
     $("#depTotalPeriodMetricsDiv").html("<b>" + periodStr +"</b>" + depTotalPeriodMetricsTableHTML);
 }
 
-function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, responseDataFlowtime, team, range, url) {
+function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, responseDataFlowtime, team, range, deptReportURL, deptSLAReportURL, flowTimeMetricsReportURL) {
     var responseHtml = $.parseHTML(responseDataDept, null);
     var teamMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
 
@@ -337,7 +340,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
     htmlTeamMetricsString += "<div class=\"teamMetricsDivWrap\">";
     htmlTeamMetricsString += teamMetricsTableHTML;
     htmlTeamMetricsString += teamMetricsSLATableHTML;
-    htmlTeamMetricsString += getCountStatisticOfEpicsGroupingBySizes(teamFlowtimeMetricsTableHTML, "timeMetricsTableView");
+    htmlTeamMetricsString += getCountStatisticOfEpicsGroupingBySizes(teamFlowtimeMetricsTableHTML, "timeMetricsTableView", flowTimeMetricsReportURL);
     htmlTeamMetricsString += "</div>";
 
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
@@ -403,7 +406,7 @@ function getMetricsSLATableHTML(index, team, dataDOM) {
     }
 }
 
-function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass) {
+function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass, url) {
     var flowtimeMetricsTableDOM = $.parseHTML(flowtimeMetricsTableHTML, null);
     var statistic = new Map();
     var matchingRows = $(flowtimeMetricsTableDOM).find("td").filter(function() {
@@ -423,7 +426,7 @@ function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
         var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
         var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
         tableStr += "<tbody>";
-        tableStr += "<tr><td>ОС</td><td>Кол-во эпиков</td></tr>";
+        tableStr += "<tr><td>ОС</td><td><a href='" + url + "'>Кол-во эпиков</a></td></tr>";
         sortedStatisticByKey.forEach((value, key, map) => {
             tableStr += "<tr>";
             tableStr += "<td>" + key + "</td>";
