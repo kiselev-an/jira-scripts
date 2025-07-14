@@ -426,12 +426,17 @@ function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
         var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
         tableStr += "<tbody>";
         tableStr += "<tr><td>ОС</td><td><a href='" + url + "'>Кол-во эпиков</a></td></tr>";
+        var totalCount = 0;
+        var velocity = 0;
         sortedStatisticByKey.forEach((value, key, map) => {
             tableStr += "<tr>";
             tableStr += "<td>" + key + "</td>";
             tableStr += "<td>" + value + "</td>";
             tableStr += "</tr>";
+            totalCount += value;
+            velocity += key * value;
         });
+        tableStr += "<tr><td>&nbsp;</td><td>" + totalCount + "/" + velocity + "</td></tr>"
         tableStr += "</tbody>";
         tableStr += "</table>"
         return tableStr;
