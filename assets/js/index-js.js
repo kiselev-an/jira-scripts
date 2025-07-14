@@ -12,6 +12,7 @@ var TEAMS = [
     //{ teamId: "QPAYTEAMS-1383", teamName: "7up"},
     { teamId: "QPAYTEAMS-1120", teamName: "Ковальски, Анализ" }
 ];
+var EPIC_SIZES = [1, 2, 3, 5, 8, 13, 21];
 var WORKLOAD_JQL_FILTER_NAME = "Коллекшн - фильтр трудозатрат";
 
 function gotoCollectionMetricsBoard(reportType) {

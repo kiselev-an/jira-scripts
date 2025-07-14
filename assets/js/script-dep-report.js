@@ -9,7 +9,8 @@ function onLoadDepReportPage() {
     initRangePickers();
     initSelectInputs();
     loadDepReportsContent();
-    initTextareaEditorsByDefaults()
+    //initTextareaEditorsByDefaults()
+    initTextareaEditorsByCurrentVersionOfHistory();
     initEventsTextareaEditors();
     initEventsTextareaViews();
 }
@@ -339,7 +340,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
     htmlTeamMetricsString += "<div class=\"teamMetricsDivWrap\">";
     htmlTeamMetricsString += teamMetricsTableHTML;
     htmlTeamMetricsString += teamMetricsSLATableHTML;
-    htmlTeamMetricsString += getCountStatisticOfEpicsGroupingBySizes(teamFlowtimeMetricsTableHTML, "timeMetricsTableView", flowTimeMetricsReportURL);
+    htmlTeamMetricsString += getStatisticCountOfEpicsGroupingBySizes(teamFlowtimeMetricsTableHTML, "timeMetricsTableView", flowTimeMetricsReportURL);
     htmlTeamMetricsString += "</div>";
 
     var teamMetricsDiv = $("#teamMetricsDiv_" + team.teamId);
@@ -405,7 +406,7 @@ function getMetricsSLATableHTML(index, team, dataDOM) {
     }
 }
 
-function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass, url) {
+function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass, url) {
     var flowtimeMetricsTableDOM = $.parseHTML(flowtimeMetricsTableHTML, null);
     var statistic = new Map();
     var matchingRows = $(flowtimeMetricsTableDOM).find("td").filter(function() {
@@ -425,18 +426,31 @@ function getCountStatisticOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
         var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
         var tableStr = "<table" + (applyClass && applyClass.length > 0 ? " class='" + applyClass + "'" : "") + ">";
         tableStr += "<tbody>";
-        tableStr += "<tr><td>ОС</td><td><a href='" + url + "'>Кол-во эпиков</a></td></tr>";
+        tableStr += "<tr><td>ОС</td><td>Кол-во эпиков</td></tr>";
         var totalCount = 0;
         var velocity = 0;
-        sortedStatisticByKey.forEach((value, key, map) => {
+        EPIC_SIZES.forEach((key) => {
+            var value = sortedStatisticByKey.get("" + key);
+            if(value && null != value) {
+                tableStr += "<tr>";
+                tableStr += "<td>" + key + "</td>";
+                tableStr += "<td>" + value + "</td>";
+                tableStr += "</tr>";
+                totalCount += value;
+                velocity += key * value;
+            } else {
+                tableStr += "<tr><td>" + key + "</td><td>&ndash;</td></tr>";
+            }
+        });
+        /*sortedStatisticByKey.forEach((value, key, map) => {
             tableStr += "<tr>";
             tableStr += "<td>" + key + "</td>";
             tableStr += "<td>" + value + "</td>";
             tableStr += "</tr>";
             totalCount += value;
             velocity += key * value;
-        });
-        tableStr += "<tr><td>&nbsp;</td><td>" + totalCount + "/" + velocity + "</td></tr>"
+        });*/
+        tableStr += "<tr><td>&nbsp;</td><td><a href='" + url + "' title='FlowTimeMetrics - Downstream'>" + totalCount + "/" + velocity + "</a></td></tr>"
         tableStr += "</tbody>";
         tableStr += "</table>"
         return tableStr;
@@ -720,12 +734,16 @@ function updateHistoryModeInCurrentVersionOfHistory(historyMode) {
     initNewVersionOfHistory();
 }
 
+function initTextareaEditorsByCurrentVersionOfHistory() {
+    initTextareaEditorsByVersionOfHistory(getCurrentVersionOfHistory());
+}
+
 function initTextareaEditorsByVersionOfHistory(version) {
-    if(version == -1) { // пользователь выбрал История отчета "По умолчанию"
-        initTextareaEditorsByDefaults();
-        return;
-    }
     var wrapObjectStr = localStorage.getItem("v" + version);
+    while( (!wrapObjectStr || null == wrapObjectStr) && version >= 0) {
+        version--;
+        wrapObjectStr = localStorage.getItem("v" + version);
+    }
     var wrapObject = wrapObjectStr && null != wrapObjectStr ? JSON.parse(wrapObjectStr) : null;
     if(wrapObject && null != wrapObject) {
         var history = wrapObject[0].history;
@@ -735,9 +753,20 @@ function initTextareaEditorsByVersionOfHistory(version) {
         history.forEach((item) => {
             $("#" + item.id).val(item.text);
         });
+
+        $("#welcome").prop("placeholder", WELCOME_PLACEHOLDER);
+        $("#overview").prop("placeholder", OVERVIEW_PLACEHOLDER);
+        $("#analyseDepTotalCurrentMonthMetrics").prop("placeholder", analyseDepTotalCurrentMonthMetrics_PLACEHOLDER);
+        $("#analyseDepTotalPeriodMetrics").prop("placeholder", analyseDepTotalPeriodMetrics_PLACEHOLDER);
+        $("#analyseDepTotalInjectionMetrics").prop("placeholder", analyseDepTotalInjectionMetrics_PLACEHOLDER);
+        $("#analyseDepTotalQualityMetrics").prop("placeholder", analyseDepTotalQualityMetrics_PLACEHOLDER);
+        $("#summary").prop("placeholder", SUMMARY_PLACEHOLDER);
         $("#uploadedReportUrlDiv").html("");
+
         reinitTextareaViews();
         initNewVersionOfHistory();
+    } else { // пользователь выбрал История отчета "По умолчанию" или не существующая версия
+        initTextareaEditorsByDefaults();
     }
 }
 
