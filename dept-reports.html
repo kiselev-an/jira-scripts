@@ -9,7 +9,9 @@
 
     <script type='text/javascript' src='./assets/js/index-js.js'></script>
     <script type='text/javascript' src='./assets/js/dictionary-dep-report.js'></script>
+    <script type='text/javascript' src='./assets/js/request-wrapper.js'></script>
     <script type='text/javascript' src='./assets/js/script-dep-report.js'></script>
+    <script type='text/javascript' src='./assets/js/loader-processor.js'></script>
 
     <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css'/>
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'></script>
@@ -17,6 +19,7 @@
 
 <body onload='onLoadDepReportPage();'>
     <div class='controlPanel'>
+        <div id="loader_div" class="loader"><div class="loader-content"><img src="/assets/img/skateboarding-loader.gif" alt="Загрузка..."/></div></div>
         <input type='button' onclick='publishingToConfluence();' value='Опубликовать'/>
         <input type='button' onclick='sendEmail();' value='Отправить'/>
         <input type='button' onclick='generatePDF();' value='PDF'/>

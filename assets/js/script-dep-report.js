@@ -87,40 +87,46 @@ function loadDepReportsContent() {
     var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
     var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
     $(document).attr("title", $(document).attr("title").split("_")[0] + "_" + monthStr);
-    jQuery.get({
+
+    executeGetRequest({
         url: prepareGetDeptReportURL(optionsMonthData),
-        success: function(data) {
-            responseHandlerDeptReportMonth(data, optionsMonthData, this.url);
+        async: true,
+        options: optionsMonthData,
+        success: function(data, options, url) {
+            responseHandlerDeptReportMonth(data, options, url);
         }
     });
 
     var rangePeriodPickerData = $('#rangePeriodPicker').data('daterangepicker');
     var optionsPeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
-    jQuery.get({
+    executeGetRequest({
         url: prepareGetDeptReportURL(optionsPeriodData),
-        success: function(data) {
-            responseHandlerDeptReportPeriod(data, optionsPeriodData, this.url);
+        async: true,
+        options: optionsPeriodData,
+        success: function(data, options, url) {
+            responseHandlerDeptReportPeriod(data, options, url);
         }
     });
 
     $("#subHeaderTeams").html(monthStr);
-    jQuery.get({
+    executeGetRequest({
         url: prepareGetDeptSLAReportURL(optionsMonthData),
         async: false,
-        success: function(dataSLA) {
-            var deptSLAReportURL = this.url;
+        options: optionsMonthData,
+        success: function(deptSLAReportData, deptSLAReportOptions, deptSLAReportURL) {
             TEAMS.forEach((item) => {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
-                jQuery.get({
+                executeGetRequest({
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
                     async: true,
-                    success: function(dataFlowtime) {
-                        var flowTimeMetricsReportURL = this.url;
-                        jQuery.get({
+                    options: optionsTeamMonthData,
+                    success: function(flowTimeMetricsReportData, flowTimeMetricsReportOptions, flowTimeMetricsReportURL) {
+                        executeGetRequest({
                             url: prepareGetDeptReportURL(optionsTeamMonthData),
                             async: false,
-                            success: function(dataDept) {
-                                responseHandlerTeamReportMonth(dataDept, dataSLA, dataFlowtime, item, optionsTeamMonthData, this.url, deptSLAReportURL, flowTimeMetricsReportURL);
+                            options: optionsTeamMonthData,
+                            success: function(deptReportData, deptReportOptions, deptReportURL) {
+                                responseHandlerTeamReportMonth(deptReportData, deptSLAReportData, flowTimeMetricsReportData, item, deptReportOptions, deptReportURL, deptSLAReportURL, flowTimeMetricsReportURL);
                             }
                         });
                     }
@@ -129,10 +135,12 @@ function loadDepReportsContent() {
         }
     });
 
-    jQuery.get({
+    executeGetRequest({
         url: prepareGetQualityReportURL(optionsMonthData),
-        success: function(data) {
-            responseHandlerQualityReportMonth(data, optionsMonthData, this.url);
+        async: true,
+        options: optionsMonthData,
+        success: function(data, options, url) {
+            responseHandlerQualityReportMonth(data, options, url);
         }
     });
 }
@@ -218,28 +226,24 @@ function sendEmail() {
     }
 
     var emailDataHTML = prepareCleanPageHTML(true, null);
-    //alert("  --- " + emailDataHTML);
-
-    jQuery.post({
+    executePostRequest({
         url: url,
         data: JSON.stringify({ "emailSubject": $(document).attr("title"), "emailAddresses": emailAddresses, "emailBody": emailDataHTML}),
         success: function(data) {
             alert("Отчет успешно отправлен! ;)");
             updateHistoryModeInCurrentVersionOfHistory("sendEmail");
-        },
-        error: function(data) {
-            alert("Что-то пошло не так. Произошла ошибка :(");
-        },
-        contentType: "application/json"
+        }
     });
 }
 
 function generatePDF() {
+    showLoader("loader_div");
     var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=0,left=0');
     printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
     printWindow.document.close(); // necessary for IE >= 10
     printWindow.focus(); // necessary for IE >= 10*/
     updateHistoryModeInCurrentVersionOfHistory("generatePDF");
+    hideLoader("loader_div");
 }
 
 function publishingToConfluence() {
@@ -254,19 +258,14 @@ function publishingToConfluence() {
     }
 
     var pageDataHTML = prepareCleanPageHTML(true, null);
-
-    jQuery.post({
+    executePostRequest({
         url: url,
         data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title") + "_DRAFT", "pageBody": pageDataHTML}),
         success: function(data) {
             alert("Отчет успешно опубликован! ;)");
             $("#uploadedReportUrlDiv").html("<a href='" + data + "' target='_blank' rel='noopener noreferrer'>Ссылка на опубликованный отчет</a>");
             updateHistoryModeInCurrentVersionOfHistory("publishingToConfluence");
-        },
-        error: function(data) {
-            alert("Что-то пошло не так. Произошла ошибка :(");
-        },
-        contentType: "application/json"
+        }
     });
 }
 

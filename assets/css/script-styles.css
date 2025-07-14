@@ -193,6 +193,34 @@ div.controlPanel label {
     padding-top: 5px;
 }
 
+/*
+https://www.codexworld.com/overlay-preloader-image-over-div-css/
+*/
+div.loader {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: rgba(255,255,255,0.4);
+}
+
+div.loader-content {
+    position: absolute;
+    transform: translateY(-50%);
+     -webkit-transform: translateY(-50%);
+     -ms-transform: translateY(-50%);
+    top: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #555;
+    opacity: 0.85;
+    filter: alpha(opacity=85);
+}
+
 div.uploadedReportUrl {
     padding: 15px 0px 0px 10px;
     width: 300px;
