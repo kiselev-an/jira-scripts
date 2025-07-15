@@ -1,29 +1,25 @@
 function executeGetRequest(params) {
-    if(!params.async) {
-        setTimeout(function() {
-            executeGetRequestInMain(params)
-        }, 10);
-    } else {
-        executeGetRequestInMain(params);
-    }
-}
-
-function executeGetRequestInMain(params) {
     jQuery.get({
         url: params.url,
         async: params.async,
         beforeSend: function() {
-            showLoader("loader_div");
+            if(params.preSend && null != params.preSend) {
+                params.preSend();
+            }
         },
         success: function(data) {
             params.success(data, params.options, this.url);
-            hideLoader("loader_div");
+            if(params.onComplete && null != params.onComplete) {
+                params.onComplete();
+            }
         },
         error: function(data) {
-            if(params.error) {
+            if(params.error && null != params.error) {
                 params.error(data, params.options, this.url);
             }
-            hideLoader("loader_div");
+            if(params.onComplete && null != params.onComplete) {
+                params.onComplete();
+            }
         }
     });
 }
@@ -33,18 +29,24 @@ function executePostRequest(params) {
         url: params.url,
         data: params.data,
         beforeSend: function() {
-            showLoader("loader_div");
+            if(params.preSend && null != params.preSend) {
+                params.preSend();
+            }
         },
         success: function(data) {
             params.success(data);
-            hideLoader("loader_div");
+            if(params.onComplete && null != params.onComplete) {
+                params.onComplete();
+            }
         },
         error: function(data) {
             alert("Что-то пошло не так. Произошла ошибка сервера :(");
-            if(params.error) {
-                params.error(data);
+            if(params.error && null != params.error) {
+                params.error(data, params.options, this.url);
             }
-            hideLoader("loader_div");
+            if(params.onComplete && null != params.onComplete) {
+                params.onComplete();
+            }
         },
         contentType: "application/json"
     });

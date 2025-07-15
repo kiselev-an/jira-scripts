@@ -5,16 +5,14 @@ var CURRENT_VERSION_OF_HISTORY_KEY = "currentHistoryVersion";
 var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
-    processWithLoaderAnimation(function() {
-        DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
-        initRangePickers();
-        initSelectInputs();
-        loadDepReportsContent();
-        //initTextareaEditorsByDefaults()
-        initTextareaEditorsByCurrentVersionOfHistory();
-        initEventsTextareaEditors();
-        initEventsTextareaViews();
-    });
+    DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
+    initRangePickers();
+    initSelectInputs();
+    loadDepReportsContent();
+    //initTextareaEditorsByDefaults()
+    initTextareaEditorsByCurrentVersionOfHistory();
+    initEventsTextareaEditors();
+    initEventsTextareaViews();
 }
 
 function prepareGetDeptReportURL(options) {
@@ -90,7 +88,7 @@ function loadDepReportsContent() {
     var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
     $(document).attr("title", $(document).attr("title").split("_")[0] + "_" + monthStr);
 
-    executeGetRequest({
+    executeGetRequestWithLoaderAnimation({
         url: prepareGetDeptReportURL(optionsMonthData),
         async: true,
         options: optionsMonthData,
@@ -101,7 +99,7 @@ function loadDepReportsContent() {
 
     var rangePeriodPickerData = $('#rangePeriodPicker').data('daterangepicker');
     var optionsPeriodData = {"from": rangePeriodPickerData.startDate, "to": rangePeriodPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
-    executeGetRequest({
+    executeGetRequestWithLoaderAnimation({
         url: prepareGetDeptReportURL(optionsPeriodData),
         async: true,
         options: optionsPeriodData,
@@ -111,19 +109,19 @@ function loadDepReportsContent() {
     });
 
     $("#subHeaderTeams").html(monthStr);
-    executeGetRequest({
+    executeGetRequestWithLoaderAnimation({
         url: prepareGetDeptSLAReportURL(optionsMonthData),
         async: false,
         options: optionsMonthData,
         success: function(deptSLAReportData, deptSLAReportOptions, deptSLAReportURL) {
             TEAMS.forEach((item) => {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
-                executeGetRequest({
+                executeGetRequestWithLoaderAnimation({
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
                     async: true,
                     options: optionsTeamMonthData,
                     success: function(flowTimeMetricsReportData, flowTimeMetricsReportOptions, flowTimeMetricsReportURL) {
-                        executeGetRequest({
+                        executeGetRequestWithLoaderAnimation({
                             url: prepareGetDeptReportURL(optionsTeamMonthData),
                             async: false,
                             options: optionsTeamMonthData,
@@ -137,7 +135,7 @@ function loadDepReportsContent() {
         }
     });
 
-    executeGetRequest({
+    executeGetRequestWithLoaderAnimation({
         url: prepareGetQualityReportURL(optionsMonthData),
         async: true,
         options: optionsMonthData,
@@ -228,7 +226,7 @@ function sendEmail() {
     }
 
     var emailDataHTML = prepareCleanPageHTML(true, null);
-    executePostRequest({
+    executePostRequestWithLoaderAnimation({
         url: url,
         data: JSON.stringify({ "emailSubject": $(document).attr("title"), "emailAddresses": emailAddresses, "emailBody": emailDataHTML}),
         success: function(data) {
@@ -239,13 +237,11 @@ function sendEmail() {
 }
 
 function generatePDF() {
-    processWithLoaderAnimation(function() {
-        var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=0,left=0');
-        printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
-        printWindow.document.close(); // necessary for IE >= 10
-        printWindow.focus(); // necessary for IE >= 10*/
-        updateHistoryModeInCurrentVersionOfHistory("generatePDF");
-    });
+    var printWindow = window.open('', 'PRINT', 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,height=650,width=900,top=0,left=0');
+    printWindow.document.write(prepareCleanPageHTML(false, "window.print();window.close();"));
+    printWindow.document.close(); // necessary for IE >= 10
+    printWindow.focus(); // necessary for IE >= 10*/
+    updateHistoryModeInCurrentVersionOfHistory("generatePDF");
 }
 
 function publishingToConfluence() {
@@ -260,7 +256,7 @@ function publishingToConfluence() {
     }
 
     var pageDataHTML = prepareCleanPageHTML(true, null);
-    executePostRequest({
+    executePostRequestWithLoaderAnimation({
         url: url,
         data: JSON.stringify({ "secretPass": pass, "pageTitle": $(document).attr("title") + "_DRAFT", "pageBody": pageDataHTML}),
         success: function(data) {
@@ -570,9 +566,8 @@ function prepareDateRangePicker(id, start, end, ranges, locale, showCustomRangeL
         locale: locale,
         showCustomRangeLabel: showCustomRangeLabel
     }, function (start, end) {
-        processWithLoaderAnimation(function() {
+        loadDepReportsContentWithLoaderAnimation(function() {
             updateRangePickerView(id, start, end);
-            loadDepReportsContent();
         });
     });
     updateRangePickerView(id, start, end);
@@ -626,9 +621,7 @@ function initSelectInputs() {
         $("#reportLevel").append(option);
     });
     $("#reportLevel").on("change", function() {
-        processWithLoaderAnimation(function() {
-            loadDepReportsContent();
-        });
+        loadDepReportsContentWithLoaderAnimation(null);
     });
 
     EPIC_TYPES_OPTIONS.forEach((item, index, arr) => {
@@ -640,9 +633,7 @@ function initSelectInputs() {
         $("#epicTypes").append(option);
     });
     $("#epicTypes").on("change", function() {
-        processWithLoaderAnimation(function() {
-            loadDepReportsContent();
-        });
+        loadDepReportsContentWithLoaderAnimation(null);
     });
 
     var option = new Option("Новая версия (пустой)", -1);
