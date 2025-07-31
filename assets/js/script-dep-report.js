@@ -9,10 +9,6 @@ function onLoadDepReportPage() {
     initRangePickers();
     initSelectInputs();
     loadDepReportsContent();
-    //initTextareaEditorsByDefaults()
-    initTextareaEditorsByCurrentVersionOfHistory();
-    initEventsTextareaEditors();
-    initEventsTextareaViews();
 }
 
 function prepareGetDeptReportURL(options) {
@@ -114,7 +110,7 @@ function loadDepReportsContent() {
         async: false,
         options: optionsMonthData,
         success: function(deptSLAReportData, deptSLAReportOptions, deptSLAReportURL) {
-            TEAMS.forEach((item) => {
+            TEAMS.forEach(function (item, idx, array) {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
                 executeGetRequestWithLoaderAnimation({
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
@@ -127,6 +123,13 @@ function loadDepReportsContent() {
                             options: optionsTeamMonthData,
                             success: function(deptReportData, deptReportOptions, deptReportURL) {
                                 responseHandlerTeamReportMonth(deptReportData, deptSLAReportData, flowTimeMetricsReportData, item, deptReportOptions, deptReportURL, deptSLAReportURL, flowTimeMetricsReportURL);
+
+                                if(idx === array.length - 1) { // инициализируем данные из сохраненной истории и навешиваем обработчики на поля ввода
+                                    //initTextareaEditorsByDefaults()
+                                    initTextareaEditorsByCurrentVersionOfHistory();
+                                    initEventsTextareaEditors();
+                                    initEventsTextareaViews();
+                                }
                             }
                         });
                     }
