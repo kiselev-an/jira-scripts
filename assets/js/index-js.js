@@ -9,7 +9,7 @@ var TEAMS = [
     { teamId: "QPAYTEAMS-579", teamName: "Где деньги, Лебовски?" },
     { teamId: "QPAYTEAMS-580", teamName: "Фримэны" },
     { teamId: "QPAYTEAMS-1158", teamName: "CollValley" },
-    { teamId: "QPAYTEAMS-1383", teamName: "7up"},
+    { teamId: "QPAYTEAMS-1383", teamName: "7up" },
     { teamId: "QPAYTEAMS-1120", teamName: "Ковальски, Анализ" }
 ];
 var EPIC_SIZES = [1, 2, 3, 5, 8, 13, 21];
@@ -39,6 +39,17 @@ function gotoCollectionMetricsBoard(reportType) {
             break;
     }
     url += "report=" + reportType;
+    window.open(url, "_blank");
+    return false;
+}
+
+function gotoDeptsFullStat_Mirutov(subdivision) {
+// window.open('https://jira.redelephant.ru/rest/scriptrunner/latest/custom/getDeptsFullStat?depts=Коллектор&dateRanges=2024-01-01:2024-03-31,2024-04-01:2024-06-30,2024-07-01:2024-09-30,2024-10-01:2024-12-31,2025-01-01:2025-03-31,2025-04-01:2025-06-30&epicType=A', '_blank'); return false;
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptsFullStat?";
+
+    url += "dateRanges=" + "2024-01-01:2024-03-31,2024-04-01:2024-06-30,2024-07-01:2024-09-30,2024-10-01:2024-12-31,2025-01-01:2025-03-31,2025-04-01:2025-06-30" + "&";
+    url += "depts=" + subdivision + "&";
+    url += "epicType=A";
     window.open(url, "_blank");
     return false;
 }
