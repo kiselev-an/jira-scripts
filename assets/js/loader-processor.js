@@ -65,7 +65,9 @@ function loadDepReportsContentWithLoaderAnimation(preAction) {
     processWithLoaderAnimation({
         preAction: preAction,
         action: function() {
-            loadDepReportsContent();
+            loadDepReportsContent(function () {
+                initTextareaElements();
+            });
         }
     });
 }

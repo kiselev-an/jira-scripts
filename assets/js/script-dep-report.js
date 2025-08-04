@@ -8,7 +8,16 @@ function onLoadDepReportPage() {
     DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
     initRangePickers();
     initSelectInputs();
-    loadDepReportsContent();
+    loadDepReportsContent(function () {
+        initTextareaElements();
+    });
+}
+
+function initTextareaElements() {
+    //initTextareaEditorsByDefaults() // инициализируем данные из сохраненной истории и навешиваем обработчики на поля ввода
+    initTextareaEditorsByCurrentVersionOfHistory();
+    initEventsTextareaEditors();
+    initEventsTextareaViews();
 }
 
 function prepareGetDeptReportURL(options) {
@@ -78,7 +87,7 @@ function prepareGetFlowTimeMetricsReportURL(options) {
     return url;
 }
 
-function loadDepReportsContent() {
+function loadDepReportsContent(onComplete) {
     var rangeMonthPickerData = $('#rangeMonthPicker').data('daterangepicker');
     var optionsMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": TEAMS};
     var monthStr = optionsMonthData.to.format(DATE_FORMAT_MONTH);
@@ -124,11 +133,8 @@ function loadDepReportsContent() {
                             success: function(deptReportData, deptReportOptions, deptReportURL) {
                                 responseHandlerTeamReportMonth(deptReportData, deptSLAReportData, flowTimeMetricsReportData, item, deptReportOptions, deptReportURL, deptSLAReportURL, flowTimeMetricsReportURL);
 
-                                if(idx === array.length - 1) { // инициализируем данные из сохраненной истории и навешиваем обработчики на поля ввода
-                                    //initTextareaEditorsByDefaults()
-                                    initTextareaEditorsByCurrentVersionOfHistory();
-                                    initEventsTextareaEditors();
-                                    initEventsTextareaViews();
+                                if(idx === array.length - 1) { // после загрузки данных для всех команд из списка, вызываем функцию onComplete
+                                    onComplete();
                                 }
                             }
                         });
@@ -569,7 +575,7 @@ function prepareDateRangePicker(id, start, end, ranges, locale, showCustomRangeL
         locale: locale,
         showCustomRangeLabel: showCustomRangeLabel
     }, function (start, end) {
-        loadDepReportsContentWithLoaderAnimation(function() {
+        loadDepReportsContentWithLoaderAnimation(function () {
             updateRangePickerView(id, start, end);
         });
     });
