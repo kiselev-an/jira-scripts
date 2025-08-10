@@ -1,0 +1,17 @@
+#from https://about.gitlab.com/blog/build-a-new-website-in-a-few-easy-steps-with-gitlab-pages/
+pages:
+  stage: deploy
+  script:
+    - echo "Deploying application ..."
+    - echo "Make temp dir '.public' ..."
+    - mkdir .public
+    - echo "Copies all website files into temp dir ('.public') ..."
+    - cp -r * .public
+    - echo "Renames temp dir ('.public') into 'public' ..."
+    - mv .public public
+    - echo "Application successfully deployed."
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
