@@ -1,5 +1,6 @@
 #from https://about.gitlab.com/blog/build-a-new-website-in-a-few-easy-steps-with-gitlab-pages/
 pages:
+  image: node:18-alpine # Example: Using a Node.js image for a JavaScript-based static site generator
   stage: deploy
   script:
     - echo "Deploying application ..."
