@@ -21,8 +21,8 @@ function initTextareaElements() {
 }
 
 function prepareGetDeptReportURL(options) {
-//https://jira.ftc.ru/rest/scriptrunner/latest/custom/getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
+//../getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?";
     }
@@ -41,8 +41,8 @@ function prepareGetDeptReportURL(options) {
 }
 
 function prepareGetQualityReportURL(options) {
-//https://jira.ftc.ru/rest/scriptrunner/latest/custom/getQualityReport?dateFrom=2025-05-01&dateTo=2025-06-04&ra=Коллектор
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getQualityReport?";
+//../getQualityReport?dateFrom=2025-05-01&dateTo=2025-06-04&ra=Коллектор
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getQualityReport?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-quality-report.html?";
     }
@@ -54,8 +54,8 @@ function prepareGetQualityReportURL(options) {
 }
 
 function prepareGetDeptSLAReportURL(options) {
-//https://jira.redelephant.ru/rest/scriptrunner/latest/custom/getDeptSLAReport?level=O&type=B&dateFrom=2025-04-01&dateTo=2025-06-29&dept=Коллектор
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptSLAReport?";
+//../getDeptSLAReport?level=O&type=B&dateFrom=2025-04-01&dateTo=2025-06-29&dept=Коллектор
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptSLAReport?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-sla-report.html?";
     }
@@ -70,8 +70,8 @@ function prepareGetDeptSLAReportURL(options) {
 }
 
 function prepareGetFlowTimeMetricsReportURL(options) {
-//https://jira.redelephant.ru/rest/scriptrunner/latest/custom/getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&ra=cl&teams=QPAYTEAMS-577
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getFlowTimeMetrics?";
+//../getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&ra=cl&teams=QPAYTEAMS-577
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getFlowTimeMetrics?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-flowtime-report.html?";
     }
@@ -229,7 +229,7 @@ function sendEmail() {
         return;
     }
 
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=sendEmail";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?action=sendEmail";
     }
@@ -259,7 +259,7 @@ function publishingToConfluence() {
         return;
     }
 
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?action=publishingPage";
     }
