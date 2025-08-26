@@ -191,6 +191,5 @@ function prepareString4CharIndexesArray(indexes) {
     for(var i = 0; i < indexes.length; i++) {
         result += CHARS_ARRAY[indexes[i]];
     }
-    console.log(result);
     return result;
 }

@@ -123,7 +123,7 @@ function loadDepReportsContent(onComplete) {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
                 executeGetRequestWithLoaderAnimation({
                     url: prepareGetFlowTimeMetricsReportURL(optionsTeamMonthData),
-                    async: true,
+                    async: false,
                     options: optionsTeamMonthData,
                     success: function(flowTimeMetricsReportData, flowTimeMetricsReportOptions, flowTimeMetricsReportURL) {
                         executeGetRequestWithLoaderAnimation({
@@ -133,7 +133,7 @@ function loadDepReportsContent(onComplete) {
                             success: function(deptReportData, deptReportOptions, deptReportURL) {
                                 responseHandlerTeamReportMonth(deptReportData, deptSLAReportData, flowTimeMetricsReportData, item, deptReportOptions, deptReportURL, deptSLAReportURL, flowTimeMetricsReportURL);
 
-                                if(idx === array.length - 1) { // после загрузки данных для всех команд из списка, вызываем функцию onComplete
+                                if(idx === array.length - 1 && onComplete && null != onComplete) { // после загрузки данных для всех команд из списка, вызываем функцию onComplete
                                     onComplete();
                                 }
                             }
@@ -259,7 +259,7 @@ function publishingToConfluence() {
         return;
     }
 
-    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
+    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?action=publishingPage";
     }
