@@ -8,16 +8,9 @@ function onLoadDepReportPage() {
     DEBUG_MODE = window.location.href.startsWith("http://localhost"); //TODO: switcher to debug mode
     initRangePickers();
     initSelectInputs();
-    loadDepReportsContent(function () {
-        initTextareaElements();
-    });
-}
-
-function initTextareaElements() {
-    //initTextareaEditorsByDefaults() // инициализируем данные из сохраненной истории и навешиваем обработчики на поля ввода
-    initTextareaEditorsByCurrentVersionOfHistory();
-    initEventsTextareaEditors();
-    initEventsTextareaViews();
+    initTeamsMetricsSections();
+    initTextareaElements();
+    loadDepReportsContent(null);
 }
 
 function prepareGetDeptReportURL(options) {
@@ -116,9 +109,10 @@ function loadDepReportsContent(onComplete) {
     $("#subHeaderTeams").html(monthStr);
     executeGetRequestWithLoaderAnimation({
         url: prepareGetDeptSLAReportURL(optionsMonthData),
-        async: false,
+        async: true, //
         options: optionsMonthData,
         success: function(deptSLAReportData, deptSLAReportOptions, deptSLAReportURL) {
+            var counter = TEAMS.length;
             TEAMS.forEach(function (item, idx, array) {
                 var optionsTeamMonthData = {"from": rangeMonthPickerData.startDate, "to": rangeMonthPickerData.endDate, "reportLevel": $("#reportLevel").val(), "epicTypes": $("#epicTypes").val(), "teams": [item]};
                 executeGetRequestWithLoaderAnimation({
@@ -128,12 +122,12 @@ function loadDepReportsContent(onComplete) {
                     success: function(flowTimeMetricsReportData, flowTimeMetricsReportOptions, flowTimeMetricsReportURL) {
                         executeGetRequestWithLoaderAnimation({
                             url: prepareGetDeptReportURL(optionsTeamMonthData),
-                            async: false,
+                            async: true,  //
                             options: optionsTeamMonthData,
                             success: function(deptReportData, deptReportOptions, deptReportURL) {
                                 responseHandlerTeamReportMonth(deptReportData, deptSLAReportData, flowTimeMetricsReportData, item, deptReportOptions, deptReportURL, deptSLAReportURL, flowTimeMetricsReportURL);
-
-                                if(idx === array.length - 1 && onComplete && null != onComplete) { // после загрузки данных для всех команд из списка, вызываем функцию onComplete
+                                counter--;
+                                if(counter < 1 && onComplete && null != onComplete) { // после загрузки данных для всех команд из списка, вызываем функцию onComplete
                                     onComplete();
                                 }
                             }
@@ -328,7 +322,9 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
 
     var responseFlowtimeHtml = $.parseHTML(responseDataFlowtime, null);
     var teamFlowtimeMetricsTableHTML = getContentHTML(0, $(responseFlowtimeHtml), "table", "timeMetricsTableView", true, function() {
-        return $(this).prev("p").prev("p").prev("h1").text().includes("Downstream");
+        var resultVer1 = $(this).prev("p").prev("p").prev("h1").text().includes("Downstream");
+        var resultVer2 = $(this).prev("p").prev("p").prev("span").prev("h1").text().includes("Downstream");
+        return resultVer1 || resultVer2;
     });
 
     var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";
@@ -353,16 +349,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
     if(teamMetricsDiv && teamMetricsDiv != null && teamMetricsDiv != 'undefined' && teamMetricsDiv.length > 0) {
         teamMetricsDiv.html(htmlTeamMetricsString);
     } else {
-        var htmlString = $("#depTeamsMetricsDiv").html();
-        htmlString += "<p></p>";
-        htmlString += "<div id=\"teamMetricsDiv_" + team.teamId + "\" ";
-        htmlString += "class=\"slaContent slaTeamContent\">";
-        htmlString += htmlTeamMetricsString;
-        htmlString += "</div>";
-        htmlString += "<div id=\"analyseTeamMetrics-" + team.teamId + "_div\" class=\"textarea-view\"></div>";
-        htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"" + analyseTeamMetrics_QPAYTEAM_PLACEHOLDER + " '" + team.teamName + "'\" " +
-            "cols=\"60\" rows=\"3\" class=\"textarea-editor\"></textarea></label>";
-        $("#depTeamsMetricsDiv").html(htmlString);
+        addTeamMetricsSection(team, htmlTeamMetricsString); // оставил на всякий случай
     }
 }
 
@@ -463,6 +450,32 @@ function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
     } else {
         return "&nbsp;";
     }
+}
+
+function addTeamMetricsSection(team, contentHTML) {
+    var htmlString = $("#depTeamsMetricsDiv").html();
+    htmlString += "<p></p>";
+    htmlString += "<div id=\"teamMetricsDiv_" + team.teamId + "\" ";
+    htmlString += "class=\"slaContent slaTeamContent\">";
+    htmlString += contentHTML;
+    htmlString += "</div>";
+    htmlString += "<div id=\"analyseTeamMetrics-" + team.teamId + "_div\" class=\"textarea-view\"></div>";
+    htmlString += "<label><textarea id=\"analyseTeamMetrics-" + team.teamId + "\" placeholder=\"" + analyseTeamMetrics_QPAYTEAM_PLACEHOLDER + " '" + team.teamName + "'\" " +
+        "cols=\"60\" rows=\"3\" class=\"textarea-editor\"></textarea></label>";
+    $("#depTeamsMetricsDiv").html(htmlString);
+}
+
+function initTeamsMetricsSections() {
+    TEAMS.forEach((item) => {
+        addTeamMetricsSection(item, "Загрузка...");
+    });
+}
+
+function initTextareaElements() {
+    //initTextareaEditorsByDefaults() // инициализируем данные из сохраненной истории и навешиваем обработчики на поля ввода
+    initTextareaEditorsByCurrentVersionOfHistory();
+    initEventsTextareaEditors();
+    initEventsTextareaViews();
 }
 
 function initTextareaEditorsByDefaults() {
