@@ -253,7 +253,7 @@ function publishingToConfluence() {
         return;
     }
 
-    var url = JIRA_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getCollectionMetrics?action=publishingPage";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-report.html?action=publishingPage";
     }
