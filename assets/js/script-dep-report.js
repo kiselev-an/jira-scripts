@@ -290,7 +290,12 @@ function responseHandlerQualityReportMonth(responseData, range, url) {
     var responseHtml = $.parseHTML(responseData, null);
     var monthStr = range.to.format(DATE_FORMAT_MONTH);
 
-    var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
+    //var depTotalQualityMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
+    var depTotalQualityMetricsTableHTML = getContentHTML(0, $(responseHtml), "table", "timeMetricsTableView", true, function() {
+        return true;
+    });
+    alert(responseHtml);
+
     var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", "", false, function() {
         return $(this).text().includes("cancelled");
     });
@@ -354,7 +359,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
 }
 
 function getMetricsTableHTML(index, dataDOM) {
-    var resTables = $(dataDOM).filter("table");
+    var resTables = $(dataDOM).find("table");
     var table1 = $(resTables[index]);
     $(table1).addClass('timeMetricsTableView');
     var tableHTML = $(table1).prop('outerHTML');
