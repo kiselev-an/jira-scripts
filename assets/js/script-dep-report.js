@@ -294,8 +294,6 @@ function responseHandlerQualityReportMonth(responseData, range, url) {
     var depTotalQualityMetricsTableHTML = getContentHTML(0, $(responseHtml), "table", "timeMetricsTableView", true, function() {
         return true;
     });
-    alert(responseHtml);
-
     var wasCancelledHTML = getContentHTML(0, $(responseHtml), "p", "", false, function() {
         return $(this).text().includes("cancelled");
     });
