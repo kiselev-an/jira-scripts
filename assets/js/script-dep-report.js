@@ -25,10 +25,17 @@ function prepareGetDeptReportURL(options) {
     url += "level=" + options.reportLevel + "&";
     url += "type=" + options.epicTypes;
 
+    /*
     url += options.teams && options.teams.length > 0 ? "&teams=" : "";
     options.teams.forEach((item, index, arr) => {
         url += item.teamId + (index === arr.length - 1 ? "" : ",");
     });
+    */
+    url += options.teams && options.teams.length == 1 ? "&team=" : "";
+    options.teams.forEach((item, index, arr) => {
+        url += item.teamId + (index === arr.length - 1 ? "" : ",");
+    });
+    
 
     return url;
 }
@@ -63,12 +70,12 @@ function prepareGetDeptSLAReportURL(options) {
 }
 
 function prepareGetFlowTimeMetricsReportURL(options) {
-//../getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&ra=cl&teams=QPAYTEAMS-577
+//../getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&debt=Коллектор&teams=QPAYTEAMS-577
     var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getFlowTimeMetrics?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-flowtime-report.html?";
     }
-    url += "debts=" + "Коллектор" + "&";
+    url += "debt=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(options.to.toDate());
 
