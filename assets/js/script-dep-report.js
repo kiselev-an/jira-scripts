@@ -68,7 +68,7 @@ function prepareGetFlowTimeMetricsReportURL(options) {
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-flowtime-report.html?";
     }
-    url += "ra=" + "cl" + "&";
+    url += "debts=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(options.to.toDate());
 
