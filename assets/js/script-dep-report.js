@@ -25,17 +25,16 @@ function prepareGetDeptReportURL(options) {
     url += "level=" + options.reportLevel + "&";
     url += "type=" + options.epicTypes;
 
-    /*
+    /* после обновления 2026-02-12 сломался параметр "teams", работает только "team"
     url += options.teams && options.teams.length > 0 ? "&teams=" : "";
     options.teams.forEach((item, index, arr) => {
         url += item.teamId + (index === arr.length - 1 ? "" : ",");
     });
     */
-    url += options.teams && options.teams.length == 1 ? "&team=" : "";
-    options.teams.forEach((item, index, arr) => {
-        url += item.teamId + (index === arr.length - 1 ? "" : ",");
-    });
-    
+    if(options.teams && options.teams.length == 1) {
+        url += "&team=";
+        url += options.teams[0].teamId;
+    }   
 
     return url;
 }
