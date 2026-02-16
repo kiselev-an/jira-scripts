@@ -7,12 +7,12 @@ pages:
   stage: deploy
   script:
     #- ./gradlew bundle
-    - echo "Deploying application ..."
-    - echo "Make temp dir '.public' ..."
+    - echo "Deploying application:"
+    - echo "1. Make temp dir '.public' ..."
     - mkdir .public
-    - echo "Copies all website files into temp dir ('.public') ..."
+    - echo "2. Copies all website files into temp dir ('.public') ..."
     - cp -r * .public
-    - echo "Renames temp dir ('.public') into 'public' ..."
+    - echo "3. Renames temp dir ('.public') into 'public' ..."
     - mv .public public
     - echo "Application successfully deployed."
   artifacts: # необходимый артефакт
