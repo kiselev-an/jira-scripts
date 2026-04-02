@@ -5,7 +5,8 @@ var DOMAIN_URL = prepareString4CharIndexesArray(DOMAIN_INDEXES_ARRAY);
 var SCRIPT_RUNNER_PATH = prepareString4CharIndexesArray(PATH_INDEXES_ARRAY);
 var DATE_FROM = "2023-07-01";
 var FOR_LAST_MONTHS = 3;
-var TEAMS = [
+
+var TEAMS_DEFAULT = [
     { teamId: "QPAYTEAMS-576", teamName: "CheersForКейптаун" },
     { teamId: "QPAYTEAMS-577", teamName: "Азгард" },
     { teamId: "QPAYTEAMS-578", teamName: "Хьюстон" },

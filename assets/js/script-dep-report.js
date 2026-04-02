@@ -2,6 +2,7 @@ var DATE_FORMAT_PERIOD = "DD MMMM YYYY";
 var DATE_FORMAT_MONTH = "MMMM YYYY";
 var DATE_FORMAT_MONTH_MIN = "MMMM";
 var CURRENT_VERSION_OF_HISTORY_KEY = "currentHistoryVersion";
+var TEAMS = [];
 var DEBUG_MODE = false;
 
 function onLoadDepReportPage() {
@@ -11,6 +12,15 @@ function onLoadDepReportPage() {
     initTeamsMetricsSections();
     initTextareaElements();
     loadDepReportsContent(null);
+}
+
+function prepareGetTeamsURL(options) {
+//../getQpayTeams
+    var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getQpayTeams";
+    if(DEBUG_MODE) {
+        url = "./assets/data/test-dep-teams.json";
+    }
+    return url;
 }
 
 function prepareGetDeptReportURL(options) {
@@ -68,7 +78,7 @@ function prepareGetFlowTimeMetricsReportURL(options) {
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-flowtime-report.html?";
     }
-    url += "ra=" + "cl" + "&";
+    url += "depts=" + "Коллектор" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(options.to.toDate());
 
@@ -327,7 +337,8 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
     var teamFlowtimeMetricsTableHTML = getContentHTML(0, $(responseFlowtimeHtml), "table", "timeMetricsTableView", true, function() {
         var resultVer1 = $(this).prev("p").prev("p").prev("h1").text().includes("Downstream");
         var resultVer2 = $(this).prev("p").prev("p").prev("span").prev("h1").text().includes("Downstream");
-        return resultVer1 || resultVer2;
+        var resultVer3 = $(this).prev("p").prev("p").text().includes("Downstream");
+        return resultVer1 || resultVer2 || resultVer3;
     });
 
     var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";
@@ -404,6 +415,7 @@ function getMetricsSLATableHTML(index, team, dataDOM) {
 
 function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass, url) {
     var flowtimeMetricsTableDOM = $.parseHTML(flowtimeMetricsTableHTML, null);
+    alert(flowtimeMetricsTableHTML);
     var statistic = new Map();
     var matchingRows = $(flowtimeMetricsTableDOM).find("td").filter(function() {
         if($(this).index() === 5 && $(this).text() != "Size") { // кривой способ группировки ;)
@@ -417,6 +429,7 @@ function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
         return false;
     }).closest('tr');
 
+    alert(statistic.size);
     if(statistic.size > 0) {
         // Convert Map entries to an array, sort by key, and convert back to a new Map
         var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
@@ -676,6 +689,33 @@ function initSelectInputs() {
     $("#versionOfHistory").on("change", function() {
         confirmInitTextareaEditorsByVersionOfHistory($(this).val());
     });
+
+    executeGetRequestWithLoaderAnimation({
+        url: prepareGetTeamsURL(),
+        async: false,
+        success: function(data, options, url) {
+            TEAMS = []; // updating selected Teams
+            data.filter(item => item.subdivision == "Коллектор")
+            .sort((a, b) => a.name == b.name)
+            .forEach((item, index, arr) => {
+                var option = new Option(item.name, item.id);
+                $(option).attr("alt", item.id);
+                $(option).prop("selected", "selected");
+                $("#reportTeams").append(option);
+                TEAMS.push({"teamId": item.id, "teamName": item.name});
+            });
+        }
+    });
+    $("#reportTeams").on("change", function() {
+        TEAMS = []; // updating selected Teams
+        $("#depTeamsMetricsDiv").html(""); // clearing UI
+        var selectedTeams = $(this).find("option:selected")
+        .sort((a, b) => $(a).text() == $(b).text());
+        selectedTeams.each(function() {
+            TEAMS.push({"teamId": $(this).val(), "teamName": $(this).text()});
+        });
+        loadDepReportsContentWithLoaderAnimation(null);
+    });
 }
 
 function toggleContents(elementsId, clickedElement) {
@@ -829,4 +869,8 @@ function prepareOptionTextForVersionOfHistory(version, date, historyMode) {
     strResult += "Дата: " + moment.utc(date).local().format("YYYY-MM-DD HH:mm:ss");
     strResult += " (" + (historyMode == "intermediate" ? "не исп." : historyMode) + ")";
     return strResult;
+}
+
+function getSelectedTeams() {
+
 }

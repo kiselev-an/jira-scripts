@@ -163,7 +163,7 @@ div.notincluded {
     opacity: 0.5;
 }
 
-div#welcome_div, div#overview_div {
+div#welcome_div, div#overview_div, div#analyseDepTotalCurrentMonthMetrics_div {
     width: 50%;
 }
 
@@ -233,6 +233,11 @@ select.versionsOfHistory {
 select.reportLevel, select.epicTypes {
     width: 200px;
     height: 25px;
+}
+
+select.reportTeams {
+    width: 200px;
+    height: 140px;
 }
 
 div.rangePicker {
@@ -345,7 +350,7 @@ input[type="checkbox"] {
 }
 
 @media print  {
-    div#welcome_div, div#overview_div {
+    div#welcome_div, div#overview_div, div#analyseDepTotalCurrentMonthMetrics_div {
         width: 100%;
     }
 

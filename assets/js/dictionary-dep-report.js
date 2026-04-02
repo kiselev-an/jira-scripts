@@ -1,4 +1,4 @@
-var EXAMPLE_DEFAULT_USERNAME = "Сергей";
+var EXAMPLE_DEFAULT_USERNAME = "Сc ее рр гг ее йй";
 var EXAMPLE_WELCOME_TEXT = "Коллеги, привет.";
 var EXAMPLE_OVERVIEW_TEXT =
     "На подходе свежая выгрузка по метрикам за прошедшую часть квартала {month1-month2-month3) и за {currentMonth}, соответственно.";
