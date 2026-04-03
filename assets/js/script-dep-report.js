@@ -35,10 +35,16 @@ function prepareGetDeptReportURL(options) {
     url += "level=" + options.reportLevel + "&";
     url += "type=" + options.epicTypes;
 
+    /* после обновления 2026-02-12 сломался параметр "teams", работает только "team"
     url += options.teams && options.teams.length > 0 ? "&teams=" : "";
     options.teams.forEach((item, index, arr) => {
         url += item.teamId + (index === arr.length - 1 ? "" : ",");
     });
+    */
+    if(options.teams && options.teams.length == 1) {
+        url += "&team=";
+        url += options.teams[0].teamId;
+    }
 
     return url;
 }
@@ -73,12 +79,12 @@ function prepareGetDeptSLAReportURL(options) {
 }
 
 function prepareGetFlowTimeMetricsReportURL(options) {
-//../getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&ra=cl&teams=QPAYTEAMS-577
+//../getFlowTimeMetrics?dateFrom=2024-01-01&dateTo=2025-07-13&debt=Коллектор&teams=QPAYTEAMS-577
     var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getFlowTimeMetrics?";
     if(DEBUG_MODE) {
         url = "./assets/data/test-dep-flowtime-report.html?";
     }
-    url += "depts=" + "Коллектор" + "&";
+    url += "ra=" + "cl" + "&";
     url += "dateFrom=" + dateToYYYYMMDD(options.from.toDate()) + "&";
     url += "dateTo=" + dateToYYYYMMDD(options.to.toDate());
 
@@ -415,7 +421,6 @@ function getMetricsSLATableHTML(index, team, dataDOM) {
 
 function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, applyClass, url) {
     var flowtimeMetricsTableDOM = $.parseHTML(flowtimeMetricsTableHTML, null);
-    alert(flowtimeMetricsTableHTML);
     var statistic = new Map();
     var matchingRows = $(flowtimeMetricsTableDOM).find("td").filter(function() {
         if($(this).index() === 5 && $(this).text() != "Size") { // кривой способ группировки ;)
@@ -429,7 +434,6 @@ function getStatisticCountOfEpicsGroupingBySizes(flowtimeMetricsTableHTML, apply
         return false;
     }).closest('tr');
 
-    alert(statistic.size);
     if(statistic.size > 0) {
         // Convert Map entries to an array, sort by key, and convert back to a new Map
         var sortedStatisticByKey = new Map([...statistic.entries()].sort((a, b) => a[0]- b[0]));
@@ -869,8 +873,4 @@ function prepareOptionTextForVersionOfHistory(version, date, historyMode) {
     strResult += "Дата: " + moment.utc(date).local().format("YYYY-MM-DD HH:mm:ss");
     strResult += " (" + (historyMode == "intermediate" ? "не исп." : historyMode) + ")";
     return strResult;
-}
-
-function getSelectedTeams() {
-
 }
