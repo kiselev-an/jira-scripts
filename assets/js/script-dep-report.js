@@ -23,6 +23,7 @@ function prepareGetTeamsURL(options) {
     return url;
 }
 
+
 function prepareGetDeptReportURL(options) {
 //../getDeptReport?dateFrom=2025-05-01&dateTo=2025-06-04&dept=Коллектор&type=B&level=O
     var url = DOMAIN_URL + "/" + SCRIPT_RUNNER_PATH + "/getDeptReport?";
