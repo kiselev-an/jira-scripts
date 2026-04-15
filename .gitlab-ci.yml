@@ -5,6 +5,8 @@ image: openjdk:8
 before_script: []
 pages:
   stage: deploy
+  variables:
+    GIT_DEPTH: 0
   script:
     #- ./gradlew bundle
     - echo "Deploying application:"
