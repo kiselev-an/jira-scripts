@@ -111,8 +111,19 @@
     max-height: 0;
     background-color: white;
 }
-.clickToCollapseTableRows {
+.clickToCollapseElements {
     cursor: pointer;
+}
+.toggleRow {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  /* Transition opacity and max-height for a smooth effect */
+  transition: opacity 0.5s ease-out, max-height 0.5s ease-out;
+}
+.toggleRow.visibleElement {
+  opacity: 1;
+  max-height: 100px; /* Set a height larger than your content */
 }
 .iframeLegendView {
     width: 100%;
