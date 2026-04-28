@@ -17,6 +17,21 @@ function loadPageAddCollapsibleEvents() {
             }
         });
     }
+    var coll = document.getElementsByClassName('clickToCollapseTableRows');
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener('click', function() {
+            var classOfElementsToCollapse = getCustomAttributeValue(this, 'classOfElementsToCollapse');
+            var elementsToCollapse = document.getElementsByClassName(classOfElementsToCollapse);
+            for (var j = 0; j < elementsToCollapse.length; j++) {
+                var content = elementsToCollapse[j];
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            }
+        });
+    }
 }
 function applyEffect(event) {
     var element = event.target;
