@@ -114,15 +114,17 @@
 .clickToCollapseElements {
     cursor: pointer;
 }
-.toggleRow {
+.toggleTableRow {
   opacity: 0;
   max-height: 0;
   overflow: hidden;
+  visibility: collapse;
   /* Transition opacity and max-height for a smooth effect */
   transition: opacity 0.5s ease-out, max-height 0.5s ease-out;
 }
-.toggleRow.visibleElement {
+.toggleTableRow.visibleElement {
   opacity: 1;
+  visibility: visible;
   max-height: 100px; /* Set a height larger than your content */
 }
 .iframeLegendView {

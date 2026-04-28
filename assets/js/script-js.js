@@ -20,11 +20,8 @@ function loadPageAddCollapsibleEvents() {
     var coll = document.getElementsByClassName('clickToCollapseElements');
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener('click', function() {
-        alert(this);
             var classOfElementsToCollapse = getCustomAttributeValue(this, 'classOfElementsToCollapse');
-        alert(classOfElementsToCollapse);
             var elementsToCollapse = document.getElementsByClassName(classOfElementsToCollapse);
-        alert(elementsToCollapse.length);
             for (var j = 0; j < elementsToCollapse.length; j++) {
                 var content = elementsToCollapse[j];
                 content.classList.toggle('visibleElement');
