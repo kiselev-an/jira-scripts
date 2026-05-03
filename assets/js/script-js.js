@@ -87,7 +87,7 @@ function sortTable(columnIndex, tableId) {
         var valB = rowB.cells[columnIndex].textContent.trim();
 
         // Check if numeric or string for better sorting
-        return isAscending
+        return !isAscending
             ? valA.localeCompare(valB, undefined, {numeric: true})
             : valB.localeCompare(valA, undefined, {numeric: true});
     });
