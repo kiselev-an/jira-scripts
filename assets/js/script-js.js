@@ -63,7 +63,7 @@ function getCustomAttributeValue(element, attributeName) {
         return "";
     }
 }
-function sortTable(columnIndex, element, tableId) {
+function sortTable(columnIndex, tableId) {
     var table = document.getElementById(tableId);
     var thead = table.querySelector("thead");
     var tbody = table.querySelector("tbody");
