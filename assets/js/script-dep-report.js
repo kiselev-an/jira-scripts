@@ -333,7 +333,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
     var responseHtml = $.parseHTML(responseDataDept, null);
     var teamMetricsTableHTML = getMetricsTableHTML(0, $(responseHtml));
     if(!teamMetricsTableHTML || "" == teamMetricsTableHTML || teamMetricsTableHTML.length == 0) {
-        console.log("WARNING: teamMetricsTableHTML is not parsed. Details: team = " + team + ", url = " + deptReportURL);
+        console.log("WARNING: teamMetricsTableHTML is not parsed. Details: team = " + team.teamName + ", url = " + deptReportURL);
     }
 
     var responseSLAHtml = $.parseHTML(responseDataSLA, null);
@@ -342,7 +342,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
         return $(this).prev("p").prev("p").text().includes(team.teamName);
     });
     if(!teamMetricsSLATableHTML || "" == teamMetricsSLATableHTML || teamMetricsSLATableHTML.length == 0) {
-        console.log("WARNING: teamMetricsSLATableHTML is not parsed. Details: team = " + team + ", url = " + deptSLAReportURL);
+        console.log("WARNING: teamMetricsSLATableHTML is not parsed. Details: team = " + team.teamName + ", url = " + deptSLAReportURL);
     }
 
     var responseFlowtimeHtml = $.parseHTML(responseDataFlowtime, null);
@@ -353,7 +353,7 @@ function responseHandlerTeamReportMonth(responseDataDept, responseDataSLA, respo
         return resultVer1 || resultVer2 || resultVer3;
     });
     if(!teamFlowtimeMetricsTableHTML || "" == teamFlowtimeMetricsTableHTML || teamFlowtimeMetricsTableHTML.length == 0) {
-        console.log("WARNING: teamFlowtimeMetricsTableHTML is not parsed. Details: team = " + team + ", url = " + flowTimeMetricsReportURL);
+        console.log("WARNING: teamFlowtimeMetricsTableHTML is not parsed. Details: team = " + team.teamName + ", url = " + flowTimeMetricsReportURL);
     }
 
     var htmlTeamMetricsString = "<b>" + team.teamName + "</b>";

@@ -11,6 +11,18 @@
     background-color: #DCDCDC;
     border: 1px solid #000000;
 }
+.timeMetricsTableView thead th.sortable-column {
+    cursor: pointer;
+}
+.timeMetricsTableView thead th.sortable-column:hover {
+    cursor: pointer;
+}
+.timeMetricsTableView thead th.sortable-column.sort-asc::after {
+    content: " ▲";
+}
+.timeMetricsTableView thead th.sortable-column.sort-desc::after {
+    content: " ▼";
+}
 .timeMetricsTableView tbody tr:hover {
     background-color: #FFFACD !important;
     color: #000000 !important;

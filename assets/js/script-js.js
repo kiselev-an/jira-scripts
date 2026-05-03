@@ -63,3 +63,25 @@ function getCustomAttributeValue(element, attributeName) {
         return "";
     }
 }
+function sortTable(columnIndex, tableId) {
+    var table = document.getElementById(tableId);
+    var tbody = table.tBodies[0];
+    var rows = Array.from(tbody.rows);
+
+    // Toggle sort direction (simple version)
+    var isAscending = table.getAttribute("data-sort-dir") === "asc";
+    table.setAttribute("data-sort-dir", isAscending ? "desc" : "asc");
+
+    rows.sort((rowA, rowB) => {
+        var valA = rowA.cells[columnIndex].textContent.trim();
+        var valB = rowB.cells[columnIndex].textContent.trim();
+
+        // Check if numeric or string for better sorting
+        return isAscending
+            ? valA.localeCompare(valB, undefined, {numeric: true})
+            : valB.localeCompare(valA, undefined, {numeric: true});
+    });
+
+    // Re-append rows in new order
+    rows.forEach(row => tbody.appendChild(row));
+}
