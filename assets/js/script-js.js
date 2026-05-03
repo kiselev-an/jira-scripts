@@ -63,15 +63,18 @@ function getCustomAttributeValue(element, attributeName) {
         return "";
     }
 }
-function sortTable(columnIndex, tableId) {
+function sortTable(columnIndex, element, tableId) {
     var table = document.getElementById(tableId);
-    //var tbody = table.tBodies[0];
     var thead = table.querySelector("thead");
     var tbody = table.querySelector("tbody");
     var rows = Array.from(tbody.rows);
 
     // Toggle sort direction (simple version)
-    var isAscending = table.getAttribute("data-sort-dir") === "asc";
+    alert(columnIndex);
+    alert(table.getAttribute("order-by"));
+    alert(table.getAttribute("order-by") === columnIndex);
+    var isAscending = (table.getAttribute("order-by") === columnIndex && table.getAttribute("data-sort-dir") === "asc");
+    table.setAttribute("order-by", columnIndex);
     table.setAttribute("data-sort-dir", isAscending ? "desc" : "asc");
 
     var headers = thead.querySelectorAll("th");

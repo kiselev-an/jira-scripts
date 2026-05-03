@@ -14,14 +14,13 @@
 .timeMetricsTableView thead th.sortable-column {
     cursor: pointer;
 }
-.timeMetricsTableView thead th.sortable-column:hover {
-    cursor: pointer;
-}
 .timeMetricsTableView thead th.sortable-column.sort-asc::after {
     content: " ▲";
+    white-space: nowrap;
 }
 .timeMetricsTableView thead th.sortable-column.sort-desc::after {
     content: " ▼";
+    white-space: nowrap;
 }
 .timeMetricsTableView tbody tr:hover {
     background-color: #FFFACD !important;
