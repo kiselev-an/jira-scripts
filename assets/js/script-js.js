@@ -70,11 +70,12 @@ function sortTable(columnIndex, tableId) {
     var rows = Array.from(tbody.rows);
 
     // Toggle sort direction (simple version)
-    alert(columnIndex);
+    var wrapColumnIndex = "" + columnIndex;
+    alert(wrapColumnIndex);
     alert(table.getAttribute("order-by"));
-    alert(table.getAttribute("order-by") === columnIndex);
-    var isAscending = (table.getAttribute("order-by") === columnIndex && table.getAttribute("data-sort-dir") === "asc");
-    table.setAttribute("order-by", "" + columnIndex);
+    alert(table.getAttribute("order-by") === wrapColumnIndex);
+    var isAscending = (table.getAttribute("order-by") === wrapColumnIndex && table.getAttribute("data-sort-dir") === "asc");
+    table.setAttribute("order-by", wrapColumnIndex);
     table.setAttribute("data-sort-dir", isAscending ? "desc" : "asc");
 
     var headers = thead.querySelectorAll("th");
