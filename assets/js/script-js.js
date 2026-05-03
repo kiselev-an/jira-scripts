@@ -74,7 +74,7 @@ function sortTable(columnIndex, tableId) {
     alert(table.getAttribute("order-by"));
     alert(table.getAttribute("order-by") === columnIndex);
     var isAscending = (table.getAttribute("order-by") === columnIndex && table.getAttribute("data-sort-dir") === "asc");
-    table.setAttribute("order-by", columnIndex);
+    table.setAttribute("order-by", "" + columnIndex);
     table.setAttribute("data-sort-dir", isAscending ? "desc" : "asc");
 
     var headers = thead.querySelectorAll("th");
