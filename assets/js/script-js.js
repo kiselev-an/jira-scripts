@@ -65,12 +65,22 @@ function getCustomAttributeValue(element, attributeName) {
 }
 function sortTable(columnIndex, tableId) {
     var table = document.getElementById(tableId);
-    var tbody = table.tBodies[0];
+    //var tbody = table.tBodies[0];
+    var thead = table.querySelector("thead");
+    var tbody = table.querySelector("tbody");
     var rows = Array.from(tbody.rows);
 
     // Toggle sort direction (simple version)
     var isAscending = table.getAttribute("data-sort-dir") === "asc";
     table.setAttribute("data-sort-dir", isAscending ? "desc" : "asc");
+
+    var headers = thead.querySelectorAll("th");
+    headers.forEach((header, index) => {
+        header.classList.remove("sort-asc", "sort-desc");
+        if(index == columnIndex) {
+            header.classList.add(isAscending ? "sort-desc" : "sort-asc");
+        }
+    });
 
     rows.sort((rowA, rowB) => {
         var valA = rowA.cells[columnIndex].textContent.trim();
