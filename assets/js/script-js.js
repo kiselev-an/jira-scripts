@@ -71,7 +71,7 @@ function sortTable(columnIndex, tableId) {
     var rows = Array.from(tbody.rows);
 
     // Toggle sort direction (simple version)
-    var isAscending = table.getAttribute("data-sort-dir") === "desc";
+    var isAscending = table.getAttribute("data-sort-dir") === "asc";
     table.setAttribute("data-sort-dir", isAscending ? "desc" : "asc");
 
     var headers = thead.querySelectorAll("th");
