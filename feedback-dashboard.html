@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Review — Дашборд команды</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/reviews.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="header">
+      <div class="team-block">
+        <div class="team-logo">🚀</div>
+        <div class="team-title">
+          <select id="team-select" class="team-select"></select>
+          <div class="review-line">
+            <span id="review-title"></span>
+            <span class="badge in_progress"><span class="dot"></span><span id="review-status"></span></span>
+          </div>
+        </div>
+      </div>
+      <div class="owners" id="owners"></div>
+    </header>
+
+    <div class="meta-line">
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="overview">Обзор</button>
+        <button class="tab" data-tab="metrics">Метрики</button>
+        <button class="tab" data-tab="people">Люди</button>
+        <button class="tab" data-tab="agreements">Договоренности</button>
+        <button class="tab" data-tab="initiatives">Задачи и инициативы</button>
+        <button class="tab" data-tab="history">История</button>
+        <button class="tab" data-tab="mentoring">Менторство</button>
+        <button class="tab" data-tab="files">Файлы</button>
+      </nav>
+      <div class="updated">Последнее обновление: <span id="updated-at"></span></div>
+    </div>
+
+    <section class="view active" id="view-overview">
+      <div class="grid-overview">
+        <div class="col">
+          <div class="card">
+            <h2><span class="icon">📊</span>Ключевые метрики команды <button class="btn link" id="to-metrics">Подробная аналитика →</button></h2>
+            <div class="metrics-grid" id="metrics-grid"></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h2><span class="icon">📈</span>Динамика ключевых метрик</h2>
+            <div class="chart-box"><canvas id="chart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section-card">
+        <h2><span class="icon">💡</span>Ключевые выводы за период</h2>
+        <div class="lists">
+          <div class="list-block wins">
+            <h3>Что получилось</h3>
+            <ul id="wins-list"></ul>
+          </div>
+          <div class="list-block attention">
+            <h3>Зоны внимания</h3>
+            <ul id="attention-list"></ul>
+          </div>
+          <div class="list-block focus">
+            <h3><span class="icon">🎯</span>Фокус команды на следующий период</h3>
+            <ol class="focus-list" id="focus-list"></ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">👥</span>Люди команды</h2>
+          <div class="chips" id="people-filters-overview"></div>
+          <button class="btn" id="open-cards">Открыть все карточки</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Сотрудник</th><th>Роль</th><th>Ключевой вклад за период</th>
+              <th>Зоны развития (кратко)</th><th>Кто даёт ОС</th><th>Статус ОС</th>
+            </tr>
+          </thead>
+          <tbody id="people-table-overview"></tbody>
+        </table>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="card">
+          <div class="toolbar">
+            <h2><span class="icon">🤝</span>Договоренности команды</h2>
+            <button class="btn primary">+ Добавить</button>
+          </div>
+          <table>
+            <thead><tr><th>Договоренность</th><th>Владелец</th><th>Срок</th><th>Статус</th></tr></thead>
+            <tbody id="agreements-preview"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="toolbar">
+            <h2><span class="icon">⚙️</span>Инициативы и улучшения</h2>
+            <button class="btn primary">+ Добавить</button>
+          </div>
+          <table>
+            <thead><tr><th>Инициатива</th><th>Статус</th><th>Срок</th></tr></thead>
+            <tbody id="initiatives-preview"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="toolbar">
+            <h2><span class="icon">🗂️</span>История team review</h2>
+            <button class="btn primary">+ Добавить</button>
+          </div>
+          <table>
+            <thead><tr><th>Период</th><th>Ключевые выводы</th><th>Статус</th></tr></thead>
+            <tbody id="history-preview"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">🧪</span>Для тестов</h2>
+          <div class="chips" id="frame-source">
+            <button class="chip active" data-src="direct">Прямая (Jira)</button>
+            <button class="chip" data-src="proxy">Прокси (localhost)</button>
+          </div>
+          <button class="btn" id="open-frame">Открыть в новой вкладке</button>
+        </div>
+        <iframe id="test-frame" class="test-frame" src="about:blank"></iframe>
+        <div class="frame-note" id="frame-note">Встроенная страница mentorDashboard (ScriptRunner). Прямая вставка блокируется CSP Jira (frame-ancestors 'self') — используйте режим «Прокси»: запустите <code>node tools/mentor-proxy.js</code> с JIRA_AUTH/кукой, либо откройте в новой вкладке.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-metrics">
+      <div class="card section-card">
+        <h2><span class="icon">📊</span>Метрики: факт vs прошлый период</h2>
+        <table>
+          <thead><tr><th>Метрика</th><th>Текущий период</th><th>Было</th><th>Δ</th><th>Тренд</th></tr></thead>
+          <tbody id="metrics-table"></tbody>
+        </table>
+      </div>
+      <div class="card section-card">
+        <h2><span class="icon">📈</span>Динамика по месяцам</h2>
+        <div class="chart-box" style="height:320px"><canvas id="chart-full"></canvas></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-people">
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">👥</span>Люди команды</h2>
+          <div class="chips" id="people-filters"></div>
+        </div>
+        <div class="summary-strip" id="fb-summary"></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Сотрудник</th><th>Роль</th><th>Ключевой вклад за период</th>
+              <th>Зоны развития (кратко)</th><th>Кто даёт ОС</th><th>Статус ОС</th>
+            </tr>
+          </thead>
+          <tbody id="people-table"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view" id="view-agreements">
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">🤝</span>Договоренности команды</h2>
+          <button class="btn primary">+ Добавить</button>
+        </div>
+        <table>
+          <thead><tr><th>Договоренность</th><th>Владелец</th><th>Срок</th><th>Статус</th></tr></thead>
+          <tbody id="agreements-full"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view" id="view-initiatives">
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">⚙️</span>Задачи и инициативы</h2>
+          <button class="btn primary">+ Добавить</button>
+        </div>
+        <table>
+          <thead><tr><th>Инициатива</th><th>Статус</th><th>Срок</th></tr></thead>
+          <tbody id="initiatives-full"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view" id="view-history">
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">🗂️</span>История team review</h2>
+          <button class="btn primary">+ Добавить</button>
+        </div>
+        <table>
+          <thead><tr><th>Период</th><th>Ключевые выводы</th><th>Статус</th></tr></thead>
+          <tbody id="history-full"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view" id="view-mentoring">
+      <div class="card section-card">
+        <div class="toolbar">
+          <h2><span class="icon">🌳</span>Дерево менторства</h2>
+          <div class="chips" id="mentor-mode">
+            <button class="chip active" data-mode="json">JSON-дерево</button>
+            <button class="chip" data-mode="iframe">Iframe</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <select id="mentor-root" class="team-select" style="font-size:14px;max-width:420px"></select>
+          <button class="btn primary" id="mentor-build">Построить</button>
+          <button class="btn" id="mentor-open">Открыть в новой вкладке</button>
+        </div>
+        <div id="mentor-iframe-wrap" class="hidden">
+          <iframe id="mentor-iframe" class="test-frame" style="height:720px" src="about:blank"></iframe>
+        </div>
+        <div id="mentor-tree"></div>
+        <div class="frame-note">Данные: ScriptRunner getMentoringSystem. Прямой fetch/iframe из браузера блокирует CORS/CSP — запустите прокси: <code>node tools/mentor-proxy.js</code> (маршрут /sr/getMentoringSystem?rootMentor=...).</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-files">
+      <div class="card section-card">
+        <h2><span class="icon">📎</span>Файлы</h2>
+        <div class="empty-note">Файлы команды появятся после подключения хранилища.</div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
