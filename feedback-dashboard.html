@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/data.js"></script>
   <script src="js/reviews.js"></script>
+  <script src="js/datasource.js"></script>
   <script src="js/app.js"></script>
 </head>
 <body onload="onLoadFeedbackDashboardPage()">
@@ -38,7 +39,10 @@
         <button class="tab" data-tab="mentoring">Менторство</button>
         <button class="tab" data-tab="files">Файлы</button>
       </nav>
-      <div class="updated">Последнее обновление: <span id="updated-at"></span></div>
+      <div class="updated">
+        Последнее обновление: <span id="updated-at"></span>
+        <button class="btn" id="refresh-data" title="Повторно загрузить данные из API">🔄 Обновить</button>
+      </div>
     </div>
 
     <section class="view active" id="view-overview">
